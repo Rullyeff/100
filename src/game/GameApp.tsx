@@ -33,7 +33,7 @@ export default function GameApp() {
         <GameScene />
       </SceneBoundary>
       <Hud />
-      <Button asChild variant="outline" size="sm" className="absolute left-3 top-1/2 z-20 -translate-y-1/2 bg-background/90" title="Buka 100 SUARA">
+      <Button asChild variant="outline" size="sm" className="absolute left-3 top-[calc(50%+88px)] z-20 bg-background/90" title="Buka 100 SUARA">
         <Link to="/seratus"><Vote />100 SUARA</Link>
       </Button>
     </main>
