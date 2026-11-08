@@ -14,13 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      game_guest_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          token_hash: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          token_hash: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          token_hash?: string
+        }
+        Relationships: []
+      }
+      game_rooms: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string
+          host_session_id: string
+          id: string
+          mode: string
+          payload: Json
+          revision: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at: string
+          host_session_id: string
+          id?: string
+          mode?: string
+          payload: Json
+          revision?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string
+          host_session_id?: string
+          id?: string
+          mode?: string
+          payload?: Json
+          revision?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_rooms_host_session_id_fkey"
+            columns: ["host_session_id"]
+            isOneToOne: false
+            referencedRelation: "game_guest_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      commit_game_room: {
+        Args: { p_id: string; p_payload: Json; p_revision: number }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
