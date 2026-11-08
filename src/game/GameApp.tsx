@@ -2,6 +2,9 @@ import { Component, useEffect, type ReactNode } from "react";
 import GameScene from "./scene/GameScene";
 import { Hud } from "./ui/Hud";
 import { startIfIdle } from "./store";
+import { Link } from '@tanstack/react-router';
+import { Vote } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 class SceneBoundary extends Component<{ children: ReactNode }, { error: string | null }> {
   override state = { error: null as string | null };
@@ -30,6 +33,9 @@ export default function GameApp() {
         <GameScene />
       </SceneBoundary>
       <Hud />
+      <Button asChild variant="outline" size="sm" className="absolute left-3 top-1/2 z-20 -translate-y-1/2 bg-background/90" title="Buka 100 SUARA">
+        <Link to="/seratus"><Vote />100 SUARA</Link>
+      </Button>
     </main>
   );
 }
