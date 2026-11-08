@@ -43,7 +43,7 @@ export const AVATARS = [
   { src: a17, name: "Programmer" },
   { src: a18, name: "Tokoh Masyarakat" },
 ];
-export const avatarOf = (p: Pick<Player, "avatar" | "area">) => AVATARS[p.avatar ?? p.area % AVATARS.length] ?? AVATARS[0];
+export const avatarOf = (p: Pick<Player, "avatar" | "area">) => checkedAt(AVATARS, p.avatar ?? p.area % AVATARS.length);
 
 /** Grid of every avatar; used by practice setup and the online room entry. */
 export function AvatarGrid({ area, value, onPick }: { area: number; value: number; onPick: (k: number) => void }) {

@@ -161,7 +161,7 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
             const label = `L${i + 1} · ${name} · ${checkedAt(AREAS, area).name}`;
             const description = t === "K" ? `Buka kartu ${outerKejutanSub(i) === "kesempatan" ? "Kesempatan" : "Peristiwa"} dan ikuti dampaknya pada permainan.` : TYPE_DESCRIPTION[t];
             return (
-              <InspectableSpace key={`o${i}`} id={`o${i}`} label={label} description={description} point={pt} here={here} inspected={inspected?.id === `o${i}`} onInspect={setInspected} {...TRACK_SIZE.outer}>
+              <InspectableSpace key={`o${i}`} id={`o${i}`} label={label} description={description ?? ""} point={pt} here={here} inspected={inspected?.id === `o${i}`} onInspect={setInspected} {...TRACK_SIZE.outer}>
                 {here && <circle className="destination-halo" r="22" fill="none" stroke="var(--destination)" strokeWidth="4" />}
                 <rect transform={`rotate(${pt.rot})`} x="-13.5" y="-13.5" width="27" height="27" rx="3" fill="transparent" stroke={here ? "var(--gold)" : "none"} strokeWidth="3.5" />
               </InspectableSpace>

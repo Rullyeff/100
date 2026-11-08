@@ -339,7 +339,7 @@ function PendingView({
               <button
                 key={k}
                 disabled={!canAct}
-                onClick={() => { if (actor === null) return; dispatch({ type: "VOTE", voter: actor, choice: i })}
+                onClick={() => { if (actor === null) return; dispatch({ type: "VOTE", voter: actor, choice: i }); }}
                 className="flex min-h-12 items-start gap-2.5 rounded-xl border-2 bg-card px-3 py-2.5 text-left text-sm transition-all hover:border-gold hover:bg-accent disabled:opacity-60"
               >
                 <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-extrabold">{checkedAt(LETTERS, i)}</span>
