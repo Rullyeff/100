@@ -1,15 +1,82 @@
 {
   "source": "https://github.com/Rullyeff/seratus-suara-bangsa",
   "capabilities": [
-    {"capability":"Kaya Raya existing game","source":"current project","outcome":"preserve","status":"pending","next_action":"Keep game and verify original route"},
-    {"capability":"100 SUARA pages, rules, artwork, audio","source":"GitHub main","outcome":"merge","status":"pending","next_action":"Import source with isolated game modules and styling"},
-    {"capability":"Guest identity and room authorization","source":"rooms.server.ts","outcome":"migrate","status":"pending","next_action":"Preserve hashed cookie guest identities and server-controlled permissions"},
-    {"capability":"Database schema and room persistence","source":"game_rooms, game_guest_sessions, commit_game_room call sites","outcome":"migrate","status":"pending","next_action":"Enable Cloud and reconstruct missing schema"},
-    {"capability":"Existing room records","source":"no record export supplied","outcome":"migrate","status":"pending","next_action":"Request CSV or JSON export after preview; expired guest sessions cannot carry over"},
-    {"capability":"Auth accounts","source":"no account UI detected; guest cookies only","outcome":"inspect","status":"pending","next_action":"Confirm source uses guest identities, not registered accounts"},
-    {"capability":"Uploaded file bytes","source":"bundled src/assets and public","outcome":"preserve","status":"pending","next_action":"Import bundled assets without overwriting existing assets"},
-    {"capability":"Providers, callbacks, webhooks, schedules, secrets","source":"source call sites","outcome":"inspect","status":"pending","next_action":"Complete capability audit; never copy .env"},
-    {"capability":"Local leaderboard","source":"game/leaderboard.ts","outcome":"preserve","status":"pending","next_action":"Keep per-device results behavior"},
-    {"capability":"Cutover and verification","source":"all routes","outcome":"verify","status":"pending","next_action":"Verify both games, multiplayer room lifecycle, and rule tests"}
+    {
+      "capability": "Kaya Raya existing game",
+      "source": "current project",
+      "outcome": "preserve",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "100 SUARA pages, rules, artwork, audio",
+      "source": "GitHub main",
+      "outcome": "Five pages, rule engine, graphics and synthesized audio merged; announcer separately pending",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Guest identity and room authorization",
+      "source": "rooms.server.ts",
+      "outcome": "migrate",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Database schema and room persistence",
+      "source": "game_rooms, game_guest_sessions, commit_game_room call sites",
+      "outcome": "migrate",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Existing room records",
+      "source": "no record export supplied",
+      "outcome": "migrate",
+      "status": "pending",
+      "next_action": "Request CSV or JSON export after preview; expired guest sessions cannot carry over"
+    },
+    {
+      "capability": "Auth accounts",
+      "source": "no account UI detected; guest cookies only",
+      "outcome": "No registered account feature detected; source guest cookies recreated in Cloud, old sessions do not carry over",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Uploaded file bytes",
+      "source": "bundled src/assets and public",
+      "outcome": "preserve",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Providers, callbacks, webhooks, schedules, secrets",
+      "source": "source call sites",
+      "outcome": "No payments/email/AI/public callbacks/schedules detected; Cloud replaced source data connection; .env excluded",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Local leaderboard",
+      "source": "game/leaderboard.ts",
+      "outcome": "preserve",
+      "status": "implemented",
+      "next_action": "Per-device behavior preserved; existing device results require manual export; no completed-game browser verification performed"
+    },
+    {
+      "capability": "Cutover and verification",
+      "source": "all routes",
+      "outcome": "Build OK; 133 rule/component tests and dilema render regression pass; five guests joined, readied, started and restored active room; both games checked desktop/tablet/mobile",
+      "status": "verified",
+      "next_action": ""
+    },
+    {
+      "capability": "Four announcer MP3 bytes",
+      "source": "source-project CDN asset pointers",
+      "outcome": "preserved metadata; playback disabled to avoid 404 requests",
+      "status": "blocked",
+      "next_action": "Upload start, toll, landmark and bankrupt MP3 files; source project download denied"
+    }
   ]
 }
