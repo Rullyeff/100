@@ -15,3 +15,9 @@
 - [x] Suara suasana lounge halus (no 5)
 - [x] Zoom in/out (scroll + cubit)
 - [x] Rapikan tampilan tablet & HP
+
+## Penggabungan 100 SUARA
+- [ ] Gabungkan seluruh halaman, aset, suara, dan aturan 100 SUARA tanpa mengganti Kaya Raya.
+- [ ] Aktifkan penyimpanan Cloud dan ruang bermain bersama dengan akses aman.
+- [ ] Periksa kedua game, navigasi, tampilan HP, dan tes aturan.
+- [ ] Data ruang lama: menunggu ekspor CSV/JSON dari project asal.
