@@ -1,0 +1,385 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * Keep every @import in this top block. Web fonts load via <link> in src/routes/__root.tsx.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant short (@media (max-height: 500px) and (orientation: landscape));
+
+/*
+ * Design system: "penthouse casino". Black marble and onyx panels, champagne-gold
+ * frames and actions, cream paper dialogs, and four bright player colours.
+ */
+
+@theme inline {
+  --font-display: "Lilita One", "Nunito", system-ui, sans-serif;
+  --font-sans: "Nunito", system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --color-paper: var(--paper);
+  --color-paper-foreground: var(--paper-foreground);
+  --color-player-1: var(--player-1);
+  --color-player-2: var(--player-2);
+  --color-player-3: var(--player-3);
+  --color-player-4: var(--player-4);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.9rem;
+  --background: oklch(0.16 0.01 320);
+  --foreground: oklch(0.97 0.02 85);
+  --card: oklch(0.2 0.012 320);
+  --card-foreground: oklch(0.97 0.02 85);
+  --popover: oklch(0.2 0.012 320);
+  --popover-foreground: oklch(0.97 0.02 85);
+  --primary: oklch(0.83 0.16 80);
+  --primary-foreground: oklch(0.28 0.06 50);
+  --secondary: oklch(0.27 0.015 320);
+  --secondary-foreground: oklch(0.97 0.02 85);
+  --muted: oklch(0.26 0.012 320);
+  --muted-foreground: oklch(0.8 0.035 80);
+  --accent: oklch(0.72 0.13 200);
+  --accent-foreground: oklch(0.2 0.04 230);
+  --destructive: oklch(0.6 0.21 27);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.75 0.11 85 / 45%);
+  --input: oklch(0.45 0.05 50);
+  --ring: oklch(0.83 0.16 80);
+
+  --gold: oklch(0.85 0.16 85);
+  --gold-deep: oklch(0.62 0.14 65);
+  --good: oklch(0.78 0.17 150);
+  --bad: oklch(0.68 0.2 27);
+  --paper: oklch(0.96 0.03 85);
+  --paper-foreground: oklch(0.3 0.05 50);
+  --player-1: oklch(0.62 0.2 28);
+  --player-2: oklch(0.6 0.17 255);
+  --player-3: oklch(0.64 0.16 155);
+  --player-4: oklch(0.8 0.16 85);
+
+  /* Hex equivalents for Three.js materials (its parser does not support OKLCH). */
+  --city-road: #39454d;
+  --city-curb: #8f9b9c;
+  --city-marking: #eee5c8;
+  --city-glass: #a7e3ec;
+  --city-light: #ffdb7a;
+  --city-gold: #eac15b;
+  --city-wall: #eaf0ed;
+  --city-park: #3d9c71;
+  --city-dark: #1b292d;
+  --city-player-1: #e2463f;
+  --city-player-2: #2f7fe0;
+  --city-player-3: #25a862;
+  --city-player-4: #f2b51d;
+
+  --shadow-panel: 0 10px 30px -10px oklch(0.1 0.03 40 / 70%), inset 0 1px 0 oklch(1 0 0 / 12%);
+  --shadow-button: 0 5px 0 var(--gold-deep), 0 10px 20px -6px oklch(0.1 0.03 40 / 70%);
+  --gradient-panel: linear-gradient(180deg, oklch(0.26 0.014 320 / 92%), oklch(0.15 0.01 320 / 95%));
+  --gradient-frame: linear-gradient(135deg, oklch(0.95 0.1 95), oklch(0.72 0.14 75) 35%, oklch(0.9 0.12 90) 55%, oklch(0.6 0.12 65));
+  --gradient-gold-text: linear-gradient(180deg, oklch(0.98 0.08 95) 10%, oklch(0.85 0.16 85) 50%, oklch(0.66 0.15 65) 90%);
+  --glow-gold: 0 0 0 2px oklch(0.88 0.15 88 / 90%), 0 0 26px 6px oklch(0.85 0.16 85 / 55%);
+  --gradient-gold: linear-gradient(180deg, oklch(0.92 0.14 92), oklch(0.8 0.17 75));
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.24 0.045 45);
+  --sidebar-foreground: oklch(0.97 0.02 85);
+  --sidebar-primary: oklch(0.83 0.16 80);
+  --sidebar-primary-foreground: oklch(0.28 0.06 50);
+  --sidebar-accent: oklch(0.36 0.06 45);
+  --sidebar-accent-foreground: oklch(0.97 0.02 85);
+  --sidebar-border: oklch(0.5 0.07 60 / 60%);
+  --sidebar-ring: oklch(0.83 0.16 80);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  .game-panel {
+    background: var(--gradient-panel);
+    box-shadow: var(--shadow-panel);
+    border: 1px solid oklch(0.82 0.13 85 / 55%);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(14px) saturate(150%);
+    box-shadow:
+      var(--shadow-panel),
+      inset 0 1px 0 oklch(1 0 0 / 25%);
+  }
+
+  .paper-card {
+    background: var(--color-paper);
+    color: var(--color-paper-foreground);
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 20px 50px -12px oklch(0.1 0.03 40 / 80%);
+  }
+
+  .btn-gold {
+    font-family: var(--font-display);
+    background: var(--gradient-gold);
+    color: var(--color-primary-foreground);
+    box-shadow: var(--shadow-button);
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.06);
+  }
+  .btn-gold:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 var(--gold-deep), 0 4px 10px -4px oklch(0.1 0.03 40 / 70%);
+  }
+
+  .btn-soft {
+    font-family: var(--font-display);
+    background: var(--color-secondary);
+    color: var(--color-secondary-foreground);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    transition: filter 120ms ease;
+  }
+  .btn-soft:hover {
+    filter: brightness(1.15);
+  }
+
+  /* Gold-bordered onyx card (player cards, banners). */
+  .card-frame {
+    border: 2px solid transparent;
+    border-radius: var(--radius-2xl);
+    background:
+      var(--gradient-panel) padding-box,
+      var(--gradient-frame) border-box;
+    box-shadow: var(--shadow-panel);
+    backdrop-filter: blur(14px) saturate(150%);
+  }
+
+  .text-gold-gradient {
+    background: var(--gradient-gold-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ring-frame {
+    padding: 2px;
+    border-radius: 999px;
+    background: var(--gradient-frame);
+  }
+
+  .text-outline {
+    text-shadow:
+      0 2px 0 oklch(0.2 0.04 40 / 70%),
+      0 0 12px oklch(0.2 0.04 40 / 40%);
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    transform: translateY(-8px) scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.85 0.16 85 / 70%);
+  }
+  50% {
+    box-shadow: 0 0 0 8px oklch(0.85 0.16 85 / 0%);
+  }
+}
+
+@utility animate-pop-in {
+  animation: pop-in 220ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+@utility animate-pulse-ring {
+  animation: pulse-ring 1.4s ease-in-out infinite;
+}
+
+@keyframes turn-glow {
+  0%,
+  100% {
+    box-shadow: var(--shadow-panel), 0 0 0 2px oklch(0.88 0.15 88 / 90%), 0 0 14px 2px oklch(0.85 0.16 85 / 35%);
+  }
+  50% {
+    box-shadow: var(--shadow-panel), 0 0 0 2px oklch(0.95 0.12 92), 0 0 34px 10px oklch(0.85 0.16 85 / 60%);
+  }
+}
+
+@utility animate-turn-glow {
+  animation: turn-glow 1.3s ease-in-out infinite;
+}
+
+@keyframes banner-in {
+  0% {
+    transform: scale(2.4) rotate(-4deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  55% {
+    transform: scale(0.94) rotate(1deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+  75% {
+    transform: scale(1.04) rotate(-0.5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes ribbon-in {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(320%) skewX(-20deg);
+  }
+}
+
+@keyframes rays-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes flash-out {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@utility animate-banner-in {
+  animation: banner-in 520ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+@utility animate-ribbon-in {
+  animation: ribbon-in 320ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+@utility animate-shine {
+  animation: shine-sweep 1.1s ease-in-out 250ms both;
+}
+@utility animate-rays {
+  animation: rays-spin 9s linear infinite;
+}
+@utility animate-flash {
+  animation: flash-out 450ms ease-out both;
+}
+
+.cash-pop {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  white-space: nowrap;
+  -webkit-text-stroke: 1.5px var(--background);
+  paint-order: stroke fill;
+  text-shadow: 0 3px 0 oklch(0 0 0 / 0.35);
+}
+.cash-pop-good { color: var(--gold); }
+.cash-pop-bad { color: var(--bad); }
+
+/* Spectacle overlays: DOUBLE / CRITICAL / BANGKRUT */
+.fx-screen { position: absolute; inset: 0; animation: fx-screen 600ms ease-out both; }
+.fx-screen-double { background: radial-gradient(circle, oklch(0.95 0.15 90 / 0.55), transparent 70%); }
+.fx-screen-critical { background: radial-gradient(circle, transparent 35%, oklch(0.55 0.22 25 / 0.55)); }
+.fx-screen-bankrupt { background: oklch(0.95 0.03 250 / 0.75); animation-duration: 900ms; }
+.fx-action-lines {
+  position: absolute; inset: -20%;
+  background: repeating-conic-gradient(from 0deg, oklch(1 0 0 / 0.55) 0deg 1.2deg, transparent 1.2deg 7deg);
+  mask-image: radial-gradient(circle, transparent 28%, black 60%);
+  animation: fx-lines 1s ease-out both;
+}
+.fx-title {
+  font-family: var(--font-display); font-size: clamp(3rem, 11vw, 7rem); line-height: 1;
+  -webkit-text-stroke: 3px var(--background); paint-order: stroke fill;
+  text-shadow: 0 6px 0 oklch(0 0 0 / 0.4);
+  animation: fx-title 1.1s cubic-bezier(.2,1.6,.4,1) both;
+}
+.fx-title-double { color: var(--gold); }
+.fx-title-critical { color: var(--bad); }
+.fx-title-bankrupt { color: var(--foreground); }
+@keyframes fx-screen { from { opacity: 1 } to { opacity: 0 } }
+@keyframes fx-lines { 0% { opacity: 0; transform: scale(1.3) } 20% { opacity: 1 } 100% { opacity: 0; transform: scale(1) rotate(6deg) } }
+@keyframes fx-title { 0% { opacity: 0; transform: scale(2.6) rotate(-8deg) } 25% { opacity: 1; transform: scale(0.9) rotate(2deg) } 40% { transform: scale(1.05) } 80% { opacity: 1; transform: scale(1) } 100% { opacity: 0; transform: scale(1.1) } }
+@media (prefers-reduced-motion: reduce) { .fx-title, .fx-action-lines, .fx-screen { animation-duration: 1ms; } }
