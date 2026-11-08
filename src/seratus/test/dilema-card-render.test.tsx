@@ -12,7 +12,7 @@ it("renders a weighted dilema card from public (key-less) card data without cras
   // Kartu dibuka dari gambar kartu di papan; kartu baru tampil setelah dadu selesai mendarat
   const spots = document.querySelectorAll(".board-card-spot");
   expect(spots.length).toBeGreaterThan(0);
-  fireEvent.click(spots[0]);
+  const spot = spots[0]; if (!spot) throw new Error("No card spot"); fireEvent.click(spot);
   const found = await screen.findAllByText(/calon ketua OSIS/, undefined, { timeout: 5000 });
   expect(found.length).toBeGreaterThan(0);
 });

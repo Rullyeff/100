@@ -131,7 +131,7 @@ export function CardPanel({
   needsReveal: boolean;
   onReveal: () => void;
 }) {
-  const pend = state.pending;
+  const pend = state.pending; if (!pend) return null;
   return (
     <section aria-label="Pertanyaan atau studi kasus" className="rounded-2xl border bg-card p-3 shadow-card sm:p-4">
       <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Pertanyaan / Studi Kasus</h2>
@@ -187,7 +187,7 @@ function PendingView({
   dispatch: (a: Action) => void;
 }) {
   const p = currentPlayer(state);
-  const pend = state.pending;
+  const pend = state.pending; if (!pend) return null;
   const wait = !canAct && <BotThinking name={actorName} />;
 
   switch (pend.kind) {
@@ -198,7 +198,7 @@ function PendingView({
       return (
         <CardShell deck="A" kicker={lvl} area={pend.area} reward={`${reward}${p.areaTokens[pend.area] ? "" : " · Token Area"}`} code={c.code ?? c.id}>
           <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
-          <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
+          <Mcq options={c.options ?? []} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
           {wait}
         </CardShell>
       );
@@ -215,7 +215,7 @@ function PendingView({
           code={c.code ?? c.id}
         >
           <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
-          <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
+          <Mcq options={c.options ?? []} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
           {wait}
         </CardShell>
       );
@@ -227,7 +227,7 @@ function PendingView({
         return (
           <CardShell deck="D" kicker="Dilema Demokrasi · SJT" area={pend.area} reward={`Pilihan terbaik +2 suara${p.areaTokens[pend.area] ? "" : " · Token Area"}`} code={c.code ?? c.id}>
             <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
-            <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
+            <Mcq options={c.options ?? []} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
             {wait}
           </CardShell>
         );
@@ -252,7 +252,7 @@ function PendingView({
         return (
           <CardShell deck="D" kicker="Refleksi" area={pend.area} reward={`Benar +2 suara${p.areaTokens[pend.area] ? "" : " · Token Area"}`} code={c.code ?? c.id}>
             <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
-            <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
+            <Mcq options={c.options ?? []} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
             {wait}
           </CardShell>
         );
@@ -294,7 +294,7 @@ function PendingView({
           {pend.stance === null ? (
             canAct ? (
               <div className="grid grid-cols-2 gap-2">
-                {c.options.map((o, i) => (
+                {(c.options ?? []).map((o, i) => (
                   <Button key={i} size="lg" variant="outline" onClick={() => dispatch({ type: "FORUM_STANCE", choice: i })}>
                     {o}
                   </Button>
@@ -306,15 +306,15 @@ function PendingView({
           ) : (
             <>
               <p className="text-sm">
-                {p.name} menyatakan <b>{checkedAt(c.options, pend.stance)}</b> dan menyampaikan argumen. Apakah forum mendukung?
+                {p.name} menyatakan <b>{checkedAt(c.options ?? [], pend.stance)}</b> dan menyampaikan argumen. Apakah forum mendukung?
               </p>
               <VoteCounter n={n} />
               {canAct ? (
                 <div className="space-y-2">
                   <div className="text-sm font-semibold">Pemilih: {actorName}</div>
                   <div className="grid grid-cols-2 gap-2">
-                    <Button size="lg" onClick={() => dispatch({ type: "VOTE", voter: actor, choice: 0 })}>Dukung</Button>
-                    <Button size="lg" variant="outline" onClick={() => dispatch({ type: "VOTE", voter: actor, choice: 1 })}>
+                    <Button size="lg" onClick={() => { if (actor === null) return; dispatch({ type: "VOTE", voter: actor, choice: 0 }); }}>Dukung</Button>
+                    <Button size="lg" variant="outline" onClick={() => { if (actor === null) return; dispatch({ type: "VOTE", voter: actor, choice: 1 }); }}>
                       Tidak mendukung
                     </Button>
                   </div>
@@ -339,7 +339,7 @@ function PendingView({
               <button
                 key={k}
                 disabled={!canAct}
-                onClick={() => dispatch({ type: "VOTE", voter: actor, choice: i })}
+                onClick={() => { if (actor === null) return; dispatch({ type: "VOTE", voter: actor, choice: i })}
                 className="flex min-h-12 items-start gap-2.5 rounded-xl border-2 bg-card px-3 py-2.5 text-left text-sm transition-all hover:border-gold hover:bg-accent disabled:opacity-60"
               >
                 <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-extrabold">{checkedAt(LETTERS, i)}</span>
@@ -412,7 +412,7 @@ function PendingView({
           <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
           <p className="text-xs text-muted-foreground">Jawaban terkunci: {Object.keys(pend.answers).length}/2 — hasil dibuka bersama.</p>
           {canAct && <div className="text-sm font-semibold">Penjawab: {actorName}</div>}
-          <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "DUEL_ANSWER", player: actor, choice: i })} />
+          <Mcq options={c.options ?? []} disabled={!canAct} onLock={(i) => { if (actor !== null) dispatch({ type: "DUEL_ANSWER", player: actor, choice: i }); }} />
           {wait}
         </CardShell>
       );

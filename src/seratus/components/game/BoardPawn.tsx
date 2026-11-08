@@ -45,7 +45,7 @@ export function BoardPawn({ player, active, rollAt }: { player: Player; active: 
         <path d="M-10,4 Q-9,-3 -5,-9 L5,-9 Q9,-3 10,4 Q0,10 -10,4Z" fill={`url(#pawn${player.area})`} stroke="var(--board-edge)" strokeWidth="1.2" />
         <circle cy="-18" r="14" fill={`url(#pawn${player.area})`} stroke="var(--paper)" strokeWidth="2.5" />
         <clipPath id={`avclip${player.id}`}><circle cy="-18" r="12" /></clipPath>
-        <image href={avatarOf(player).src} x="-12" y="-31" width="24" height="24" clipPath={`url(#avclip${player.id})`} preserveAspectRatio="xMidYMin slice" />
+        <image href={avatarOf(player)?.src} x="-12" y="-31" width="24" height="24" clipPath={`url(#avclip${player.id})`} preserveAspectRatio="xMidYMin slice" />
         <ellipse cx="-4" cy="-26" rx="4" ry="2" fill="var(--piece-highlight)" />
       </g></g>
       </g>

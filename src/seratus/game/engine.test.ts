@@ -73,7 +73,7 @@ describe("Inventaris & invarian", () => {
       }
       expect(s.stage).toBe("over");
       expect(s.final?.stage).toBe("done");
-      expect(s.final.winners.length).toBeGreaterThan(0);
+      expect(s.final?.winners.length).toBeGreaterThan(0);
     }
   });
 });
@@ -124,7 +124,7 @@ describe("Fase I — Jalur Luar", () => {
       const s = createGame(cfg(), 3);
       const p = currentPlayer(s);
       const c = card<AspirasiCard>(`A${level}-2-1`);
-      const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer });
+      const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer ?? -1 });
       expect(handCount(next, p.id)).toBe(2);
       expect(checkedAt(checkedAt(next.players, p.id).areaTokens, 2)).toBe(true);
     }
@@ -135,7 +135,7 @@ describe("Fase I — Jalur Luar", () => {
       const s = createGame(cfg(), 5);
       const p = currentPlayer(s);
       const c = card<AspirasiCard>("A3-0-1");
-      const next = reduce(land(s, "aspirasi", c.id, 0), { type: "ANSWER", choice: c.weights.indexOf(w) });
+      const next = reduce(land(s, "aspirasi", c.id, 0), { type: "ANSWER", choice: (c.weights ?? []).indexOf(w) });
       expect(handCount(next, p.id)).toBe(gain);
     }
   });
@@ -145,7 +145,7 @@ describe("Fase I — Jalur Luar", () => {
     const p = currentPlayer(s);
     giveHand(s, (p.id + 1) % 5, 19, 2); // stok Ekonomi tinggal 1
     const c = card<AspirasiCard>("A1-2-1");
-    const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer });
+    const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer ?? -1 });
     expect(handCount(next, p.id)).toBe(1);
     expect(stockCount(next, 2)).toBe(0);
     expect(checkInvariants(next)).toEqual([]);
@@ -156,7 +156,7 @@ describe("Fase I — Jalur Luar", () => {
       const s = createGame(cfg(), 4);
       const p = currentPlayer(s);
       const c = card<DemokrasiCard>(id);
-      const next = reduce(land(s, kind, id, 1), { type: "ANSWER", choice: c.answer });
+      const next = reduce(land(s, kind, id, 1), { type: "ANSWER", choice: c.answer ?? -1 });
       expect(handCount(next, p.id)).toBe(2);
     }
   });
@@ -419,7 +419,7 @@ describe("Hasil akhir", () => {
     const p = currentPlayer(s);
     const c = card<AspirasiCard>("A1-0-1");
     land(s, "aspirasi", c.id, 0);
-    const a = { type: "ANSWER" as const, choice: c.answer, id: "klik-1" };
+    const a = { type: "ANSWER" as const, choice: c.answer ?? -1, id: "klik-1" };
     const n1 = reduce(s, a);
     const n2 = reduce(n1, a);
     expect(n2).toBe(n1);

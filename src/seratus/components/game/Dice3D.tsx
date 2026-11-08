@@ -35,7 +35,7 @@ const SHOW: Record<number, [number, number]> = {
   4: [90, 0],
 };
 const pose = (v: number | null, extraX = 0, extraY = 0) => {
-  const [x, y] = SHOW[v ?? 1];
+  const [x, y] = SHOW[v ?? 1] ?? [0, 0];
   return `rotateX(${x - 18 + extraX}deg) rotateY(${y + 24 + extraY}deg)`;
 };
 
@@ -45,7 +45,7 @@ export function Cube({ value, size, style, cubeRef }: { value: number | null; si
       <div ref={cubeRef} className="dice3d-cube" style={{ transform: pose(value), ["--half" as string]: `${size / 2}px` }}>
         {FACES.map((f) => (
           <div key={f.v} className="dice3d-face" style={{ transform: `${f.t} translateZ(var(--half))` }}>
-            {PIPS[f.v].map(([r, c], i) => (
+            {(PIPS[f.v] ?? []).map(([r, c], i) => (
               <span key={i} className="dice3d-pip" style={{ top: `${25 + r * 25}%`, left: `${25 + c * 25}%` }} />
             ))}
           </div>

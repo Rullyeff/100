@@ -19,7 +19,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
       return { type: "VOTE", voter: actor, choice: checkedAt(f.finalists, Math.floor(rnd() * f.finalists.length)) };
     if (f.stage === "objective" && f.objective && typeof actor === "number") {
       const c = card<McqCard>(f.objective.cardId);
-      return { type: "FDT_ANSWER", player: actor, choice: mcq(c.answer, c.options.length) };
+      return { type: "FDT_ANSWER", player: actor, choice: mcq(c.answer ?? 0, c.options.length) };
     }
     return null;
   }
@@ -32,12 +32,12 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
     case "aspirasi": {
       const c = card<AspirasiCard>(pend.cardId);
       if (c.weights) return sjt(c.weights);
-      return { type: "ANSWER", choice: mcq(c.answer, c.options.length) };
+      return { type: "ANSWER", choice: mcq(c.answer ?? 0, c.options.length) };
     }
     case "cekfakta":
     case "misi": {
       const c = card<McqCard | DemokrasiCard>(pend.cardId) as McqCard;
-      return { type: "ANSWER", choice: mcq(c.answer, c.options.length) };
+      return { type: "ANSWER", choice: mcq(c.answer ?? 0, c.options.length) };
     }
     case "dilema": {
       const c = card<DemokrasiCard>(pend.cardId);
@@ -46,7 +46,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
     }
     case "refleksi": {
       const c = card<DemokrasiCard>(pend.cardId);
-      if (c.options && c.answer !== undefined) return { type: "ANSWER", choice: mcq(c.answer, c.options.length) };
+      if (c.options && c.answer !== undefined) return { type: "ANSWER", choice: mcq(c.answer ?? 0, c.options.length) };
       return { type: "ACK" };
     }
     case "kejutan":
@@ -61,7 +61,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
       return { type: "CLAIM", accept: canClaim(s, me) && (me.pentRound === 1 || handCount(s, me.id) >= 6) };
     case "duel": {
       const c = card<McqCard>(pend.cardId);
-      return { type: "DUEL_ANSWER", player: actor, choice: mcq(c.answer, c.options.length) };
+      return { type: "DUEL_ANSWER", player: actor, choice: mcq(c.answer ?? 0, c.options.length) };
     }
     case "forfeit": {
       // Pilih kerugian suara paling kecil: Gerbang Aman (tanpa suara) bila masih punya cadangan, lalu petak, lalu suara.

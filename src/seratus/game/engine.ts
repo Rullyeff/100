@@ -87,7 +87,7 @@ function shuffle<T>(s: GameState, arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(rand(s) * (i + 1));
-    [checkedAt(a, i), checkedAt(a, j)] = [checkedAt(a, j), checkedAt(a, i)];
+    [a[i], a[j]] = [checkedAt(a, j), checkedAt(a, i)];
   }
   return a;
 }
@@ -105,7 +105,7 @@ export function engineDeckSource(key: string): string[] {
 }
 function draw(s: GameState, key: string): string {
   if (!s.decks[key] || s.decks[key].length === 0) s.decks[key] = shuffle(s, engineDeckSource(key));
-  return s.decks[key].pop();
+  const id = s.decks[key]?.pop(); if (id === undefined) throw new Error("Dek kartu kosong."); return id;
 }
 
 // ---------- Ledger ----------
@@ -175,7 +175,7 @@ export function createGame(configs: PlayerConfig[], seed = Date.now()): GameStat
       name: c.name.trim() || `Pemain ${i + 1}`,
       area: i,
       isBot: c.isBot,
-      avatar: Number.isInteger(c.avatar) && c.avatar >= 0 && c.avatar < AVATAR_COUNT ? c.avatar : i,
+      avatar: c.avatar !== undefined && Number.isInteger(c.avatar) && c.avatar >= 0 && c.avatar < AVATAR_COUNT ? c.avatar : i,
       phase: "outer",
       outerPos: -1,
       gatePos: 0,
@@ -537,7 +537,7 @@ function resolveMisi(s: GameState, p: Player, pend: Extract<Pending, { kind: "mi
 
 function resolveDilema(s: GameState, p: Player, pend: Extract<Pending, { kind: "dilema" }>, choice: number) {
   const c = card<DemokrasiCard>(pend.cardId);
-  if (c.weights) {
+  if (c.weights && c.options) {
     if (choice < 0 || choice >= c.options.length) return deny("Pilihan tidak sah");
     const ok = sjtCorrect(c.weights, choice);
     const lines = ok ? rewardCorrect(s, p, pend.area, "Dilema") : ["Belum pilihan terbaik, +0"];
@@ -586,7 +586,7 @@ function resolvePutusan(s: GameState, p: Player, pend: Extract<Pending, { kind: 
 
 /** Pindahkan kepemilikan petak beserta 4 suara jaminannya. Bila penerima sudah 5 petak, suara masuk tangan dan petak netral. */
 function transferSpace(s: GameState, sp: number, to: number): string {
-  const from = checkedAt(s.spaces, sp);
+  const from = checkedAt(s.spaces, sp); if (from === null) return deny("Petak belum dimiliki");
   if (ownedSpaces(s, to).length < MAX_CLAIMS) {
     s.spaces[sp] = to;
     return `P${sp + 1} dan ${escrowCount(s, sp)} suara jaminan berpindah dari ${checkedAt(s.players, from).name} ke ${checkedAt(s.players, to).name}`;
@@ -851,7 +851,7 @@ function applyFinal(s: GameState, a: Action) {
     f.objective.answers[a.player] = a.choice;
     if (Object.keys(f.objective.answers).length < f.finalists.length) return;
     const c = card<McqCard>(f.objective.cardId);
-    const correct = f.finalists.filter((id) => f.objective.answers[id] === c.answer);
+    const objective = f.objective; const correct = f.finalists.filter((id) => objective.answers[id] === c.answer);
     log(s, `Penentu objektif ronde ${f.objective.round}: benar — ${correct.map((id) => checkedAt(s.players, id).name).join(", ") || "tidak ada"}`, "system");
     if (correct.length === 1) {
       f.stage = "done";

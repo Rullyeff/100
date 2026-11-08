@@ -21,7 +21,7 @@ export function FinalPanel({
   canAct: boolean;
   onRestart: () => void;
 }) {
-  const f = state.final;
+  const f = state.final; if (!f) return null;
   const ranked = [...state.players].sort((a, b) => checkedAt(f.scores, b.id) - checkedAt(f.scores, a.id));
   const actorP = typeof actor === "number" ? checkedAt(state.players, actor) : null;
 
@@ -111,14 +111,14 @@ export function FinalPanel({
 }
 
 function ObjectiveView({ state, dispatch, canAct, actor }: { state: GameState; dispatch: (a: Action) => void; canAct: boolean; actor: number | null }) {
-  const f = state.final;
-  const c = card<McqCard>(f.objective.cardId);
+  const f = state.final; if (!f) return null;
+  const objective = f.objective; if (!objective) return null; const c = card<McqCard>(objective.cardId);
   const [sel, setSel] = useState<number | null>(null);
   return (
-    <CardShell deck="P" kicker={`Penentu objektif · ronde ${f.objective.round}/3`}>
+    <CardShell deck="P" kicker={`Penentu objektif · ronde ${objective.round}/3`}>
       <p className="font-medium">{c.prompt}</p>
       <p className="text-xs text-muted-foreground">
-        Terkunci {Object.keys(f.objective.answers).length}/{f.finalists.length}. {actor !== null && `Penjawab: ${checkedAt(state.players, actor).name}`}
+        Terkunci {Object.keys(objective.answers).length}/{f.finalists.length}. {actor !== null && `Penjawab: ${checkedAt(state.players, actor).name}`}
       </p>
       <div className="space-y-1.5">
         {c.options.map((o, i) => (

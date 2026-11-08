@@ -75,7 +75,8 @@ function audio(): AudioContext | null {
 /** Browsers only allow sound after a user gesture; call this from a pointer/keyboard handler. */
 export function unlockAudio() { audio(); startMusic(); }
 
-function tone(c: AudioContext, at: number, freq: number, dur: number, vol: number, type: OscillatorType = "sine", endFreq?: number, dest: AudioNode = master) {
+function tone(c: AudioContext, at: number, freq: number, dur: number, vol: number, type: OscillatorType = "sine", endFreq?: number, dest: AudioNode | null = master) {
+  if (!musicBus) return;
   const o = c.createOscillator();
   const g = c.createGain();
   o.type = type;
@@ -84,12 +85,14 @@ function tone(c: AudioContext, at: number, freq: number, dur: number, vol: numbe
   g.gain.setValueAtTime(0.0001, at);
   g.gain.exponentialRampToValueAtTime(vol, at + 0.006);
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+  if (!dest) return;
   o.connect(g).connect(dest);
   o.start(at);
   o.stop(at + dur + 0.02);
 }
 
-function burst(c: AudioContext, at: number, dur: number, vol: number, freq: number, q = 1, endFreq?: number, dest: AudioNode = master) {
+function burst(c: AudioContext, at: number, dur: number, vol: number, freq: number, q = 1, endFreq?: number, dest: AudioNode | null = master) {
+  if (!dest) return;
   const src = c.createBufferSource();
   src.buffer = noise;
   src.playbackRate.value = 0.8 + Math.random() * 0.4;
@@ -171,6 +174,7 @@ const midiHz = (m: number) => 440 * Math.pow(2, (m - 69) / 12);
 
 /** Bright chiptune-style lead: square + detuned saw with a quick pluck envelope. */
 function lead(c: AudioContext, at: number, midi: number, dur: number, vol: number) {
+  if (!musicBus) return;
   const f = midiHz(midi);
   const filter = c.createBiquadFilter();
   filter.type = "lowpass";
@@ -183,7 +187,8 @@ function lead(c: AudioContext, at: number, midi: number, dur: number, vol: numbe
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
   filter.connect(g).connect(musicBus);
   ([["square", 1], ["sawtooth", 1.006]] as const).forEach(([type, m]) => {
-    const o = c.createOscillator();
+    if (!musicBus) return;
+  const o = c.createOscillator();
     o.type = type;
     o.frequency.value = f * m;
     o.connect(filter);
@@ -194,6 +199,7 @@ function lead(c: AudioContext, at: number, midi: number, dur: number, vol: numbe
 
 /** Punchy synth bass. */
 function synthBass(c: AudioContext, at: number, midi: number, dur: number, vol: number) {
+  if (!musicBus) return;
   const filter = c.createBiquadFilter();
   filter.type = "lowpass";
   filter.frequency.setValueAtTime(1400, at);
@@ -202,6 +208,7 @@ function synthBass(c: AudioContext, at: number, midi: number, dur: number, vol: 
   g.gain.setValueAtTime(vol, at);
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
   filter.connect(g).connect(musicBus);
+  if (!musicBus) return;
   const o = c.createOscillator();
   o.type = "sawtooth";
   o.frequency.value = midiHz(midi);
@@ -212,6 +219,7 @@ function synthBass(c: AudioContext, at: number, midi: number, dur: number, vol: 
 
 /** Short chord stab for off-beats. */
 function stab(c: AudioContext, at: number, notes: number[], dur: number, vol: number) {
+  if (!musicBus) return;
   const filter = c.createBiquadFilter();
   filter.type = "lowpass";
   filter.frequency.value = 2600;
@@ -220,7 +228,8 @@ function stab(c: AudioContext, at: number, notes: number[], dur: number, vol: nu
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
   filter.connect(g).connect(musicBus);
   notes.forEach((m) => {
-    const o = c.createOscillator();
+    if (!musicBus) return;
+  const o = c.createOscillator();
     o.type = "sawtooth";
     o.frequency.value = midiHz(m);
     o.connect(filter);
@@ -281,7 +290,7 @@ function playBeat(c: AudioContext, t: number, step: number, song: Song) {
   const barIdx = Math.floor(step / 8) % song.bars.length;
   const i = step % 8;
   const bar = checkedAt(song.bars, barIdx);
-  const chord = CH[bar.chord];
+  const chord = CH[bar.chord]; if (!chord) return;
   const note = checkedAt(bar.lead, i);
   const k = song.calm ? 0.75 : 1;
 
