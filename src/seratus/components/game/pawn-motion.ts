@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { pawnPos, type Pt } from "@/seratus/game/board";
 import { GATE_LEN, OUTER_PER_AREA, OUTER_TOTAL, PENT_TOTAL, type Player } from "@/seratus/game/view";
 
@@ -41,10 +42,10 @@ export function pawnHopFrames(route: Pt[], mobile: boolean): Keyframe[] {
   if (route.length < 2) return [];
   const lift = mobile ? 28 : 20;
   const translate = (x: number, y: number, sx = 1, sy = 1) => `translate(${x}px, ${y}px) scale(${sx}, ${sy})`;
-  const frames: Keyframe[] = [{ transform: translate(route[0].x, route[0].y), offset: 0 }];
+  const frames: Keyframe[] = [{ transform: translate(checkedAt(route, 0).x, checkedAt(route, 0).y), offset: 0 }];
   const steps = route.length - 1;
   for (let k = 1; k <= steps; k++) {
-    const a = route[k - 1], b = route[k];
+    const a = checkedAt(route, k - 1), b = checkedAt(route, k);
     frames.push(
       { transform: translate(a.x, a.y, 1.08, .92), offset: (k - 1 + .12) / steps, easing: "cubic-bezier(.2,.7,.4,1)" },
       { transform: translate((a.x + b.x) / 2, (a.y + b.y) / 2 - lift, .98, 1.06), offset: (k - 1 + .5) / steps, easing: "cubic-bezier(.6,0,.9,.5)" },

@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { BoardPawn } from "./BoardPawn";
 import { useCallback, useEffect, useState, type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import { Box, Minus, Plus, RotateCcw, Square } from "lucide-react";
@@ -157,7 +158,7 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
             const area = outerArea(i);
             const here = i === curOuter;
             const name = t === "K" ? `Kejutan ${outerKejutanSub(i) === "kesempatan" ? "Kesempatan" : "Peristiwa"}` : TYPE_NAME[t];
-            const label = `L${i + 1} · ${name} · ${AREAS[area].name}`;
+            const label = `L${i + 1} · ${name} · ${checkedAt(AREAS, area).name}`;
             const description = t === "K" ? `Buka kartu ${outerKejutanSub(i) === "kesempatan" ? "Kesempatan" : "Peristiwa"} dan ikuti dampaknya pada permainan.` : TYPE_DESCRIPTION[t];
             return (
               <InspectableSpace key={`o${i}`} id={`o${i}`} label={label} description={description} point={pt} here={here} inspected={inspected?.id === `o${i}`} onInspect={setInspected} {...TRACK_SIZE.outer}>
@@ -173,7 +174,7 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
               const n = k + 1;
               const pt = gateSpace(a, n);
               const here = cur.phase === "gate" && cur.area === a && cur.gatePos === n;
-              const label = `Gerbang Demokrasi ${AREAS[a].name} · petak ${n} · Putusan Rakyat`;
+              const label = `Gerbang Demokrasi ${checkedAt(AREAS, a).name} · petak ${n} · Putusan Rakyat`;
               return (
                 <InspectableSpace key={`g${a}-${n}`} id={`g${a}-${n}`} label={label} description="Memicu Putusan Rakyat: pemain lain memberikan suara atas keputusan bersama." point={pt} here={here} inspected={inspected?.id === `g${a}-${n}`} onInspect={setInspected} {...TRACK_SIZE.gate}>
                   {here && <circle className="destination-halo" r="20" fill="none" stroke="var(--destination)" strokeWidth="4" />}
@@ -186,14 +187,14 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
           {/* Pentagon */}
           {Array.from({ length: PENT_TOTAL }, (_, j) => {
             const pt = pentSpace(j);
-            const owner = state.spaces[j];
+            const owner = checkedAt(state.spaces, j);
             const safe = isSafeGate(j);
             const gateArea = Math.floor(j / (PENT_TOTAL / AREAS.length));
             const here = j === curPentSpace;
-            const homeOwner = state.players[homeOwnerOf(state, gateArea)];
+            const homeOwner = checkedAt(state.players, homeOwnerOf(state, gateArea));
             const label = safe
-              ? `Gerbang Aman ${AREAS[gateArea].name} · milik ${homeOwner?.name ?? "-"}`
-              : `Pentagon P${j + 1} · ${owner === null ? "netral" : `milik ${state.players[owner].name} (${escrowCount(state, j)} suara)`}`;
+              ? `Gerbang Aman ${checkedAt(AREAS, gateArea).name} · milik ${homeOwner?.name ?? "-"}`
+              : `Pentagon P${j + 1} · ${owner === null ? "netral" : `milik ${checkedAt(state.players, owner).name} (${escrowCount(state, j)} suara)`}`;
             return (
               <InspectableSpace key={`p${j}`} id={`p${j}`} label={label} description={safe ? "Gerbang Aman dengan pemilik yang tercatat di papan. Pada putaran lanjutan Pentagon, tantang pemilik jika bukan milikmu." : "Petak dapat diklaim dengan menjaminkan suara di tangan. Suara jaminan tetap sah; pemilik dan jaminannya ditampilkan di papan."} point={pt} here={here} inspected={inspected?.id === `p${j}`} onInspect={setInspected} {...(safe ? TRACK_SIZE.safe : TRACK_SIZE.pent)}>
                 {here && <circle className="destination-halo" r="22" fill="none" stroke="var(--destination)" strokeWidth="4" />}
@@ -201,7 +202,7 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
                   <circle r="14" fill="transparent" stroke={homeOwner && homeOwner.area !== gateArea ? areaVar(homeOwner.area) : here ? "var(--gold)" : "none"} strokeWidth="4" />
                 ) : owner !== null ? (
                   <g filter="url(#soft)">
-                    <circle r="11" fill={areaVar(state.players[owner].area)} stroke="var(--paper)" strokeWidth="2" />
+                    <circle r="11" fill={areaVar(checkedAt(state.players, owner).area)} stroke="var(--paper)" strokeWidth="2" />
                     <text y="3.8" textAnchor="middle" fontSize="10" fontWeight="900" fill="var(--on-deck)">{escrowCount(state, j)}</text>
                   </g>
                 ) : (
@@ -219,7 +220,7 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
 
           {/* Empat dek kartu di papan: dek yang menunggu menyala dan bisa diketuk */}
           {CARD_SPOTS.map((s, i) => {
-            const cat = SPOT_DECKS[i];
+            const cat = checkedAt(SPOT_DECKS, i);
             const { left, total } = deckCounts(state, cat);
             const active = !!onOpenCard && activeCat === cat;
             const ready = active && drawReady;

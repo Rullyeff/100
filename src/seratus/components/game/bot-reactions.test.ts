@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { describe, expect, it } from "vitest";
 import { freshBotReactions, type ReactionSnapshot } from "./bot-reactions";
 
@@ -9,24 +10,24 @@ describe("fresh bot reactions", () => {
     expect(freshBotReactions(before, after)).toEqual([{ playerId: 0, kind: "gain" }]);
   });
   it("reacts to a loss", () => {
-    const before = snapshot(); const after = structuredClone(before); after.version++; after.players[0].votes -= 2;
+    const before = snapshot(); const after = structuredClone(before); after.version++; checkedAt(after.players, 0).votes -= 2;
     expect(freshBotReactions(before, after)).toEqual([{ playerId: 0, kind: "loss" }]);
   });
   it("prioritises gate entry over simultaneous rewards", () => {
-    const before = snapshot(); const after = structuredClone(before); after.version++; after.players[0].phase = "gate"; after.players[0].votes += 2;
+    const before = snapshot(); const after = structuredClone(before); after.version++; checkedAt(after.players, 0).phase = "gate"; checkedAt(after.players, 0).votes += 2;
     expect(freshBotReactions(before, after)).toEqual([{ playerId: 0, kind: "gate" }]);
   });
   it("reacts to a new area token", () => {
-    const before = snapshot(); const after = structuredClone(before); after.version++; after.players[0].tokens++;
+    const before = snapshot(); const after = structuredClone(before); after.version++; checkedAt(after.players, 0).tokens++;
     expect(freshBotReactions(before, after)).toEqual([{ playerId: 0, kind: "token" }]);
   });
   it("does not replay unchanged or older snapshots", () => {
-    const before = snapshot(); const after = structuredClone(before); after.players[0].votes++;
+    const before = snapshot(); const after = structuredClone(before); checkedAt(after.players, 0).votes++;
     expect(freshBotReactions(before, after)).toEqual([]); after.version = 0;
     expect(freshBotReactions(before, after)).toEqual([]);
   });
   it("prioritises victory over finishing", () => {
-    const before = snapshot(); const after = structuredClone(before); after.version++; after.winners = [0]; after.players[0].phase = "done";
+    const before = snapshot(); const after = structuredClone(before); after.version++; after.winners = [0]; checkedAt(after.players, 0).phase = "done";
     expect(freshBotReactions(before, after)).toEqual([{ playerId: 0, kind: "win" }]);
   });
 });

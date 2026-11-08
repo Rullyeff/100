@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { card, type AspirasiCard, type DemokrasiCard, type McqCard } from "./cards";
 import { canClaim, currentPlayer, getActor, handCount, type Action, type GameState } from "./engine";
 
@@ -15,7 +16,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
     if (!f) return null;
     if (f.stage === "argue") return { type: "FDT_START_VOTE" };
     if (f.stage === "vote" && typeof actor === "number")
-      return { type: "VOTE", voter: actor, choice: f.finalists[Math.floor(rnd() * f.finalists.length)] };
+      return { type: "VOTE", voter: actor, choice: checkedAt(f.finalists, Math.floor(rnd() * f.finalists.length)) };
     if (f.stage === "objective" && f.objective && typeof actor === "number") {
       const c = card<McqCard>(f.objective.cardId);
       return { type: "FDT_ANSWER", player: actor, choice: mcq(c.answer, c.options.length) };
@@ -31,7 +32,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
     case "aspirasi": {
       const c = card<AspirasiCard>(pend.cardId);
       if (c.weights) return sjt(c.weights);
-      return { type: "ANSWER", choice: mcq(c.answer!, c.options.length) };
+      return { type: "ANSWER", choice: mcq(c.answer, c.options.length) };
     }
     case "cekfakta":
     case "misi": {
@@ -66,7 +67,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
       // Pilih kerugian suara paling kecil: Gerbang Aman (tanpa suara) bila masih punya cadangan, lalu petak, lalu suara.
       const order = (t: string) => (t === "home" ? 0 : t === "space" ? 1 : 2);
       const ranked = pend.options.map((o, i) => ({ o, i })).sort((a, b) => order(a.o.type) - order(b.o.type));
-      return { type: "FORFEIT", player: actor, option: ranked[0].i };
+      return { type: "FORFEIT", player: actor, option: checkedAt(ranked, 0).i };
     }
   }
   return null;
@@ -76,7 +77,7 @@ export function botAction(s: GameState, actor: number | "host", rnd: () => numbe
 export function nextBotStep(s: GameState, rnd?: () => number): Action | null {
   const actor = getActor(s);
   if (actor === null) return null;
-  if (actor !== "host" && !s.players[actor].isBot) return null;
+  if (actor !== "host" && !checkedAt(s.players, actor).isBot) return null;
   if (actor === "host" && !s.players.every((p) => p.isBot)) return null;
   return botAction(s, actor, rnd);
 }

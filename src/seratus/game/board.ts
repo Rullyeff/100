@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 // Geometri papan SVG (viewBox 1000×1000) yang menempel tepat di atas gambar
 // "Board Utama 100 SUARA" (1600×1600 px). Koordinat dicatat dalam piksel gambar
 // lalu diskalakan; indeks petak tetap mengikuti mesin aturan.
@@ -51,26 +52,26 @@ const PENT_EDGE_ROT = [36, 36, 36, 108, 108, 108, 180, 180, 180, 252, 252, 252, 
 const CENTER: XY = [800, 835];
 
 function armMap(area: number, [x, y]: XY): Pt {
-  const { a, b, d } = ARMS[area];
-  const u = (x - COLS[0]) / (COLS[6] - COLS[0]);
-  const v = (y - ROWS[0]) / (ROWS[2] - ROWS[0]);
+  const { a, b, d } = checkedAt(ARMS, area);
+  const u = (x - checkedAt(COLS, 0)) / (checkedAt(COLS, 6) - checkedAt(COLS, 0));
+  const v = (y - checkedAt(ROWS, 0)) / (checkedAt(ROWS, 2) - checkedAt(ROWS, 0));
   const rot = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI;
   return px([a[0] + u * (b[0] - a[0]) + v * (d[0] - a[0]), a[1] + u * (b[1] - a[1]) + v * (d[1] - a[1])], +rot.toFixed(2));
 }
 
 export function outerSpace(i: number): Pt {
   const area = Math.floor(i / OUTER_PER_AREA);
-  const [c, r] = RING[i % OUTER_PER_AREA];
-  return armMap(area, [COLS[c], ROWS[r]]);
+  const [c, r] = checkedAt(RING, i % OUTER_PER_AREA);
+  return armMap(area, [checkedAt(COLS, c), checkedAt(ROWS, r)]);
 }
 
 export function startSpace(area: number): Pt {
-  return armMap(area, [COLS[3], ROWS[0]]);
+  return armMap(area, [checkedAt(COLS, 3), checkedAt(ROWS, 0)]);
 }
 
 export function gateSpace(area: number, n: number): Pt {
   // n = 1 paling dekat lingkar, n = GATE_LEN paling dekat Pentagon
-  const { g1, g5 } = ARMS[area];
+  const { g1, g5 } = checkedAt(ARMS, area);
   const t = GATE_LEN <= 1 ? 1 : (Math.max(1, Math.min(GATE_LEN, n)) - 1) / (GATE_LEN - 1);
   const rot = (Math.atan2(g5[1] - g1[1], g5[0] - g1[0]) * 180) / Math.PI + 90;
   return px([g1[0] + (g5[0] - g1[0]) * t, g1[1] + (g5[1] - g1[1]) * t], +rot.toFixed(2));
@@ -78,8 +79,8 @@ export function gateSpace(area: number, n: number): Pt {
 
 export function pentSpace(j: number): Pt {
   const k = ((j % PENT_TOTAL) + PENT_TOTAL) % PENT_TOTAL;
-  const edge = k % 4 === 0 ? 0 : PENT_EDGE_ROT[Math.floor(k / 4) * 3 + (k % 4) - 1];
-  return px(PENT[k], edge);
+  const edge = k % 4 === 0 ? 0 : checkedAt(PENT_EDGE_ROT, Math.floor(k / 4) * 3 + (k % 4) - 1);
+  return px(checkedAt(PENT, k), edge);
 }
 
 /** Pita tertutup melalui seluruh petak lingkar `area` (untuk sorotan jalur aktif). */

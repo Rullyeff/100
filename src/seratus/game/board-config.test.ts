@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { describe, expect, it } from "vitest";
 import { OUTER_TOTAL, OUTER_PER_AREA, GATE_LEN, PENT_TOTAL, outerType, outerArea, isSafeGate, safeGateOf } from "./board-config";
 import * as view from "./view";
@@ -18,7 +19,7 @@ describe("Rancangan BPIC 2026", () => {
     const s = createGame(configs, 42), p = currentPlayer(s);
     p.outerPos = 74;
     const n = reduce(s, {type:"ROLL",value:1});
-    expect(n.players[p.id].outerPos).toBe(0);
+    expect(checkedAt(n.players, p.id).outerPos).toBe(0);
     expect(checkInvariants(n)).toEqual([]);
   });
   it("memiliki 25 gerbang, baru keluar setelah petak kelima", () => {
@@ -26,10 +27,10 @@ describe("Rancangan BPIC 2026", () => {
     const s = createGame(configs, 42), p = currentPlayer(s);
     p.phase="gate"; p.gatePos=3;
     const n=reduce(s,{type:"ROLL",value:1});
-    expect(n.players[p.id].phase).toBe("gate");
-    expect(n.players[p.id].gatePos).toBe(4);
-    s.players[p.id].gatePos=5;
-    const home=reduce(s,{type:"ROLL",value:1}).players[p.id];
+    expect(checkedAt(n.players, p.id).phase).toBe("gate");
+    expect(checkedAt(n.players, p.id).gatePos).toBe(4);
+    checkedAt(s.players, p.id).gatePos=5;
+    const home=checkedAt(reduce(s,{type:"ROLL",value:1}).players, p.id);
     expect(home.phase).toBe("pentagon"); expect(home.pentSteps).toBe(0);
   });
   it("memiliki 20 Pentagon: 5 Gerbang Aman dan 15 petak biasa", () => {
@@ -43,12 +44,12 @@ describe("Rancangan BPIC 2026", () => {
     const s=createGame(configs,42), p=currentPlayer(s);
     p.phase="pentagon"; p.pentSteps=9;
     const n=reduce(s,{type:"ROLL",value:1});
-    expect(n.players[p.id].pentRound).toBe(1);
-    expect(n.players[p.id].pentSteps).toBe(10);
+    expect(checkedAt(n.players, p.id).pentRound).toBe(1);
+    expect(checkedAt(n.players, p.id).pentSteps).toBe(10);
     p.pentSteps=19;
     const done=reduce(s,{type:"ROLL",value:6});
-    expect(done.players[p.id].pentRound).toBe(2);
-    expect(done.players[p.id].pentSteps).toBe(0);
+    expect(checkedAt(done.players, p.id).pentRound).toBe(2);
+    expect(checkedAt(done.players, p.id).pentSteps).toBe(0);
     expect(checkInvariants(done)).toEqual([]);
   });
   it("memuat 355 kartu resmi: 150/115/40/50", () => {
@@ -72,13 +73,13 @@ describe("Rancangan BPIC 2026", () => {
     const s=createGame(configs,42);
     delete s.ruleset; s.spaces=Array.from({length:10},()=>null); s.spaces[9]=0;
     s.tokens.slice(0,5).forEach(t=>{t.loc=109;});
-    s.players[0].outerPos=49; s.players[0].gatePos=3; s.players[0].pentSteps=9;
+    checkedAt(s.players, 0).outerPos=49; checkedAt(s.players, 0).gatePos=3; checkedAt(s.players, 0).pentSteps=9;
     s.pending={kind:"claim",space:9};
     const n=upgradeBoard(s);
-    expect(n.spaces).toHaveLength(20); expect(n.spaces[18]).toBe(0);
+    expect(n.spaces).toHaveLength(20); expect(checkedAt(n.spaces, 18)).toBe(0);
     expect(escrowCount(n,18)).toBe(4); expect(n.tokens).toHaveLength(100);
     expect(n.tokens.filter(t=>t.loc===0)).toHaveLength(1); expect(n.homeOwner).toEqual([0,1,2,3,4]);
-    expect(n.players[0].outerPos).toBe(73); expect(n.players[0].gatePos).toBe(5); expect(n.players[0].pentSteps).toBe(18);
+    expect(checkedAt(n.players, 0).outerPos).toBe(73); expect(checkedAt(n.players, 0).gatePos).toBe(5); expect(checkedAt(n.players, 0).pentSteps).toBe(18);
     expect(n.pending).toEqual({kind:"claim",space:18});
     expect(checkInvariants(n)).toEqual([]); expect(upgradeBoard(n)).toBe(n);
     expect(s.spaces).toHaveLength(10);

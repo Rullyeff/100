@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { boardCenter, pentSpace } from "@/seratus/game/board";
 import { AREAS, escrowCount, homeOwnerOf, isSafeGate, PENT_TOTAL, type GameState } from "@/seratus/game/view";
@@ -7,12 +8,12 @@ import { areaVar } from "./theme";
 export function BoardLandmarks({ state }: { state: GameState }) {
   const center = boardCenter();
   const owners = Array.from({ length: PENT_TOTAL }, (_, space) =>
-    isSafeGate(space) ? homeOwnerOf(state, Math.floor(space / (PENT_TOTAL / AREAS.length))) : state.spaces[space],
+    isSafeGate(space) ? homeOwnerOf(state, Math.floor(space / (PENT_TOTAL / AREAS.length))) : checkedAt(state.spaces, space),
   );
   const previous = useRef(owners);
   const [built, setBuilt] = useState<number[]>([]);
   useEffect(() => {
-    const fresh = owners.flatMap((owner, space) => owner != null && owner !== previous.current[space] ? [space] : []);
+    const fresh = owners.flatMap((owner, space) => owner != null && owner !== checkedAt(previous.current, space) ? [space] : []);
     previous.current = owners;
     if (!fresh.length || document.hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setBuilt(fresh);
@@ -24,7 +25,7 @@ export function BoardLandmarks({ state }: { state: GameState }) {
       {Array.from({ length: PENT_TOTAL }, (_, space) => {
         const home = isSafeGate(space);
         const area = Math.floor(space / (PENT_TOTAL / AREAS.length));
-        const owner = home ? homeOwnerOf(state, area) : state.spaces[space];
+        const owner = home ? homeOwnerOf(state, area) : checkedAt(state.spaces, space);
         const player = owner == null ? undefined : state.players.find((p) => p.id === owner);
         if (!player) return null;
         const point = pentSpace(space);

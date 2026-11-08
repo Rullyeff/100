@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useEffect, useState } from "react";
 import { Crown, Timer, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,9 +21,9 @@ export function FinalPanel({
   canAct: boolean;
   onRestart: () => void;
 }) {
-  const f = state.final!;
-  const ranked = [...state.players].sort((a, b) => f.scores[b.id] - f.scores[a.id]);
-  const actorP = typeof actor === "number" ? state.players[actor] : null;
+  const f = state.final;
+  const ranked = [...state.players].sort((a, b) => checkedAt(f.scores, b.id) - checkedAt(f.scores, a.id));
+  const actorP = typeof actor === "number" ? checkedAt(state.players, actor) : null;
 
   return (
     <div className="space-y-3">
@@ -34,12 +35,12 @@ export function FinalPanel({
           {ranked.map((p, i) => (
             <li key={p.id} className={cn("flex items-center gap-2 rounded-lg px-2 py-1.5", f.winners.includes(p.id) && "bg-gold/20")}>
               <span className="w-4 text-sm font-bold text-muted-foreground">{i + 1}</span>
-              <span className={cn("size-3 rounded-full", AREA_BG[p.area])} />
+              <span className={cn("size-3 rounded-full", checkedAt(AREA_BG, p.area))} />
               <span className="flex-1 truncate font-semibold">{p.name}</span>
               <span className="text-xs text-muted-foreground">
                 {handCount(state, p.id)} tangan + {escrowOwned(state, p.id)} petak
               </span>
-              <span className="w-8 text-right font-display text-lg font-extrabold">{f.scores[p.id]}</span>
+              <span className="w-8 text-right font-display text-lg font-extrabold">{checkedAt(f.scores, p.id)}</span>
               {f.winners.includes(p.id) && <Crown className="size-4 text-gold" />}
             </li>
           ))}
@@ -50,9 +51,9 @@ export function FinalPanel({
         <div className="rounded-xl bg-primary p-5 text-center text-primary-foreground shadow-card">
           <Crown className="mx-auto size-8 text-gold" />
           <div className="mt-2 font-display text-2xl font-extrabold">
-            {f.winners.map((id) => state.players[id].name).join(" & ")}
+            {f.winners.map((id) => checkedAt(state.players, id).name).join(" & ")}
           </div>
-          <div className="text-sm opacity-80">{f.winners.length > 1 ? "Menang bersama" : `Pemenang · ${AREAS[state.players[f.winners[0]].area].name}`}</div>
+          <div className="text-sm opacity-80">{f.winners.length > 1 ? "Menang bersama" : `Pemenang · ${checkedAt(AREAS, checkedAt(state.players, checkedAt(f.winners, 0)).area).name}`}</div>
           <div className="mt-1 text-xs opacity-70">{f.note}</div>
           <Button variant="gold" className="mt-4" onClick={onRestart}>
             Main lagi dengan ruang baru
@@ -62,12 +63,12 @@ export function FinalPanel({
 
       {f.stage === "argue" && f.caseId && (
         <CardShell deck="D" kicker="Final Democracy Test">
-          <p className="text-sm">Skor tertinggi seri. Finalis: {f.finalists.map((id) => state.players[id].name).join(", ")}.</p>
+          <p className="text-sm">Skor tertinggi seri. Finalis: {f.finalists.map((id) => checkedAt(state.players, id).name).join(", ")}.</p>
           <p className="font-medium">{card<FdtCard>(f.caseId).text}</p>
           <p className="text-xs text-muted-foreground">Setiap finalis menyampaikan argumentasi lalu bantahan. Pemain nonfinalis kemudian memilih.</p>
           <div className="space-y-2">
             {f.finalists.map((id) => (
-              <SpeechTimer key={id} name={state.players[id].name} />
+              <SpeechTimer key={id} name={checkedAt(state.players, id).name} />
             ))}
           </div>
           {canAct ? (
@@ -91,7 +92,7 @@ export function FinalPanel({
               <div className="grid gap-2">
                 {f.finalists.map((id) => (
                   <Button key={id} variant="outline" onClick={() => dispatch({ type: "VOTE", voter: actorP.id, choice: id })}>
-                    {state.players[id].name} paling meyakinkan
+                    {checkedAt(state.players, id).name} paling meyakinkan
                   </Button>
                 ))}
               </div>
@@ -110,14 +111,14 @@ export function FinalPanel({
 }
 
 function ObjectiveView({ state, dispatch, canAct, actor }: { state: GameState; dispatch: (a: Action) => void; canAct: boolean; actor: number | null }) {
-  const f = state.final!;
-  const c = card<McqCard>(f.objective!.cardId);
+  const f = state.final;
+  const c = card<McqCard>(f.objective.cardId);
   const [sel, setSel] = useState<number | null>(null);
   return (
-    <CardShell deck="P" kicker={`Penentu objektif · ronde ${f.objective!.round}/3`}>
+    <CardShell deck="P" kicker={`Penentu objektif · ronde ${f.objective.round}/3`}>
       <p className="font-medium">{c.prompt}</p>
       <p className="text-xs text-muted-foreground">
-        Terkunci {Object.keys(f.objective!.answers).length}/{f.finalists.length}. {actor !== null && `Penjawab: ${state.players[actor].name}`}
+        Terkunci {Object.keys(f.objective.answers).length}/{f.finalists.length}. {actor !== null && `Penjawab: ${checkedAt(state.players, actor).name}`}
       </p>
       <div className="space-y-1.5">
         {c.options.map((o, i) => (
@@ -127,7 +128,7 @@ function ObjectiveView({ state, dispatch, canAct, actor }: { state: GameState; d
             onClick={() => setSel(i)}
             className={cn("flex w-full gap-2 rounded-lg border px-3 py-2 text-left text-sm", sel === i ? "border-primary ring-1 ring-primary" : "hover:bg-accent")}
           >
-            <b>{LETTERS[i]}</b> {o}
+            <b>{checkedAt(LETTERS, i)}</b> {o}
           </button>
         ))}
       </div>

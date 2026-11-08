@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { handCount, type GameState } from '@/seratus/game/view';
 import { celebrationSnapshot, type CelebrationSnapshot } from './celebration-events';
 
@@ -21,7 +22,7 @@ export function freshArcadeEvents(before: ArcadeSnapshot, after: ArcadeSnapshot)
     else if ((before.hands[p.id] ?? 0) - (after.hands[p.id] ?? 0) >= 3) moods.push({ playerId: p.id, mood: 'shocked' });
     else if ((after.hands[p.id] ?? 0) > (before.hands[p.id] ?? 0)) moods.push({ playerId: p.id, mood: 'happy' });
   }
-  if (after.spaces.some((owner, i) => owner !== null && before.spaces[i] === null)) cues.push('landmark');
+  if (after.spaces.some((owner, i) => owner !== null && checkedAt(before.spaces, i) === null)) cues.push('landmark');
   if (after.payments.some(p => !before.payments.includes(p))) cues.push('toll');
   return { moods, cues: [...new Set(cues)] };
 }

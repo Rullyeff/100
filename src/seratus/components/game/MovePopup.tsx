@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useEffect, useRef, useState } from "react";
 import { Footprints } from "lucide-react";
 import type { GameState, Player } from "@/seratus/game/view";
@@ -44,7 +45,7 @@ export function MovePopup({ state }: { state: GameState }) {
   return (
     <div aria-live="polite" className="pointer-events-none fixed inset-x-0 top-4 z-[70] flex justify-center" style={{ perspective: 900 }}>
       <div key={info.key} className="move-pop relative flex items-center gap-4 rounded-3xl border-4 border-gold bg-card px-6 py-4 shadow-2xl">
-        <div className={cn("move-pop-shine absolute inset-0 rounded-[20px] opacity-20", AREA_BG[p.area])} />
+        <div className={cn("move-pop-shine absolute inset-0 rounded-[20px] opacity-20", checkedAt(AREA_BG, p.area))} />
         <PlayerAvatar area={p.area} avatar={p.avatar} size={88} className="move-pop-avatar relative" />
         <div className="relative">
           <div className="font-display text-2xl font-extrabold leading-tight">{p.name}</div>

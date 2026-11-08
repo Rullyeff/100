@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useState } from "react";
 import { Bot, Play, RotateCw, User, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,11 +32,11 @@ export function SetupScreen({
   setTestDice?: (v: boolean) => void;
 }) {
   const [slots, setSlots] = useState<PlayerConfig[]>(() =>
-    AREAS.map((_, i) => (i === 0 ? { name: "Kamu", isBot: false, avatar: i } : { name: BOT_NAMES[i], isBot: true, avatar: i })),
+    AREAS.map((_, i) => (i === 0 ? { name: "Kamu", isBot: false, avatar: i } : { name: checkedAt(BOT_NAMES, i), isBot: true, avatar: i })),
   );
 
   const preset = (humans: number) =>
-    setSlots((cur) => AREAS.map((_, i) => ({ ...(i < humans ? { name: `Pemain ${i + 1}`, isBot: false } : { name: BOT_NAMES[i], isBot: true }), avatar: cur[i]?.avatar ?? i })));
+    setSlots((cur) => AREAS.map((_, i) => ({ ...(i < humans ? { name: `Pemain ${i + 1}`, isBot: false } : { name: checkedAt(BOT_NAMES, i), isBot: true }), avatar: cur[i]?.avatar ?? i })));
 
   const update = (i: number, patch: Partial<PlayerConfig>) =>
     setSlots((s) => s.map((p, j) => (j === i ? { ...p, ...patch } : p)));
@@ -86,7 +87,7 @@ export function SetupScreen({
             <div key={i} className="play-seat play-slot">
               <Popover>
                 <PopoverTrigger asChild>
-                  <button type="button" aria-label={`Pilih avatar ${AREAS[i].name}`} className="group relative shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <button type="button" aria-label={`Pilih avatar ${checkedAt(AREAS, i).name}`} className="group relative shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                     <PlayerAvatar area={i} avatar={s.avatar ?? i} size={42} />
                     <span className="absolute -bottom-1 -right-1 rounded-full border bg-card px-1 text-[9px] font-bold shadow group-hover:bg-gold group-hover:text-gold-foreground">Ganti</span>
                   </button>
@@ -97,11 +98,11 @@ export function SetupScreen({
                 </PopoverContent>
               </Popover>
               <div className="play-slot-area">
-                <div className="text-sm font-semibold">{AREAS[i].name}</div>
+                <div className="text-sm font-semibold">{checkedAt(AREAS, i).name}</div>
                 <div className="text-[10px] text-muted-foreground">START {i + 1}</div>
               </div>
               <Input
-                aria-label={`Nama pemain ${AREAS[i].name}`}
+                aria-label={`Nama pemain ${checkedAt(AREAS, i).name}`}
                 value={s.name}
                 maxLength={18}
                 onChange={(e) => update(i, { name: e.target.value })}
@@ -121,7 +122,7 @@ export function SetupScreen({
                 <button
                   type="button"
                   className={cn(s.isBot && "play-toggle-on")}
-                  onClick={() => update(i, { isBot: true, name: s.isBot ? s.name : BOT_NAMES[i] })}
+                  onClick={() => update(i, { isBot: true, name: s.isBot ? s.name : checkedAt(BOT_NAMES, i) })}
                   aria-pressed={s.isBot}
                   aria-label="Bot"
                   title="Bot"

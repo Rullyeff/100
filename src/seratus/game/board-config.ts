@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 // Public board topology; shared by the authoritative engine and its projection.
 export const OUTER_PER_AREA = 15;
 export const OUTER_TOTAL = 75;
@@ -19,7 +20,7 @@ export const OUTER_PATTERN: OuterType[] = [
 ];
 const DEMOKRASI_AT: Record<number, DemokrasiSub> = { 1: "cekfakta", 7: "dilema", 13: "refleksi" };
 const KEJUTAN_AT: Record<number, KejutanSub> = { 4: "peristiwa", 10: "kesempatan" };
-export const outerType = (i: number) => OUTER_PATTERN[i % OUTER_PER_AREA];
+export const outerType = (i: number) => checkedAt(OUTER_PATTERN, i % OUTER_PER_AREA);
 export const outerArea = (i: number) => Math.floor(i / OUTER_PER_AREA);
 /** Jenis kartu Demokrasi yang dibuka di petak D tertentu. */
 export const outerDemokrasiSub = (i: number): DemokrasiSub => DEMOKRASI_AT[i % OUTER_PER_AREA] ?? "cekfakta";

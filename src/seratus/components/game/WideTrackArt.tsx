@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import boardArt from "@/seratus/assets/papan-utama-100-suara.jpg";
 import { gateSpace, outerSpace, pentSpace, startSpace, VIEW, type Pt } from "@/seratus/game/board";
 import { AREAS, GATE_LEN, isSafeGate, OUTER_TOTAL, PENT_TOTAL } from "@/seratus/game/view";
@@ -53,23 +54,23 @@ export function WideTrackArt() {
     <g className="wide-track-art" aria-hidden="true" pointerEvents="none">
       {/* Petak biasa lebih dulu, petak istimewa yang terangkat digambar terakhir */}
       {Array.from({ length: OUTER_TOTAL }, (_, i) => (
-        <TileBlock key={`o${i}`} point={outerSpace(i)} size={TRACK_SIZE.outer} color={OUTER_TILE_COLORS[i]} lift={9} />
+        <TileBlock key={`o${i}`} point={outerSpace(i)} size={TRACK_SIZE.outer} color={checkedAt(OUTER_TILE_COLORS, i)} lift={9} />
       ))}
       {AREAS.flatMap((_, area) =>
         Array.from({ length: GATE_LEN }, (_, k) => (
-          <TileBlock key={`g${area}-${k}`} point={gateSpace(area, k + 1)} size={TRACK_SIZE.gate} color={GATE_TILE_COLORS[area * GATE_LEN + k]} lift={9} />
+          <TileBlock key={`g${area}-${k}`} point={gateSpace(area, k + 1)} size={TRACK_SIZE.gate} color={checkedAt(GATE_TILE_COLORS, area * GATE_LEN + k)} lift={9} />
         )),
       )}
       {Array.from({ length: PENT_TOTAL }, (_, i) =>
-        isSafeGate(i) ? null : <TileBlock key={`p${i}`} point={pentSpace(i)} size={TRACK_SIZE.pent} color={PENT_TILE_COLORS[i]} lift={11} />,
+        isSafeGate(i) ? null : <TileBlock key={`p${i}`} point={pentSpace(i)} size={TRACK_SIZE.pent} color={checkedAt(PENT_TILE_COLORS, i)} lift={11} />,
       )}
       {/* Petak START tiap area: balok emas yang lebih tinggi */}
       {AREAS.map((_, area) => (
-        <TileBlock key={`s${area}`} point={startSpace(area)} size={TRACK_SIZE.outer} color={START_TILE_COLORS[area]} lift={14} special />
+        <TileBlock key={`s${area}`} point={startSpace(area)} size={TRACK_SIZE.outer} color={checkedAt(START_TILE_COLORS, area)} lift={14} special />
       ))}
       {/* Gerbang Aman di sudut Pentagon: terangkat dan berbingkai emas */}
       {Array.from({ length: PENT_TOTAL }, (_, i) =>
-        isSafeGate(i) ? <TileBlock key={`p${i}`} point={pentSpace(i)} size={TRACK_SIZE.safe} color={PENT_TILE_COLORS[i]} lift={14} special /> : null,
+        isSafeGate(i) ? <TileBlock key={`p${i}`} point={pentSpace(i)} size={TRACK_SIZE.safe} color={checkedAt(PENT_TILE_COLORS, i)} lift={14} special /> : null,
       )}
     </g>
   );

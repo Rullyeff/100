@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { botThinkMs } from './bot-pace';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { recordResult } from "@/seratus/game/leaderboard";
@@ -40,7 +41,7 @@ export function useGame() {
   useEffect(() => {
     if (!full || paused) return;
     const actor = getActor(full);
-    if (actor === null || (typeof actor === 'number' && !full.players[actor].isBot) || (actor === 'host' && !full.players.every(p => p.isBot))) return;
+    if (actor === null || (typeof actor === 'number' && !checkedAt(full.players, actor).isBot) || (actor === 'host' && !full.players.every(p => p.isBot))) return;
     const t = setTimeout(() => { const current = ref.current; if (!current) return; const a = nextBotStep(current); if (a) apply(a); }, botThinkMs(full, speed));
     return () => clearTimeout(t);
   }, [full, paused, speed, apply]);

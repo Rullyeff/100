@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 // Mesin aturan 100 SUARA — murni (tanpa React), deterministik berdasarkan seed.
 // Mengikuti Buku Panduan Permainan 100 SUARA (draf terbaru).
 // Setiap aksi menghasilkan state baru; aksi tidak sah mengembalikan state lama.
@@ -86,7 +87,7 @@ function shuffle<T>(s: GameState, arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(rand(s) * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    [checkedAt(a, i), checkedAt(a, j)] = [checkedAt(a, j), checkedAt(a, i)];
   }
   return a;
 }
@@ -104,7 +105,7 @@ export function engineDeckSource(key: string): string[] {
 }
 function draw(s: GameState, key: string): string {
   if (!s.decks[key] || s.decks[key].length === 0) s.decks[key] = shuffle(s, engineDeckSource(key));
-  return s.decks[key].pop()!;
+  return s.decks[key].pop();
 }
 
 // ---------- Ledger ----------
@@ -174,7 +175,7 @@ export function createGame(configs: PlayerConfig[], seed = Date.now()): GameStat
       name: c.name.trim() || `Pemain ${i + 1}`,
       area: i,
       isBot: c.isBot,
-      avatar: Number.isInteger(c.avatar) && c.avatar! >= 0 && c.avatar! < AVATAR_COUNT ? c.avatar : i,
+      avatar: Number.isInteger(c.avatar) && c.avatar >= 0 && c.avatar < AVATAR_COUNT ? c.avatar : i,
       phase: "outer",
       outerPos: -1,
       gatePos: 0,
@@ -206,7 +207,7 @@ export function createGame(configs: PlayerConfig[], seed = Date.now()): GameStat
   const rolls = s.players.map((p) => ({ id: p.id, r: die(s), tb: rand(s) }));
   rolls.sort((a, b) => b.r - a.r || b.tb - a.tb);
   s.order = rolls.map((r) => r.id);
-  log(s, `Penentu giliran: ${rolls.map((r) => `${s.players[r.id].name} (${r.r})`).join(", ")}`, "system");
+  log(s, `Penentu giliran: ${rolls.map((r) => `${checkedAt(s.players, r.id).name} (${r.r})`).join(", ")}`, "system");
   log(s, "100 token suara disiapkan: 20 di stok tiap area.", "system");
   log(s, `Giliran pertama: ${currentPlayer(s).name}`, "system");
   return s;
@@ -243,7 +244,7 @@ function apply(s: GameState, a: Action) {
       s.lastDice = v;
       s.lastResult = null;
       log(s, `${p.name} melempar dadu (${v})`, "info", p.id);
-      const entry = s.log[0];
+      const entry = checkedAt(s.log, 0);
       doMove(s, p, v);
       entry.text += ` dan melangkah ke ${describePosition(p)}`;
       return;
@@ -313,7 +314,7 @@ function apply(s: GameState, a: Action) {
     case "FORFEIT": {
       if (pend?.kind !== "forfeit") return deny("Tidak ada penyerahan");
       if (a.player !== pend.payer) return deny("Bukan pemain yang menyerahkan");
-      const opt = pend.options[a.option];
+      const opt = checkedAt(pend.options, a.option);
       if (!opt) return deny("Pilihan tidak sah");
       const lines = [pend.reason, ...applyForfeit(s, pend.payer, pend.receiver, opt)];
       s.lastResult = { title: "Hasil Duel", lines, tone: "info" };
@@ -359,7 +360,7 @@ function placeAtHome(s: GameState, p: Player) {
   p.gatePos = GATE_LEN;
   p.pentRound = 1;
   p.pentSteps = 0;
-  log(s, `${p.name} mengisi Gerbang Aman ${AREAS[p.area].name} — Pentagon Putaran 1`, "system", p.id);
+  log(s, `${p.name} mengisi Gerbang Aman ${checkedAt(AREAS, p.area).name} — Pentagon Putaran 1`, "system", p.id);
 }
 function enterHome(s: GameState, p: Player) {
   placeAtHome(s, p);
@@ -421,7 +422,7 @@ function movePent(s: GameState, p: Player, r: number) {
 
 function landPent(s: GameState, p: Player) {
   const sp = pentSpaceOf(p);
-  const owner = s.spaces[sp];
+  const owner = checkedAt(s.spaces, sp);
   const info = (title: string, line: string) => {
     s.lastResult = { title, lines: [line], tone: "info" };
     finishResolution(s);
@@ -442,14 +443,14 @@ function landPent(s: GameState, p: Player) {
     }
     return info("Petak netral", `Syarat klaim belum terpenuhi (butuh ${CLAIM_COST} suara di tangan, maks ${MAX_CLAIMS} petak)`);
   }
-  if (p.pentRound === 1) return info("Petak sudah dimiliki", `Milik ${s.players[owner].name} — tidak ada duel pada putaran pertama`);
+  if (p.pentRound === 1) return info("Petak sudah dimiliki", `Milik ${checkedAt(s.players, owner).name} — tidak ada duel pada putaran pertama`);
   return startDuel(s, p, owner, sp, false);
 }
 
 function startDuel(s: GameState, p: Player, opponent: number, space: number, home: boolean) {
   s.stage = "pending";
   s.pending = { kind: "duel", cardId: draw(s, "P"), opponent, space, home, answers: {} };
-  log(s, `Duel ${home ? "di Gerbang Aman" : `perebutan P${space + 1}`}! ${p.name} vs ${s.players[opponent].name}`, "system", p.id);
+  log(s, `Duel ${home ? "di Gerbang Aman" : `perebutan P${space + 1}`}! ${p.name} vs ${checkedAt(s.players, opponent).name}`, "system", p.id);
 }
 
 // ---------- Resolutions ----------
@@ -457,7 +458,7 @@ function applyEffect(s: GameState, p: Player, e: Effect, area: number): string[]
   const lines: string[] = [];
   if (e.votes && e.votes > 0) {
     const got = giveFromStock(s, p.id, area, e.votes);
-    lines.push(got ? `+${got} suara dari stok ${AREAS[area].name}` : "Stok area habis");
+    lines.push(got ? `+${got} suara dari stok ${checkedAt(AREAS, area).name}` : "Stok area habis");
     if (got < e.votes && got) lines.push(`Dibatasi sisa stok (${got}/${e.votes})`);
   }
   if (e.votes && e.votes < 0) {
@@ -491,25 +492,25 @@ function applyEffect(s: GameState, p: Player, e: Effect, area: number): string[]
 function rewardCorrect(s: GameState, p: Player, area: number, source: string): string[] {
   const lines: string[] = [];
   const got = giveFromStock(s, p.id, area, CORRECT_REWARD);
-  lines.push(got ? `+${got} suara dari ${source} (stok ${AREAS[area].name})` : "Stok area habis — tidak ada suara");
+  lines.push(got ? `+${got} suara dari ${source} (stok ${checkedAt(AREAS, area).name})` : "Stok area habis — tidak ada suara");
   if (got > 0 && got < CORRECT_REWARD) lines.push(`Dibatasi sisa stok (${got}/${CORRECT_REWARD})`);
   if (!p.areaTokens[area]) {
     p.areaTokens[area] = true;
-    lines.push(`Token Area ${AREAS[area].name} diperoleh!`);
+    lines.push(`Token Area ${checkedAt(AREAS, area).name} diperoleh!`);
   }
   lines.forEach((l) => log(s, `${p.name}: ${l}`, l.startsWith("+") || l.startsWith("Token") ? "gain" : "info", p.id));
   return lines;
 }
 
 /** Kartu berbobot (SJT): jawaban benar = pilihan berbobot tertinggi menurut kunci. */
-const sjtCorrect = (weights: number[], choice: number) => weights[choice] === Math.max(...weights);
+const sjtCorrect = (weights: number[], choice: number) => checkedAt(weights, choice) === Math.max(...weights);
 
 function resolveAspirasi(s: GameState, p: Player, pend: Extract<Pending, { kind: "aspirasi" }>, choice: number) {
   const c = card<AspirasiCard>(pend.cardId);
   if (choice < 0 || choice >= c.options.length) deny("Pilihan tidak sah");
   const ok = c.weights ? sjtCorrect(c.weights, choice) : choice === c.answer;
   const lines = ok ? rewardCorrect(s, p, pend.area, "Aspirasi") : ["Jawaban belum tepat, +0"];
-  const best = c.weights ? c.weights.indexOf(Math.max(...c.weights)) : c.answer!;
+  const best = c.weights ? c.weights.indexOf(Math.max(...c.weights)) : c.answer;
   s.lastResult = { title: ok ? "Aspirasi berhasil" : "Aspirasi gagal", lines, tone: ok ? "gain" : "loss", cardId: c.id, choice, correct: best };
   finishResolution(s);
 }
@@ -537,7 +538,7 @@ function resolveMisi(s: GameState, p: Player, pend: Extract<Pending, { kind: "mi
 function resolveDilema(s: GameState, p: Player, pend: Extract<Pending, { kind: "dilema" }>, choice: number) {
   const c = card<DemokrasiCard>(pend.cardId);
   if (c.weights) {
-    if (choice < 0 || choice >= c.options!.length) return deny("Pilihan tidak sah");
+    if (choice < 0 || choice >= c.options.length) return deny("Pilihan tidak sah");
     const ok = sjtCorrect(c.weights, choice);
     const lines = ok ? rewardCorrect(s, p, pend.area, "Dilema") : ["Belum pilihan terbaik, +0"];
     s.lastResult = { title: ok ? "Dilema tepat" : "Dilema belum tepat", lines, tone: ok ? "gain" : "loss", cardId: c.id, choice, correct: c.weights.indexOf(Math.max(...c.weights)) };
@@ -585,19 +586,19 @@ function resolvePutusan(s: GameState, p: Player, pend: Extract<Pending, { kind: 
 
 /** Pindahkan kepemilikan petak beserta 4 suara jaminannya. Bila penerima sudah 5 petak, suara masuk tangan dan petak netral. */
 function transferSpace(s: GameState, sp: number, to: number): string {
-  const from = s.spaces[sp]!;
+  const from = checkedAt(s.spaces, sp);
   if (ownedSpaces(s, to).length < MAX_CLAIMS) {
     s.spaces[sp] = to;
-    return `P${sp + 1} dan ${escrowCount(s, sp)} suara jaminan berpindah dari ${s.players[from].name} ke ${s.players[to].name}`;
+    return `P${sp + 1} dan ${escrowCount(s, sp)} suara jaminan berpindah dari ${checkedAt(s.players, from).name} ke ${checkedAt(s.players, to).name}`;
   }
   const n = moveTokens(s, escrowLoc(sp), to, CLAIM_COST);
   s.spaces[sp] = null;
-  return `${s.players[to].name} sudah memiliki ${MAX_CLAIMS} petak: ${n} suara jaminan P${sp + 1} masuk tangan, petak kembali netral`;
+  return `${checkedAt(s.players, to).name} sudah memiliki ${MAX_CLAIMS} petak: ${n} suara jaminan P${sp + 1} masuk tangan, petak kembali netral`;
 }
 
 function applyForfeit(s: GameState, payer: number, receiver: number, o: ForfeitOption): string[] {
-  const P = s.players[payer];
-  const R = s.players[receiver];
+  const P = checkedAt(s.players, payer);
+  const R = checkedAt(s.players, receiver);
   let line: string;
   if (o.type === "votes") {
     const n = moveTokens(s, payer, receiver, o.n);
@@ -606,7 +607,7 @@ function applyForfeit(s: GameState, payer: number, receiver: number, o: ForfeitO
     line = transferSpace(s, o.space, receiver);
   } else {
     s.homeOwner[o.area] = receiver;
-    line = `${P.name} menyerahkan Gerbang Aman ${AREAS[o.area].name} kepada ${R.name}`;
+    line = `${P.name} menyerahkan Gerbang Aman ${checkedAt(AREAS, o.area).name} kepada ${R.name}`;
   }
   log(s, line, "system", payer);
   return [line];
@@ -615,22 +616,22 @@ function applyForfeit(s: GameState, payer: number, receiver: number, o: ForfeitO
 /** Buat penyerahan: satu pilihan langsung dijalankan, lebih dari satu menunggu pilihan pemain. */
 function settle(s: GameState, payer: number, receiver: number, space: number, reason: string, options: ForfeitOption[], lines: string[]): boolean {
   if (options.length === 0) {
-    lines.push(`${s.players[payer].name} tidak memiliki suara atau petak untuk diserahkan`);
+    lines.push(`${checkedAt(s.players, payer).name} tidak memiliki suara atau petak untuk diserahkan`);
     return false;
   }
   if (options.length === 1) {
-    lines.push(...applyForfeit(s, payer, receiver, options[0]));
+    lines.push(...applyForfeit(s, payer, receiver, checkedAt(options, 0)));
     return false;
   }
   s.stage = "pending";
   s.pending = { kind: "forfeit", payer, receiver, space, reason, options };
-  log(s, `${s.players[payer].name} memilih apa yang diserahkan`, "system", payer);
+  log(s, `${checkedAt(s.players, payer).name} memilih apa yang diserahkan`, "system", payer);
   return true;
 }
 
 function resolveDuel(s: GameState, p: Player, pend: Extract<Pending, { kind: "duel" }>) {
   const c = card<McqCard>(pend.cardId);
-  const opp = s.players[pend.opponent];
+  const opp = checkedAt(s.players, pend.opponent);
   const okP = pend.answers[p.id] === c.answer;
   const okO = pend.answers[opp.id] === c.answer;
   // Perebutan berhasil hanya bila penantang menang duel; selain itu dianggap gagal.
@@ -641,12 +642,12 @@ function resolveDuel(s: GameState, p: Player, pend: Extract<Pending, { kind: "du
   if (pend.home) {
     const area = safeGateArea(sp);
     if (win) {
-      const reason = `${opp.name} kalah duel di Gerbang Aman ${AREAS[area].name}`;
+      const reason = `${opp.name} kalah duel di Gerbang Aman ${checkedAt(AREAS, area).name}`;
       lines.push(reason);
       const options: ForfeitOption[] = [{ type: "home", area }, ...ownedSpaces(s, opp.id).map((space) => ({ type: "space" as const, space }))];
       waiting = settle(s, opp.id, p.id, sp, reason, options, lines);
     } else {
-      const reason = `${p.name} gagal menantang Gerbang Aman ${AREAS[area].name}`;
+      const reason = `${p.name} gagal menantang Gerbang Aman ${checkedAt(AREAS, area).name}`;
       lines.push(reason);
       const hand = handCount(s, p.id);
       const spaces = ownedSpaces(s, p.id);
@@ -657,7 +658,7 @@ function resolveDuel(s: GameState, p: Player, pend: Extract<Pending, { kind: "du
     }
   } else if (win) {
     lines.push("Perebutan berhasil", transferSpace(s, sp, p.id));
-    log(s, lines[lines.length - 1], "system", p.id);
+    log(s, checkedAt(lines, lines.length - 1), "system", p.id);
   } else {
     lines.push("Perebutan gagal");
     const hand = handCount(s, p.id);
@@ -673,7 +674,7 @@ function resolveDuel(s: GameState, p: Player, pend: Extract<Pending, { kind: "du
       waiting = settle(s, p.id, opp.id, sp, reason, options, lines);
     }
   }
-  log(s, `Hasil duel: ${lines[0]}`, "system", p.id);
+  log(s, `Hasil duel: ${checkedAt(lines, 0)}`, "system", p.id);
   s.lastResult = { title: "Hasil Duel", lines, tone: "info", cardId: c.id, correct: c.answer };
   if (!waiting) finishResolution(s);
 }
@@ -735,7 +736,7 @@ function soleReaching(scores: number[], target: number): number | null {
   if (reach.length === 0) return null;
   const top = Math.max(...reach.map((x) => x.v));
   const best = reach.filter((x) => x.v === top);
-  return best.length === 1 ? best[0].id : null;
+  return best.length === 1 ? checkedAt(best, 0).id : null;
 }
 
 /** true bila permainan berakhir. */
@@ -791,13 +792,13 @@ function checkEnd(s: GameState): boolean {
 function finalize(s: GameState, note: string) {
   const scores = scoresOf(s);
   const max = Math.max(...scores);
-  const leaders = s.players.filter((p) => isAlive(p) && scores[p.id] === max).map((p) => p.id);
+  const leaders = s.players.filter((p) => isAlive(p) && checkedAt(scores, p.id) === max).map((p) => p.id);
   s.stage = "over";
   s.pending = null;
-  log(s, `Penghitungan suara sah: ${s.players.map((p) => `${p.name} ${scores[p.id]}`).join(", ")}`, "system");
+  log(s, `Penghitungan suara sah: ${s.players.map((p) => `${p.name} ${checkedAt(scores, p.id)}`).join(", ")}`, "system");
   if (leaders.length === 1) {
     s.final = { scores, finalists: leaders, stage: "done", caseId: null, votes: {}, objective: null, winners: leaders, note };
-    log(s, `Pemenang: ${s.players[leaders[0]].name}`, "system");
+    log(s, `Pemenang: ${checkedAt(s.players, checkedAt(leaders, 0)).name}`, "system");
   } else {
     s.final = { scores, finalists: leaders, stage: "argue", caseId: draw(s, "FDT"), votes: {}, objective: null, winners: [], note: "" };
     log(s, `Seri di puncak (${max}) — Final Democracy Test dimulai`, "system");
@@ -831,12 +832,12 @@ function applyFinal(s: GameState, a: Action) {
     const tally = f.finalists.map((id) => ({ id, n: Object.values(f.votes).filter((v) => v === id).length }));
     const top = Math.max(...tally.map((t) => t.n));
     const best = tally.filter((t) => t.n === top).map((t) => t.id);
-    log(s, `Voting Final: ${tally.map((t) => `${s.players[t.id].name} ${t.n}`).join(", ")}`, "system");
+    log(s, `Voting Final: ${tally.map((t) => `${checkedAt(s.players, t.id).name} ${t.n}`).join(", ")}`, "system");
     if (best.length === 1) {
       f.stage = "done";
       f.winners = best;
       f.note = "Menang melalui voting Final Democracy Test";
-      log(s, `Pemenang: ${s.players[best[0]].name}`, "system");
+      log(s, `Pemenang: ${checkedAt(s.players, checkedAt(best, 0)).name}`, "system");
       return;
     }
     f.finalists = best;
@@ -850,13 +851,13 @@ function applyFinal(s: GameState, a: Action) {
     f.objective.answers[a.player] = a.choice;
     if (Object.keys(f.objective.answers).length < f.finalists.length) return;
     const c = card<McqCard>(f.objective.cardId);
-    const correct = f.finalists.filter((id) => f.objective!.answers[id] === c.answer);
-    log(s, `Penentu objektif ronde ${f.objective.round}: benar — ${correct.map((id) => s.players[id].name).join(", ") || "tidak ada"}`, "system");
+    const correct = f.finalists.filter((id) => f.objective.answers[id] === c.answer);
+    log(s, `Penentu objektif ronde ${f.objective.round}: benar — ${correct.map((id) => checkedAt(s.players, id).name).join(", ") || "tidak ada"}`, "system");
     if (correct.length === 1) {
       f.stage = "done";
       f.winners = correct;
       f.note = "Menang melalui penentu objektif";
-      log(s, `Pemenang: ${s.players[correct[0]].name}`, "system");
+      log(s, `Pemenang: ${checkedAt(s.players, checkedAt(correct, 0)).name}`, "system");
       return;
     }
     const remain = correct.length > 0 ? correct : f.finalists;
@@ -865,7 +866,7 @@ function applyFinal(s: GameState, a: Action) {
       f.stage = "done";
       f.winners = remain;
       f.note = "Menang bersama setelah 3 ronde penentu objektif";
-      log(s, `Menang bersama: ${remain.map((id) => s.players[id].name).join(", ")}`, "system");
+      log(s, `Menang bersama: ${remain.map((id) => checkedAt(s.players, id).name).join(", ")}`, "system");
       return;
     }
     return startObjective(s, f, f.objective.round + 1);

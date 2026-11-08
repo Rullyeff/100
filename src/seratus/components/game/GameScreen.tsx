@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { play, setMusicTrack } from "@/seratus/lib/sfx";
 import { Pause, Play, X, Map, Zap, Layers, Users, List, Maximize2, Minimize2 } from "lucide-react";
@@ -93,16 +94,16 @@ export function GameScreen({
   const actor = online ? viewerActor(state, online.viewer, online.isHost) : localActor === undefined ? getActor(state) : localActor;
   const humans = state.players.filter((p) => !p.isBot);
   const allBots = humans.length === 0;
-  const actorPlayer = typeof actor === "number" ? state.players[actor] : null;
+  const actorPlayer = typeof actor === "number" ? checkedAt(state.players, actor) : null;
   const humanActor = actorPlayer && !actorPlayer.isBot ? actorPlayer : null;
   const canAct = !localBusy && !paused && (online ? actor !== null && !online.busy : actor === "host" ? !allBots : !!humanActor);
   const cur = currentPlayer(state);
 
   // Pass-and-play: konfirmasi serah-terima saat pemain manusia berganti
-  const [confirmed, setConfirmed] = useState<number | null>(humans.length === 1 ? humans[0].id : null);
+  const [confirmed, setConfirmed] = useState<number | null>(humans.length === 1 ? checkedAt(humans, 0).id : null);
   const needHandoff = !online && humans.length > 1 && humanActor !== null && confirmed !== humanActor.id;
   useEffect(() => {
-    if (humans.length === 1) setConfirmed(humans[0].id);
+    if (humans.length === 1) setConfirmed(checkedAt(humans, 0).id);
   }, [humans]);
 
   // "Ambil Kartu": kartu yang mendarat disimpan tertutup sampai pemain aktif mengambilnya

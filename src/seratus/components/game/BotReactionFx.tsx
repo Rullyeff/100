@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { GameState } from "@/seratus/game/view";
@@ -39,7 +40,7 @@ export function BotReactionFx({ state }: { state: GameState }) {
       const key = `${state.version}-${reaction.playerId}`;
       const left = Math.max(8, Math.min(innerWidth - 192, rect.left + rect.width / 2 - 92));
       const top = Math.max(8, Math.min(innerHeight - 72, rect.top >= 78 ? rect.top - 72 : rect.bottom + 8));
-      const line = copy.lines[(state.version + reaction.playerId) % copy.lines.length];
+      const line = checkedAt(copy.lines, (state.version + reaction.playerId) % copy.lines.length);
       setBubbles((items) => [...items.filter((b) => b.playerId !== reaction.playerId), { ...reaction, key, name: player.name, line, left, top }]);
       schedule(() => setBubbles((items) => items.filter((b) => b.key !== key)), LIFE_MS);
     }, 1500 + index * 180));

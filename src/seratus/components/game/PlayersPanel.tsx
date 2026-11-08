@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { Bot, Coins, Home, MapPin, ShieldAlert, User } from "lucide-react";
 import {
   AREAS,
@@ -23,7 +24,7 @@ export function PlayersPanel({ state }: { state: GameState }) {
         Pemain <span className="font-semibold normal-case">5 / 5</span>
       </h2>
       {state.order.map((id) => {
-        const p = state.players[id];
+        const p = checkedAt(state.players, id);
         const hand = handCount(state, p.id);
         const esc = escrowOwned(state, p.id);
         const active = p.id === cur.id && state.stage !== "over";
@@ -69,13 +70,13 @@ export function PlayersPanel({ state }: { state: GameState }) {
               {AREAS.map((a, i) => (
                 <span
                   key={a.name}
-                  title={`Token ${a.name}${p.areaTokens[i] ? " ✓" : " (belum)"}`}
+                  title={`Token ${a.name}${checkedAt(p.areaTokens, i) ? " ✓" : " (belum)"}`}
                   className={cn(
                     "size-6 rounded-full border-2 transition-all",
-                    p.areaTokens[i] ? cn(AREA_BG[i], "border-paper shadow-[0_0_0_1px_var(--border),inset_0_-3px_0_oklch(0_0_0/20%)]") : "border-dashed border-muted-foreground/40 bg-muted",
+                    checkedAt(p.areaTokens, i) ? cn(checkedAt(AREA_BG, i), "border-paper shadow-[0_0_0_1px_var(--border),inset_0_-3px_0_oklch(0_0_0/20%)]") : "border-dashed border-muted-foreground/40 bg-muted",
                   )}
                 >
-                  {(() => { const Icon = [BookOpen, Leaf, ChartColumn, Landmark, Accessibility][i]; return <Icon className="size-3" aria-hidden="true" />; })()}
+                  {(() => { const Icon = checkedAt([BookOpen, Leaf, ChartColumn, Landmark, Accessibility], i); return <Icon className="size-3" aria-hidden="true" />; })()}
                   <span className="sr-only">{a.name}</span>
                 </span>
               ))}
@@ -110,7 +111,7 @@ export function PlayersPanel({ state }: { state: GameState }) {
                   )}
                   {extraHomes.map((a) => (
                     <span key={a} className="inline-flex items-center gap-1 rounded bg-gold/20 px-1.5 py-0.5 font-semibold">
-                      <Home className="size-3" /> Gerbang {AREAS[a].name}
+                      <Home className="size-3" /> Gerbang {checkedAt(AREAS, a).name}
                     </span>
                   ))}
                   {p.skipTurns > 0 && <span className="rounded bg-muted px-1.5 py-0.5">Lewati {p.skipTurns} giliran</span>}

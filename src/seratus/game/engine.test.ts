@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { describe, expect, it } from "vitest";
 import { nextBotStep } from "./bot";
 import { card, type AspirasiCard, type DemokrasiCard, type KejutanCard, type McqCard, type PutusanCard } from "./cards";
@@ -72,7 +73,7 @@ describe("Inventaris & invarian", () => {
       }
       expect(s.stage).toBe("over");
       expect(s.final?.stage).toBe("done");
-      expect(s.final!.winners.length).toBeGreaterThan(0);
+      expect(s.final.winners.length).toBeGreaterThan(0);
     }
   });
 });
@@ -102,7 +103,7 @@ describe("Fase I — Jalur Luar", () => {
     expect(first.pending?.kind).toBe("kejutan");
     expect(card<KejutanCard>((first.pending as { cardId: string }).cardId).sub).toBe("peristiwa");
     const s2 = createGame(cfg(), 4);
-    s2.players[p.id].outerPos = p.area * 15 + 5;
+    checkedAt(s2.players, p.id).outerPos = p.area * 15 + 5;
     const second = reduce(s2, { type: "ROLL", value: 5 }); // → petak ke-11 area asal
     expect(second.pending?.kind).toBe("kejutan");
     expect(card<KejutanCard>((second.pending as { cardId: string }).cardId).sub).toBe("kesempatan");
@@ -112,7 +113,7 @@ describe("Fase I — Jalur Luar", () => {
     const s = createGame(cfg(), 4);
     const p = currentPlayer(s);
     const n = reduce(s, { type: "ROLL", value: 1 }); // START → petak ke-1 (polos)
-    expect(n.players[p.id].outerPos).toBe(p.area * 15);
+    expect(checkedAt(n.players, p.id).outerPos).toBe(p.area * 15);
     expect(n.pending).toBeNull();
     expect(n.stage).toBe("end");
     expect(checkInvariants(n)).toEqual([]);
@@ -123,9 +124,9 @@ describe("Fase I — Jalur Luar", () => {
       const s = createGame(cfg(), 3);
       const p = currentPlayer(s);
       const c = card<AspirasiCard>(`A${level}-2-1`);
-      const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer! });
+      const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer });
       expect(handCount(next, p.id)).toBe(2);
-      expect(next.players[p.id].areaTokens[2]).toBe(true);
+      expect(checkedAt(checkedAt(next.players, p.id).areaTokens, 2)).toBe(true);
     }
   });
 
@@ -134,7 +135,7 @@ describe("Fase I — Jalur Luar", () => {
       const s = createGame(cfg(), 5);
       const p = currentPlayer(s);
       const c = card<AspirasiCard>("A3-0-1");
-      const next = reduce(land(s, "aspirasi", c.id, 0), { type: "ANSWER", choice: c.weights!.indexOf(w) });
+      const next = reduce(land(s, "aspirasi", c.id, 0), { type: "ANSWER", choice: c.weights.indexOf(w) });
       expect(handCount(next, p.id)).toBe(gain);
     }
   });
@@ -144,7 +145,7 @@ describe("Fase I — Jalur Luar", () => {
     const p = currentPlayer(s);
     giveHand(s, (p.id + 1) % 5, 19, 2); // stok Ekonomi tinggal 1
     const c = card<AspirasiCard>("A1-2-1");
-    const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer! });
+    const next = reduce(land(s, "aspirasi", c.id, 2), { type: "ANSWER", choice: c.answer });
     expect(handCount(next, p.id)).toBe(1);
     expect(stockCount(next, 2)).toBe(0);
     expect(checkInvariants(next)).toEqual([]);
@@ -155,7 +156,7 @@ describe("Fase I — Jalur Luar", () => {
       const s = createGame(cfg(), 4);
       const p = currentPlayer(s);
       const c = card<DemokrasiCard>(id);
-      const next = reduce(land(s, kind, id, 1), { type: "ANSWER", choice: c.answer! });
+      const next = reduce(land(s, kind, id, 1), { type: "ANSWER", choice: c.answer });
       expect(handCount(next, p.id)).toBe(2);
     }
   });
@@ -163,14 +164,14 @@ describe("Fase I — Jalur Luar", () => {
   it("syarat Gerbang hanya 16 suara di tangan, tanpa wajib Token Area", () => {
     const s = createGame(cfg(), 6);
     const p = currentPlayer(s);
-    s.players[p.id].outerPos = 0;
+    checkedAt(s.players, p.id).outerPos = 0;
     giveHand(s, p.id, 15);
-    expect(reduce(s, { type: "ROLL", value: 2 }).players[p.id].phase).toBe("outer");
+    expect(checkedAt(reduce(s, { type: "ROLL", value: 2 }).players, p.id).phase).toBe("outer");
     giveHand(s, p.id, 1);
     const n = reduce(s, { type: "ROLL", value: 2 });
-    expect(n.players[p.id].areaTokens.some(Boolean)).toBe(false);
-    expect(n.players[p.id].phase).toBe("gate");
-    expect(n.players[p.id].gatePos).toBe(2);
+    expect(checkedAt(n.players, p.id).areaTokens.some(Boolean)).toBe(false);
+    expect(checkedAt(n.players, p.id).phase).toBe("gate");
+    expect(checkedAt(n.players, p.id).gatePos).toBe(2);
   });
 });
 
@@ -179,15 +180,15 @@ describe("Fase II — Gerbang Demokrasi", () => {
     const s = createGame(cfg(), 8);
     const p = currentPlayer(s);
     giveHand(s, p.id, 6, p.area);
-    s.players[p.id].phase = "gate";
-    s.players[p.id].gatePos = 2;
+    checkedAt(s.players, p.id).phase = "gate";
+    checkedAt(s.players, p.id).gatePos = 2;
     s.stage = "pending";
     s.pending = { kind: "putusan", cardId: "PR-1", votes: {} };
     expect(card<PutusanCard>("PR-1").lighter).toBe("a");
     const voters = votersFor(s, p.id);
     let n = s;
-    [0, 0, 1, 1].forEach((choice, i) => (n = reduce(n, { type: "VOTE", voter: voters[i], choice })));
-    expect(n.players[p.id].gatePos).toBe(3);
+    [0, 0, 1, 1].forEach((choice, i) => (n = reduce(n, { type: "VOTE", voter: checkedAt(voters, i), choice })));
+    expect(checkedAt(n.players, p.id).gatePos).toBe(3);
   });
 
   it("pemain target tidak boleh memilih dirinya sendiri", () => {
@@ -201,15 +202,15 @@ describe("Fase II — Gerbang Demokrasi", () => {
   it("dadu melampaui petak ke-5 langsung mengisi Gerbang Aman", () => {
     const s = createGame(cfg(), 10);
     const p = currentPlayer(s);
-    s.players[p.id].phase = "gate";
-    s.players[p.id].gatePos = 3;
+    checkedAt(s.players, p.id).phase = "gate";
+    checkedAt(s.players, p.id).gatePos = 3;
     const n = reduce(s, { type: "ROLL", value: 3 });
-    expect(n.players[p.id].phase).toBe("pentagon");
-    expect(n.players[p.id].pentRound).toBe(1);
-    expect(n.players[p.id].pentSteps).toBe(0);
+    expect(checkedAt(n.players, p.id).phase).toBe("pentagon");
+    expect(checkedAt(n.players, p.id).pentRound).toBe(1);
+    expect(checkedAt(n.players, p.id).pentSteps).toBe(0);
     expect(n.pending).toBeNull();
     const exact = reduce(s, { type: "ROLL", value: 2 });
-    expect(exact.players[p.id].gatePos).toBe(5);
+    expect(checkedAt(exact.players, p.id).gatePos).toBe(5);
     expect(exact.pending?.kind).toBe("putusan");
   });
 });
@@ -217,7 +218,7 @@ describe("Fase II — Gerbang Demokrasi", () => {
 describe("Fase III — Pentagon Putaran 1", () => {
   function inPentagon(seed: number, hand: number, round = 1) {
     const s = createGame(cfg(), seed);
-    const p = s.players[currentPlayer(s).id];
+    const p = checkedAt(s.players, currentPlayer(s).id);
     p.phase = "pentagon";
     p.pentRound = round;
     p.pentSteps = 0;
@@ -244,7 +245,7 @@ describe("Fase III — Pentagon Putaran 1", () => {
     n = reduce(n, { type: "CLAIM", accept: true });
     expect(handCount(n, p.id)).toBe(0);
     expect(legalVotes(n, p.id)).toBe(4);
-    expect(n.players[p.id].phase).toBe("pentagon");
+    expect(checkedAt(n.players, p.id).phase).toBe("pentagon");
   });
 
   it("maksimal 5 petak per pemain", () => {
@@ -252,7 +253,7 @@ describe("Fase III — Pentagon Putaran 1", () => {
     [1, 2, 3, 5, 6].forEach((k) => ownSpace(s, p.id, (safeGateOf(p.area) + k) % PENT_TOTAL));
     p.pentSteps = 6;
     const n = reduce(s, { type: "ROLL", value: 1 }); // petak netral P+7
-    expect(n.spaces[(safeGateOf(p.area) + 7) % PENT_TOTAL]).toBeNull();
+    expect(checkedAt(n.spaces, (safeGateOf(p.area) + 7) % PENT_TOTAL)).toBeNull();
     expect(n.pending?.kind).not.toBe("claim");
   });
 
@@ -267,7 +268,7 @@ describe("Fase III — Pentagon Putaran 1", () => {
 describe("Fase Kompetisi — Pentagon Putaran 2", () => {
   function duelSetup(seed: number, hand: number) {
     const s = createGame(cfg(), seed);
-    const p = s.players[currentPlayer(s).id];
+    const p = checkedAt(s.players, currentPlayer(s).id);
     p.phase = "pentagon";
     p.pentRound = 2;
     giveHand(s, p.id, hand);
@@ -305,7 +306,7 @@ describe("Fase Kompetisi — Pentagon Putaran 2", () => {
     const sp = (safeGateOf(p.area) + 2) % PENT_TOTAL;
     ownSpace(s, owner, sp);
     const n = answerDuel(reduce(s, { type: "ROLL", value: 2 }), true, false);
-    expect(n.spaces[sp]).toBe(p.id);
+    expect(checkedAt(n.spaces, sp)).toBe(p.id);
     expect(escrowCount(n, sp)).toBe(4);
     expect(legalVotes(n, p.id)).toBe(7);
     expect(legalVotes(n, owner)).toBe(0);
@@ -319,7 +320,7 @@ describe("Fase Kompetisi — Pentagon Putaran 2", () => {
     const n = answerDuel(reduce(s, { type: "ROLL", value: 2 }), true, true);
     expect(handCount(n, p.id)).toBe(1);
     expect(handCount(n, owner)).toBe(2);
-    expect(n.spaces[sp]).toBe(owner);
+    expect(checkedAt(n.spaces, sp)).toBe(owner);
   });
 
   it("perebutan gagal tanpa suara di tangan: wajib merelakan 1 petak", () => {
@@ -329,7 +330,7 @@ describe("Fase Kompetisi — Pentagon Putaran 2", () => {
     ownSpace(s, owner, sp);
     ownSpace(s, p.id, mine);
     const n = answerDuel(reduce(s, { type: "ROLL", value: 2 }), false, true);
-    expect(n.spaces[mine]).toBe(owner);
+    expect(checkedAt(n.spaces, mine)).toBe(owner);
     expect(legalVotes(n, owner)).toBe(8);
     expect(legalVotes(n, p.id)).toBe(0);
   });
@@ -345,7 +346,7 @@ describe("Fase Kompetisi — Pentagon Putaran 2", () => {
     const pend = n.pending as Extract<GameState["pending"], { kind: "forfeit" }>;
     const homeIdx = pend.options.findIndex((o) => o.type === "home");
     n = reduce(n, { type: "FORFEIT", player: home, option: homeIdx });
-    expect(n.homeOwner[home]).toBe(p.id);
+    expect(checkedAt(n.homeOwner, home)).toBe(p.id);
     expect(legalVotes(n, home)).toBe(4); // tanpa memberi suara
     expect(checkInvariants(n)).toEqual([]);
   });
@@ -366,7 +367,7 @@ describe("Fase Kompetisi — Pentagon Putaran 2", () => {
     ownSpace(s, p.id, mine);
     ownSpace(s, owner, sp);
     const n = answerDuel(reduce(s, { type: "ROLL", value: 2 }), false, true);
-    expect(n.players[p.id].phase).toBe("out");
+    expect(checkedAt(n.players, p.id).phase).toBe("out");
     expect(votersFor(n, owner)).not.toContain(p.id);
   });
 });
@@ -418,7 +419,7 @@ describe("Hasil akhir", () => {
     const p = currentPlayer(s);
     const c = card<AspirasiCard>("A1-0-1");
     land(s, "aspirasi", c.id, 0);
-    const a = { type: "ANSWER" as const, choice: c.answer!, id: "klik-1" };
+    const a = { type: "ANSWER" as const, choice: c.answer, id: "klik-1" };
     const n1 = reduce(s, a);
     const n2 = reduce(n1, a);
     expect(n2).toBe(n1);

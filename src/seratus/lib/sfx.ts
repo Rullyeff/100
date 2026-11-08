@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 /**
  * Game sound effects, synthesized with the Web Audio API (no audio files to load).
  * Presentation-only: nothing here reads or changes game state.
@@ -74,7 +75,7 @@ function audio(): AudioContext | null {
 /** Browsers only allow sound after a user gesture; call this from a pointer/keyboard handler. */
 export function unlockAudio() { audio(); startMusic(); }
 
-function tone(c: AudioContext, at: number, freq: number, dur: number, vol: number, type: OscillatorType = "sine", endFreq?: number, dest: AudioNode = master!) {
+function tone(c: AudioContext, at: number, freq: number, dur: number, vol: number, type: OscillatorType = "sine", endFreq?: number, dest: AudioNode = master) {
   const o = c.createOscillator();
   const g = c.createGain();
   o.type = type;
@@ -88,7 +89,7 @@ function tone(c: AudioContext, at: number, freq: number, dur: number, vol: numbe
   o.stop(at + dur + 0.02);
 }
 
-function burst(c: AudioContext, at: number, dur: number, vol: number, freq: number, q = 1, endFreq?: number, dest: AudioNode = master!) {
+function burst(c: AudioContext, at: number, dur: number, vol: number, freq: number, q = 1, endFreq?: number, dest: AudioNode = master) {
   const src = c.createBufferSource();
   src.buffer = noise;
   src.playbackRate.value = 0.8 + Math.random() * 0.4;
@@ -180,7 +181,7 @@ function lead(c: AudioContext, at: number, midi: number, dur: number, vol: numbe
   g.gain.exponentialRampToValueAtTime(vol, at + 0.01);
   g.gain.setValueAtTime(vol * 0.8, at + Math.max(0.02, dur - 0.04));
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
-  filter.connect(g).connect(musicBus!);
+  filter.connect(g).connect(musicBus);
   ([["square", 1], ["sawtooth", 1.006]] as const).forEach(([type, m]) => {
     const o = c.createOscillator();
     o.type = type;
@@ -200,7 +201,7 @@ function synthBass(c: AudioContext, at: number, midi: number, dur: number, vol: 
   const g = c.createGain();
   g.gain.setValueAtTime(vol, at);
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
-  filter.connect(g).connect(musicBus!);
+  filter.connect(g).connect(musicBus);
   const o = c.createOscillator();
   o.type = "sawtooth";
   o.frequency.value = midiHz(midi);
@@ -217,7 +218,7 @@ function stab(c: AudioContext, at: number, notes: number[], dur: number, vol: nu
   const g = c.createGain();
   g.gain.setValueAtTime(vol, at);
   g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
-  filter.connect(g).connect(musicBus!);
+  filter.connect(g).connect(musicBus);
   notes.forEach((m) => {
     const o = c.createOscillator();
     o.type = "sawtooth";
@@ -228,12 +229,12 @@ function stab(c: AudioContext, at: number, notes: number[], dur: number, vol: nu
   });
 }
 
-function kick(c: AudioContext, at: number, vol: number) { tone(c, at, 150, 0.22, vol, "sine", 45, musicBus!); }
+function kick(c: AudioContext, at: number, vol: number) { tone(c, at, 150, 0.22, vol, "sine", 45, musicBus); }
 function snare(c: AudioContext, at: number, vol: number) {
-  burst(c, at, 0.14, vol, 2200, 0.7, undefined, musicBus!);
-  tone(c, at, 220, 0.08, vol * 0.4, "triangle", 160, musicBus!);
+  burst(c, at, 0.14, vol, 2200, 0.7, undefined, musicBus);
+  tone(c, at, 220, 0.08, vol * 0.4, "triangle", 160, musicBus);
 }
-function hat(c: AudioContext, at: number, vol: number) { burst(c, at, 0.035, vol, 8000, 2, undefined, musicBus!); }
+function hat(c: AudioContext, at: number, vol: number) { burst(c, at, 0.035, vol, 8000, 2, undefined, musicBus); }
 
 type Chord = { bass: number; tones: number[] };
 const CH: Record<string, Chord> = {
@@ -279,14 +280,14 @@ function playBeat(c: AudioContext, t: number, step: number, song: Song) {
   const BEAT = song.beat;
   const barIdx = Math.floor(step / 8) % song.bars.length;
   const i = step % 8;
-  const bar = song.bars[barIdx];
+  const bar = checkedAt(song.bars, barIdx);
   const chord = CH[bar.chord];
-  const note = bar.lead[i];
+  const note = checkedAt(bar.lead, i);
   const k = song.calm ? 0.75 : 1;
 
   if (note) {
     let holds = 0;
-    while (i + holds + 1 < 8 && bar.lead[i + holds + 1] === null) holds++;
+    while (i + holds + 1 < 8 && checkedAt(bar.lead, i + holds + 1) === null) holds++;
     lead(c, t, note, BEAT * (holds + 1) * 0.92, 0.05 * k);
   }
   // Driving eighth-note bass, octave bounce.

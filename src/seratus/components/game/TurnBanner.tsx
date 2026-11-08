@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { BookOpen, Dices, Vote, Hand } from "lucide-react";
 import { currentPlayer, type GameState } from "@/seratus/game/view";
 import { cn } from "@/lib/utils";
@@ -8,7 +9,7 @@ const READ_KINDS = new Set(["aspirasi", "cekfakta", "misi", "dilema", "refleksi"
 /** Presentation-only: who is playing now and what they're doing (reading, voting, rolling). */
 export function activityOf(s: GameState, actor: number | "host" | null) {
   const cur = currentPlayer(s);
-  const who = typeof actor === "number" ? s.players[actor] : cur;
+  const who = typeof actor === "number" ? checkedAt(s.players, actor) : cur;
   const kind = s.pending?.kind;
   if (s.stage === "roll") return { who, Icon: Dices, text: "bersiap melempar dadu", reading: false };
   if (s.stage === "end") return { who, Icon: Hand, text: "melihat hasil giliran", reading: false };

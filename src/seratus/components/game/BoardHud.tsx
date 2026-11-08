@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { CheckCircle2, Coins, Flag, History, RotateCw } from "lucide-react";
 import { currentPlayer, GATE_LEN, PENT_TOTAL, type GameState } from "@/seratus/game/view";
 import { cn } from "@/lib/utils";
@@ -56,7 +57,7 @@ export function BoardStatus({ state }: { state: GameState }) {
         {latest.map((e, i) => (
           <li key={state.log.length - i} className={cn(TONE[e.tone])} title={e.text}>
             <span aria-hidden>{icon(e)}</span>
-            {e.who !== undefined && <i className={AREA_BG[state.players[e.who].area]} />}
+            {e.who !== undefined && <i className={checkedAt(AREA_BG, checkedAt(state.players, e.who).area)} />}
             <span className="bhud-log-text">{e.text}</span>
           </li>
         ))}

@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { CheckCircle2, Coins, Flag, RotateCw } from "lucide-react";
 import {
   AREAS,
@@ -21,11 +22,11 @@ export function instruction(s: GameState): string {
     const k = s.pending?.kind;
     if (k === "putusan" || (k === "forum" && s.pending && "stance" in s.pending && s.pending.stance !== null)) {
       const a = getActor(s);
-      return typeof a === "number" ? `${s.players[a].name} memberi suara rahasia` : "Voting berlangsung";
+      return typeof a === "number" ? `${checkedAt(s.players, a).name} memberi suara rahasia` : "Voting berlangsung";
     }
     if (k === "claim") return "Putuskan klaim petak Pentagon (jaminkan 4 suara)";
     if (k === "duel") return "Duel: kedua pemain mengunci jawaban";
-    if (k === "forfeit" && s.pending?.kind === "forfeit") return `${s.players[s.pending.payer].name} memilih apa yang diserahkan`;
+    if (k === "forfeit" && s.pending?.kind === "forfeit") return `${checkedAt(s.players, s.pending.payer).name} memilih apa yang diserahkan`;
     return "Ambil kartu dan jawab pertanyaan";
   }
   if (p.phase === "outer") return isEligibleForGate(s, p) ? "Lempar dadu untuk masuk Gerbang Demokrasi" : "Lempar dadu dan melangkah ke area";
@@ -70,9 +71,9 @@ export function HudStrip({ state }: { state: GameState }) {
           </div>
         </div>
         <div className="mt-2 flex flex-wrap gap-1 text-[10px] text-muted-foreground">
-          <span className="rounded bg-muted px-1.5">Luar {phases[0]}</span>
-          <span className="rounded bg-muted px-1.5">Gerbang {phases[1]}</span>
-          <span className="rounded bg-muted px-1.5">Pentagon {phases[2]}</span>
+          <span className="rounded bg-muted px-1.5">Luar {checkedAt(phases, 0)}</span>
+          <span className="rounded bg-muted px-1.5">Gerbang {checkedAt(phases, 1)}</span>
+          <span className="rounded bg-muted px-1.5">Pentagon {checkedAt(phases, 2)}</span>
         </div>
       </Hud>
       <Hud label="Total Suara">
@@ -92,7 +93,7 @@ export function HudStrip({ state }: { state: GameState }) {
         </div>
         <div className="mt-2 flex h-2 gap-0.5 overflow-hidden rounded-full bg-muted" title="Sisa stok per area">
           {stocks.map((n, i) => (
-            <div key={i} className={cn("h-full", AREA_BG[i])} style={{ width: `${n}%` }} title={`${AREAS[i].name}: ${n}/20`} />
+            <div key={i} className={cn("h-full", checkedAt(AREA_BG, i))} style={{ width: `${n}%` }} title={`${checkedAt(AREAS, i).name}: ${n}/20`} />
           ))}
         </div>
       </Hud>

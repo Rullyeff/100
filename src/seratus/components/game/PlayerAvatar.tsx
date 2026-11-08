@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { cn } from "@/lib/utils";
 import { currentPlayer, type GameState, type Player } from "@/seratus/game/view";
 import { AREA_BG } from "./theme";
@@ -115,7 +116,7 @@ export function PlayerAvatar({
       className={cn("avatar relative inline-flex shrink-0", `avatar-${mood}`, className)}
       style={{ width: size, height: size }}
     >
-      <span className={cn("avatar-ball absolute inset-0 overflow-hidden rounded-full", AREA_BG[area], dim && "grayscale")}>
+      <span className={cn("avatar-ball absolute inset-0 overflow-hidden rounded-full", checkedAt(AREA_BG, area), dim && "grayscale")}>
         <img src={a.src} alt="" width={size} height={size} loading="lazy" className="avatar-face absolute inset-x-0 bottom-0 size-full object-cover object-top" />
         <span className="avatar-gloss absolute inset-0 rounded-full" />
       </span>

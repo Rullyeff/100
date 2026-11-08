@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { render, screen, act } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createGame } from '@/seratus/game/engine';
@@ -11,7 +12,7 @@ describe('chibi presentation lifecycle', () => {
     const initial = createGame(Array.from({ length: 5 }, (_, i) => ({ name: `P${i}`, isBot: false })), 1);
     const content = (state: typeof initial) => <ArcadeReactions state={state} sender={0}><PlayerAvatar area={0} playerId={0} /></ArcadeReactions>;
     const view = render(content(initial));
-    const after = structuredClone(initial); after.version++; after.players[0].phase = 'out';
+    const after = structuredClone(initial); after.version++; checkedAt(after.players, 0).phase = 'out';
     view.rerender(content(after));
     expect(screen.getByRole('img', { name: /menangis/ })).toBeInTheDocument();
     act(() => vi.advanceTimersByTime(3300));

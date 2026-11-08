@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useEffect, useState, type ReactNode } from "react";
 import { History, PanelRightClose } from "lucide-react";
 import type { GameState, LogEntry } from "@/seratus/game/engine";
@@ -47,7 +48,7 @@ function Row({ e, players }: { e: LogEntry; players: GameState["players"] }) {
       <span className="w-5 shrink-0 text-center" aria-hidden>
         {icon(e)}
       </span>
-      {e.who !== undefined && <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", AREA_BG[players[e.who].area])} />}
+      {e.who !== undefined && <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", checkedAt(AREA_BG, checkedAt(players, e.who).area))} />}
       <span className={cn("min-w-0 flex-1", TONE[e.tone])}>{e.text}</span>
     </li>
   );

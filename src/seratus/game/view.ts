@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 // Browser-safe shared rule definitions: types, constants and read-only helpers.
 // The reducer (engine.ts) imports these; answer keys stay in engine/cards.
 import { PENT_TOTAL, outerType, outerArea, safeGateOf, safeGateArea, type OuterType } from "./board-config";
@@ -170,7 +171,7 @@ export const homeOwnerOf = (s: GameState, area: number) =>
 export const homesOwned = (s: GameState, pid: number) =>
   [0, 1, 2, 3, 4].filter((a) => homeOwnerOf(s, a) === pid);
 
-export const currentPlayer = (s: GameState) => s.players[s.order[s.turnIdx]];
+export const currentPlayer = (s: GameState) => checkedAt(s.players, checkedAt(s.order, s.turnIdx));
 export const isAlive = (p: Player) => p.phase !== "out";
 
 export const isEligibleForGate = (s: GameState, p: Player) =>
@@ -183,7 +184,7 @@ export const canClaim = (s: GameState, p: Player) =>
 /** Pemilih Putusan Rakyat: pemain lain yang belum gugur, searah urutan giliran. */
 export const votersFor = (s: GameState, target: number) => {
   const start = s.order.indexOf(target);
-  return [1, 2, 3, 4].map((k) => s.order[(start + k) % 5]).filter((id) => isAlive(s.players[id]));
+  return [1, 2, 3, 4].map((k) => checkedAt(s.order, (start + k) % 5)).filter((id) => isAlive(checkedAt(s.players, id)));
 };
 
 const OUTER_NAME: Record<OuterType, string> = {
@@ -196,17 +197,17 @@ const OUTER_NAME: Record<OuterType, string> = {
 };
 export function describePosition(p: Player): string {
   if (p.phase === "outer")
-    return p.outerPos < 0 ? "START" : `area ${AREAS[outerArea(p.outerPos)].name} (L${p.outerPos + 1} · ${OUTER_NAME[outerType(p.outerPos)]})`;
+    return p.outerPos < 0 ? "START" : `area ${checkedAt(AREAS, outerArea(p.outerPos)).name} (L${p.outerPos + 1} · ${OUTER_NAME[outerType(p.outerPos)]})`;
   if (p.phase === "gate") return `Gerbang Demokrasi petak ${p.gatePos}`;
   if (p.phase === "pentagon")
-    return p.pentSteps === 0 ? `Gerbang Aman ${AREAS[p.area].name} (putaran ${p.pentRound})` : `Pentagon P${pentSpaceOf(p) + 1} (putaran ${p.pentRound})`;
+    return p.pentSteps === 0 ? `Gerbang Aman ${checkedAt(AREAS, p.area).name} (putaran ${p.pentRound})` : `Pentagon P${pentSpaceOf(p) + 1} (putaran ${p.pentRound})`;
   if (p.phase === "out") return "gugur";
   return "Pusat Perhitungan";
 }
 export { safeGateArea as homeAreaOfSpace };
 
 export const fdtVoters = (s: GameState) =>
-  s.final ? s.order.filter((id) => !s.final?.finalists.includes(id) && isAlive(s.players[id])) : [];
+  s.final ? s.order.filter((id) => !s.final?.finalists.includes(id) && isAlive(checkedAt(s.players, id))) : [];
 
 // ---------- Actor ----------
 /** Siapa yang harus bertindak sekarang: id pemain, "host" (siapa pun), atau null. */
@@ -242,5 +243,5 @@ export function isSecretContext(s: GameState): boolean {
 export function forfeitLabel(s: GameState, o: ForfeitOption): string {
   if (o.type === "votes") return `Serahkan ${o.n} suara di tangan`;
   if (o.type === "space") return `Serahkan petak P${o.space + 1} beserta ${escrowCount(s, o.space)} suara jaminan`;
-  return `Serahkan Gerbang Aman ${AREAS[o.area].name} (tanpa suara)`;
+  return `Serahkan Gerbang Aman ${checkedAt(AREAS, o.area).name} (tanpa suara)`;
 }

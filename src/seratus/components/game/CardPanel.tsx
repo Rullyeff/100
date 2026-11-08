@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { useState, type ReactNode } from "react";
 import { Bot, Hand, Lock, Vote } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,7 @@ export function CardShell({
         <span className="rounded-full bg-primary-foreground/20 px-2 py-0.5 text-[11px] font-semibold">{kicker}</span>
         {area !== undefined && (
           <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-paper px-2 py-0.5 text-[11px] font-bold text-foreground">
-            <span className={cn("size-2.5 rounded-full", AREA_BG[area])} /> {AREAS[area].name}
+            <span className={cn("size-2.5 rounded-full", checkedAt(AREA_BG, area))} /> {checkedAt(AREAS, area).name}
           </span>
         )}
       </div>
@@ -80,7 +81,7 @@ function Mcq({ options, disabled, onLock }: { options: string[]; disabled?: bool
             )}
           >
             <span className={cn("flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-extrabold", sel === i ? "bg-primary text-primary-foreground" : "bg-muted")}>
-              {LETTERS[i]}
+              {checkedAt(LETTERS, i)}
             </span>
             <span className="pt-0.5">{o}</span>
           </button>
@@ -186,13 +187,13 @@ function PendingView({
   dispatch: (a: Action) => void;
 }) {
   const p = currentPlayer(state);
-  const pend = state.pending!;
+  const pend = state.pending;
   const wait = !canAct && <BotThinking name={actorName} />;
 
   switch (pend.kind) {
     case "aspirasi": {
       const c = card<AspirasiCard>(pend.cardId);
-      const lvl = ["", "Mudah", "Sedang", "Sulit · SJT"][c.level];
+      const lvl = checkedAt(["", "Mudah", "Sedang", "Sulit · SJT"], c.level);
       const reward = c.level === 3 ? "Pilihan terbaik +2 suara" : "Benar +2 suara";
       return (
         <CardShell deck="A" kicker={lvl} area={pend.area} reward={`${reward}${p.areaTokens[pend.area] ? "" : " · Token Area"}`} code={c.code ?? c.id}>
@@ -226,7 +227,7 @@ function PendingView({
         return (
           <CardShell deck="D" kicker="Dilema Demokrasi · SJT" area={pend.area} reward={`Pilihan terbaik +2 suara${p.areaTokens[pend.area] ? "" : " · Token Area"}`} code={c.code ?? c.id}>
             <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
-            <Mcq options={c.options!} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
+            <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "ANSWER", choice: i })} />
             {wait}
           </CardShell>
         );
@@ -237,7 +238,7 @@ function PendingView({
           <div className="grid gap-2 sm:grid-cols-2">
             {(c.choices ?? []).map((ch, i) => (
               <Button key={i} variant="outline" className="h-auto min-h-12 whitespace-normal rounded-xl border-2 py-2.5 text-left" disabled={!canAct} onClick={() => dispatch({ type: "ANSWER", choice: i })}>
-                <b className="mr-1">{LETTERS[i]}.</b> {ch.label}
+                <b className="mr-1">{checkedAt(LETTERS, i)}.</b> {ch.label}
               </Button>
             ))}
           </div>
@@ -293,7 +294,7 @@ function PendingView({
           {pend.stance === null ? (
             canAct ? (
               <div className="grid grid-cols-2 gap-2">
-                {c.options!.map((o, i) => (
+                {c.options.map((o, i) => (
                   <Button key={i} size="lg" variant="outline" onClick={() => dispatch({ type: "FORUM_STANCE", choice: i })}>
                     {o}
                   </Button>
@@ -305,15 +306,15 @@ function PendingView({
           ) : (
             <>
               <p className="text-sm">
-                {p.name} menyatakan <b>{c.options![pend.stance]}</b> dan menyampaikan argumen. Apakah forum mendukung?
+                {p.name} menyatakan <b>{checkedAt(c.options, pend.stance)}</b> dan menyampaikan argumen. Apakah forum mendukung?
               </p>
               <VoteCounter n={n} />
               {canAct ? (
                 <div className="space-y-2">
                   <div className="text-sm font-semibold">Pemilih: {actorName}</div>
                   <div className="grid grid-cols-2 gap-2">
-                    <Button size="lg" onClick={() => dispatch({ type: "VOTE", voter: actor!, choice: 0 })}>Dukung</Button>
-                    <Button size="lg" variant="outline" onClick={() => dispatch({ type: "VOTE", voter: actor!, choice: 1 })}>
+                    <Button size="lg" onClick={() => dispatch({ type: "VOTE", voter: actor, choice: 0 })}>Dukung</Button>
+                    <Button size="lg" variant="outline" onClick={() => dispatch({ type: "VOTE", voter: actor, choice: 1 })}>
                       Tidak mendukung
                     </Button>
                   </div>
@@ -338,10 +339,10 @@ function PendingView({
               <button
                 key={k}
                 disabled={!canAct}
-                onClick={() => dispatch({ type: "VOTE", voter: actor!, choice: i })}
+                onClick={() => dispatch({ type: "VOTE", voter: actor, choice: i })}
                 className="flex min-h-12 items-start gap-2.5 rounded-xl border-2 bg-card px-3 py-2.5 text-left text-sm transition-all hover:border-gold hover:bg-accent disabled:opacity-60"
               >
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-extrabold">{LETTERS[i]}</span>
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-extrabold">{checkedAt(LETTERS, i)}</span>
                 <span className="flex-1 pt-0.5">{c[k].label}</span>
                 {c.lighter === k && <span className="rounded bg-gold/25 px-1.5 text-[10px] font-semibold">lebih ringan</span>}
               </button>
@@ -380,8 +381,8 @@ function PendingView({
         </CardShell>
       );
     case "forfeit": {
-      const payer = state.players[pend.payer];
-      const receiver = state.players[pend.receiver];
+      const payer = checkedAt(state.players, pend.payer);
+      const receiver = checkedAt(state.players, pend.receiver);
       return (
         <CardShell deck="P" kicker={`Hasil Duel · P${pend.space + 1}`} area={payer.area} reward={`Diserahkan kepada ${receiver.name}`}>
           <p className="text-base font-semibold">{pend.reason}.</p>
@@ -402,7 +403,7 @@ function PendingView({
     }
     case "duel": {
       const c = card<McqCard>(pend.cardId);
-      const opp = state.players[pend.opponent];
+      const opp = checkedAt(state.players, pend.opponent);
       const reward = pend.home
         ? `Menang: ${opp.name} serahkan Gerbang Aman atau 1 petak · Kalah: serahkan ${HOME_PENALTY} suara atau 1 petak`
         : `Menang: rebut petak + ${CLAIM_COST} suara jaminan · Kalah: serahkan ${CONTEST_PENALTY} suara`;
@@ -411,7 +412,7 @@ function PendingView({
           <p className="text-base font-semibold leading-relaxed">{c.prompt}</p>
           <p className="text-xs text-muted-foreground">Jawaban terkunci: {Object.keys(pend.answers).length}/2 — hasil dibuka bersama.</p>
           {canAct && <div className="text-sm font-semibold">Penjawab: {actorName}</div>}
-          <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "DUEL_ANSWER", player: actor!, choice: i })} />
+          <Mcq options={c.options} disabled={!canAct} onLock={(i) => dispatch({ type: "DUEL_ANSWER", player: actor, choice: i })} />
           {wait}
         </CardShell>
       );
@@ -461,7 +462,7 @@ export function ResultCard({ r }: { r: LastResult }) {
                 i === r.correct ? "border-success bg-success/10 font-semibold" : i === r.choice ? "border-destructive bg-destructive/10" : "text-muted-foreground",
               )}
             >
-              <span className="font-bold">{LETTERS[i]}</span>
+              <span className="font-bold">{checkedAt(LETTERS, i)}</span>
               <span className="flex-1">{o}</span>
               {i === r.correct && <span>✓ terbaik</span>}
               {i === r.choice && i !== r.correct && <span>dipilih</span>}

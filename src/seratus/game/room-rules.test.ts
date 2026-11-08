@@ -1,3 +1,4 @@
+import { checkedAt } from "@/seratus/lib/checked-at";
 import { describe,it,expect } from 'vitest';
 import { createGame, currentPlayer, reduce, votersFor, checkInvariants } from './engine';
 import { authorizeRoomAction,redactGame,viewerActor } from './room-rules';
@@ -12,8 +13,8 @@ describe('Ruang privat BPIC',()=>{
  it('empat pemilih dapat memilih tanpa menunggu urutan',()=>{
   const s=createGame(cfg,10);s.stage='pending';s.pending={kind:'putusan',cardId:'PR-1',votes:{}};
   const voters=votersFor(s,currentPlayer(s).id);
-  expect(viewerActor(s,voters[3],false)).toBe(voters[3]);
-  const a=authorizeRoomAction(s,{type:'VOTE',voter:voters[3],choice:1},voters[3],false);
+  expect(viewerActor(s,checkedAt(voters, 3),false)).toBe(checkedAt(voters, 3));
+  const a=authorizeRoomAction(s,{type:'VOTE',voter:checkedAt(voters, 3),choice:1},checkedAt(voters, 3),false);
   const n=reduce(s,a);expect(n.pending?.kind).toBe('putusan');expect(checkInvariants(n)).toEqual([]);
   expect(roomContextKey(n)).toBe(roomContextKey(s));
  });
