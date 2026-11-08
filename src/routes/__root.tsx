@@ -128,7 +128,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const isSeratus = useRouterState({ select: (s) => s.location.pathname.startsWith('/seratus') });
-  useEffect(() => { if (isSeratus) return installSfx(); }, [isSeratus]);
+  useEffect(() => { return isSeratus ? installSfx() : undefined; }, [isSeratus]);
 
   return (
     <QueryClientProvider client={queryClient}>
