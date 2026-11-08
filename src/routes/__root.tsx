@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -12,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { installSfx } from '@/seratus/lib/sfx';
 
 function NotFoundComponent() {
   return (
@@ -93,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lilita+One&family=Nunito:wght@500;700;800;900&display=swap",
       },
       {
         rel: "stylesheet",
@@ -109,8 +111,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const isSeratus = useRouterState({ select: (s) => s.location.pathname.startsWith('/seratus') });
   return (
-    <html lang="id">
+    <html lang="id" className={isSeratus ? 'seratus-app' : undefined}>
       <head>
         <HeadContent />
       </head>
@@ -124,6 +127,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isSeratus = useRouterState({ select: (s) => s.location.pathname.startsWith('/seratus') });
+  useEffect(() => { return isSeratus ? installSfx() : undefined; }, [isSeratus]);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,0 +1,1585 @@
+/*
+ * 100 SUARA — Bangun Bangsa. Navy + emas di atas krem terang,
+ * warna dek (A/D/K/P) dan lima warna area sesuai dokumen rancangan.
+ */
+
+@theme inline {
+  --color-gold-foreground: var(--gold-foreground);
+  --color-success: var(--success);
+  --color-deck-a: var(--deck-a);
+  --color-deck-d: var(--deck-d);
+  --color-deck-k: var(--deck-k);
+  --color-deck-p: var(--deck-p);
+  --color-deck-r: var(--deck-r);
+  --color-area-0: var(--area-0);
+  --color-area-1: var(--area-1);
+  --color-area-2: var(--area-2);
+  --color-area-3: var(--area-3);
+  --color-area-4: var(--area-4);
+  --color-board: var(--board);
+  --color-board-line: var(--board-line);
+  --color-on-deck: var(--on-deck);
+  --color-home-ink: var(--home-ink);
+  --color-home-accent: var(--home-accent);
+}
+
+html.seratus-app {
+  --radius: 0.75rem;
+  --home-ink: var(--foreground);
+  --home-accent: var(--primary);
+  --home-mint: var(--background);
+  --home-wash: linear-gradient(90deg, var(--home-mint), color-mix(in oklab, var(--home-mint) 92%, transparent) 28%, transparent 58%);
+  --background: oklch(0.975 0.004 250);
+  --foreground: oklch(0.25 0.06 255);
+  --card: oklch(0.995 0.002 250);
+  --card-foreground: oklch(0.25 0.06 255);
+  --popover: oklch(0.995 0.005 85);
+  --popover-foreground: oklch(0.25 0.06 255);
+  --primary: oklch(0.29 0.08 255);
+  --primary-foreground: oklch(0.98 0.01 85);
+  --secondary: oklch(0.94 0.02 85);
+  --secondary-foreground: oklch(0.29 0.08 255);
+  --muted: oklch(0.945 0.015 85);
+  --muted-foreground: oklch(0.48 0.04 255);
+  --accent: oklch(0.93 0.04 80);
+  --accent-foreground: oklch(0.29 0.08 255);
+  --destructive: oklch(0.53 0.19 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.89 0.02 85);
+  --input: oklch(0.89 0.02 85);
+  --ring: oklch(0.71 0.12 80);
+  --gold: oklch(0.71 0.12 80);
+  --gold-foreground: oklch(0.25 0.06 255);
+  --success: oklch(0.55 0.13 155);
+
+  --deck-a: oklch(0.52 0.14 252);
+  --deck-d: oklch(0.48 0.08 190);
+  --deck-k: oklch(0.66 0.16 55);
+  --deck-p: oklch(0.44 0.15 300);
+  --deck-r: oklch(0.5 0.15 140);
+
+  --area-0: oklch(0.56 0.15 250);
+  --area-1: oklch(0.58 0.15 150);
+  --area-2: oklch(0.5 0.17 305);
+  --area-3: oklch(0.56 0.2 25);
+  --area-4: oklch(0.8 0.15 88);
+
+  --board: oklch(0.96 0.02 85);
+  --board-line: oklch(0.29 0.08 255 / 25%);
+  --paper: oklch(1 0 0);
+  --on-deck: oklch(0.98 0.01 85);
+
+  --chart-1: var(--area-0);
+  --chart-2: var(--area-1);
+  --chart-3: var(--area-2);
+  --chart-4: var(--area-3);
+  --chart-5: var(--area-4);
+  --sidebar: oklch(0.96 0.015 85);
+  --sidebar-foreground: oklch(0.25 0.06 255);
+  --sidebar-primary: oklch(0.29 0.08 255);
+  --sidebar-primary-foreground: oklch(0.98 0.01 85);
+  --sidebar-accent: oklch(0.93 0.04 80);
+  --sidebar-accent-foreground: oklch(0.29 0.08 255);
+  --sidebar-border: oklch(0.89 0.02 85);
+  --sidebar-ring: oklch(0.71 0.12 80);
+
+  --shadow-card: 0 1px 0 oklch(0.29 0.08 255 / 6%), 0 8px 24px -12px oklch(0.29 0.08 255 / 25%);
+  --gradient-hero: radial-gradient(ellipse at 70% 20%, oklch(0.36 0.09 255), oklch(0.24 0.07 258) 60%);
+}
+
+html.seratus-app.dark, html.seratus-app .dark {
+  --home-ink: var(--foreground);
+  --home-accent: var(--primary);
+  --background: oklch(0.2 0.04 258);
+  --foreground: oklch(0.95 0.01 85);
+  --card: oklch(0.25 0.05 258);
+  --card-foreground: oklch(0.95 0.01 85);
+  --popover: oklch(0.25 0.05 258);
+  --popover-foreground: oklch(0.95 0.01 85);
+  --primary: oklch(0.78 0.12 80);
+  --primary-foreground: oklch(0.2 0.04 258);
+  --secondary: oklch(0.3 0.05 258);
+  --secondary-foreground: oklch(0.95 0.01 85);
+  --muted: oklch(0.3 0.05 258);
+  --muted-foreground: oklch(0.75 0.03 255);
+  --accent: oklch(0.32 0.06 258);
+  --accent-foreground: oklch(0.95 0.01 85);
+  --destructive: oklch(0.65 0.19 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.71 0.12 80);
+  --board: oklch(0.26 0.05 258);
+  --board-line: oklch(1 0 0 / 20%);
+  --paper: oklch(0.3 0.05 258);
+}
+
+@layer base {
+  :where(html.seratus-app) * {
+    border-color: var(--color-border);
+  }
+
+  html.seratus-app body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  :where(html.seratus-app) h1,
+  :where(html.seratus-app) h2,
+  :where(html.seratus-app) h3,
+  :where(html.seratus-app) .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+@utility bg-hero {
+  background: var(--gradient-hero);
+}
+
+@theme {
+  --animate-dice-roll: dice-roll 0.6s ease-out;
+  --animate-card-in: card-in 0.35s ease-out;
+}
+
+@keyframes seratus-dice-roll {
+  0% { transform: rotate(0deg) scale(0.7); }
+  40% { transform: rotate(200deg) scale(1.15); }
+  70% { transform: rotate(320deg) scale(0.95); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes seratus-card-in {
+  from { transform: translateY(12px) rotate(-1deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@utility bg-card-weave {
+  background-image:
+    repeating-linear-gradient(45deg, oklch(1 0 0 / 7%) 0 2px, transparent 2px 8px),
+    repeating-linear-gradient(-45deg, oklch(1 0 0 / 7%) 0 2px, transparent 2px 8px);
+}
+
+/* Dadu 3D */
+:where(html.seratus-app) .dice3d-scene { perspective: 420px; position: relative; }
+:where(html.seratus-app) .dice3d-cube { position: absolute; inset: 0; transform-style: preserve-3d; }
+:where(html.seratus-app) .dice3d-face {
+  position: absolute; inset: 0; border-radius: 18%;
+  background: radial-gradient(circle at 30% 25%, var(--paper), color-mix(in oklab, var(--paper), var(--primary) 10%));
+  border: 2px solid color-mix(in oklab, var(--primary) 25%, var(--paper));
+  box-shadow: inset 0 0 10px color-mix(in oklab, var(--primary) 18%, transparent);
+  backface-visibility: hidden;
+}
+:where(html.seratus-app) .dice3d-pip {
+  position: absolute; width: 17%; height: 17%; border-radius: 9999px; transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 40% 35%, color-mix(in oklab, var(--primary), white 25%), var(--primary));
+  box-shadow: inset 0 2px 2px color-mix(in oklab, black 40%, transparent);
+}
+:where(html.seratus-app) .dice3d-face:first-child .dice3d-pip { background: radial-gradient(circle at 40% 35%, color-mix(in oklab, var(--destructive), white 25%), var(--destructive)); width: 22%; height: 22%; }
+:where(html.seratus-app) .dice3d-shadow {
+  position: absolute; left: 10%; right: 10%; bottom: -14px; height: 16px; border-radius: 9999px;
+  background: var(--dice-ground-shadow);
+}
+:where(html.seratus-app) .avatar-thinking .avatar-face { animation: seratus-avatar-tilt 2.4s ease-in-out infinite; }
+:where(html.seratus-app) .avatar-thinking .avatar-eye { animation: seratus-avatar-look 2.4s ease-in-out infinite; }
+:where(html.seratus-app) .avatar-dot { width: 3px; height: 3px; border-radius: 9999px; background: currentColor; animation: seratus-avatar-dot 1.2s infinite; }
+:where(html.seratus-app) .avatar-dot:nth-child(2) { animation-delay: .2s; }
+:where(html.seratus-app) .avatar-dot:nth-child(3) { animation-delay: .4s; }
+:where(html.seratus-app) .avatar-happy { animation: seratus-avatar-hop .7s ease-out 3; }
+:where(html.seratus-app) .avatar-sparkle { animation: seratus-avatar-pop 1.2s ease-in-out infinite; }
+@keyframes seratus-avatar-tilt { 0%,100% { transform: rotate(0) } 50% { transform: rotate(-8deg) } }
+@keyframes seratus-avatar-look { 0%,100% { transform: translate(0,0) } 50% { transform: translate(1.5px,-1.5px) } }
+@keyframes seratus-avatar-dot { 0%,100% { opacity: .25 } 50% { opacity: 1 } }
+@keyframes seratus-avatar-hop { 0%,100% { transform: translateY(0) } 40% { transform: translateY(-6px) scale(1.06) } }
+@keyframes seratus-avatar-pop { 0%,100% { transform: scale(.8); opacity: .6 } 50% { transform: scale(1.15); opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .avatar, :where(html.seratus-app) .avatar * { animation: none !important; } }
+:where(html.seratus-app) .avatar-ball { box-shadow: inset 0 -5px 0 oklch(0 0 0 / 22%), inset 0 3px 6px oklch(1 0 0 / 35%), 0 4px 8px oklch(0 0 0 / 25%); }
+:where(html.seratus-app) .avatar-gloss { background: radial-gradient(circle at 30% 22%, oklch(1 0 0 / 40%), transparent 45%); pointer-events: none; }
+:where(html.seratus-app) .avatar-thinking .avatar-face { transform-origin: 50% 90%; }
+:where(html.seratus-app) .avatar-sad .avatar-face { filter: saturate(.6) brightness(.95); transform: translateY(2px); }
+:where(html.seratus-app) .avatar-shocked .avatar-face { animation: seratus-chibi-shock 550ms ease-out 2; }
+:where(html.seratus-app) .avatar-crying .avatar-face { animation: seratus-chibi-sob 900ms ease-in-out 3; }
+:where(html.seratus-app) .avatar-emotion { position: absolute; right: -6px; bottom: -4px; font-size: 18px; line-height: 1; }
+:where(html.seratus-app) .avatar-surprise { top: -6px; bottom: auto; animation: seratus-avatar-pop 700ms ease-in-out 3; }
+:where(html.seratus-app) .avatar-tear { position: absolute; top: 45%; font-size: 11px; animation: seratus-chibi-tear 850ms linear 4; }
+:where(html.seratus-app) .avatar-tear-left { left: 15%; }
+:where(html.seratus-app) .avatar-tear-right { right: 15%; animation-delay: 250ms; }
+@keyframes seratus-chibi-shock { 35% { transform: translateY(-3px) scale(1.13); } 65% { transform: rotate(-6deg); } }
+@keyframes seratus-chibi-sob { 50% { transform: translateY(2px) rotate(-3deg); } }
+@keyframes seratus-chibi-tear { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
+:where(html.seratus-app) .arcade-reactions-layer { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
+:where(html.seratus-app) .arcade-announcement { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); max-width: calc(100vw - 24px); width: max-content; text-align: center; font-family: var(--font-display); font-size: 32px; font-weight: 900; color: var(--gold); text-shadow: 2px 3px 0 var(--background); animation: seratus-announcer-punch 2200ms ease-out both; }
+:where(html.seratus-app) .arcade-announcement-bankrupt { color: var(--destructive); }
+:where(html.seratus-app) .player-emote { position: absolute; display: flex; flex-direction: column; align-items: center; width: 160px; padding: 8px; border: 1px solid var(--gold); border-radius: 8px; background: var(--popover); color: var(--popover-foreground); box-shadow: var(--shadow-card); animation: seratus-emote-bounce 450ms ease-out; }
+:where(html.seratus-app) .player-emote-sticker { font-size: 36px; line-height: 1.1; }
+:where(html.seratus-app) .player-emote strong { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+:where(html.seratus-app) .player-emote > span:last-child { font-size: 12px; }
+@keyframes seratus-emote-bounce { 0% { opacity: 0; transform: scale(.6) translateY(12px); } 65% { transform: scale(1.08); } 100% { opacity: 1; transform: none; } }
+@keyframes seratus-announcer-punch { 0% { opacity: 0; transform: translateX(-50%) scale(.65); } 15% { opacity: 1; transform: translateX(-50%) scale(1.08); } 25%,80% { opacity: 1; transform: translateX(-50%) scale(1); } 100% { opacity: 0; transform: translateX(-50%); } }
+@media (max-width: 767px) {
+  :where(html.seratus-app) .arcade-announcement { font-size: 24px; top: 25%; }
+  :where(html.seratus-app) .game-session-bar > div:last-child { flex-wrap: wrap; width: 100%; margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .player-emote, :where(html.seratus-app) .arcade-announcement { animation: none; } }
+:where(html.seratus-app) .move-pop { transform-style: preserve-3d; animation: seratus-move-pop 2.2s cubic-bezier(.2,.9,.3,1.2) forwards; }
+:where(html.seratus-app) .move-pop-avatar { animation: seratus-move-pop-spin 1s ease-out .15s both; }
+:where(html.seratus-app) .move-pop-shine { background-image: linear-gradient(115deg, transparent 30%, oklch(1 0 0 / 70%) 50%, transparent 70%); background-size: 250% 100%; animation: seratus-move-pop-shine 1.4s ease-in-out .3s; }
+@keyframes seratus-move-pop {
+  0% { opacity: 0; transform: rotateX(70deg) rotateY(-25deg) scale(.4) translateY(80px); }
+  25% { opacity: 1; transform: rotateX(-10deg) rotateY(8deg) scale(1.08); }
+  40% { transform: rotateX(4deg) rotateY(-3deg) scale(1); }
+  80% { opacity: 1; transform: rotateX(0) rotateY(0) scale(1); }
+  100% { opacity: 0; transform: rotateX(-30deg) scale(.85) translateY(-40px); }
+}
+@keyframes seratus-move-pop-spin { 0% { transform: rotateY(-540deg) scale(.5); } 100% { transform: rotateY(0) scale(1); } }
+@keyframes seratus-move-pop-shine { 0% { background-position: 150% 0; } 100% { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .move-pop, :where(html.seratus-app) .move-pop * { animation-duration: .01s !important; } }
+
+/* Lemparan langsung: dadu bisa diklik/ditarik, dikocok sebelum terbang */
+:where(html.seratus-app) .dice3d-home { touch-action: none; transition: transform .2s ease, filter .2s ease; }
+:where(html.seratus-app) .dice3d-ready { animation: seratus-dice-ready 1.6s ease-in-out infinite; filter: drop-shadow(0 0 8px color-mix(in oklab, var(--gold), transparent 30%)); }
+:where(html.seratus-app) .dice3d-ready:hover { transform: translateY(-3px) scale(1.08) rotate(-4deg); animation-play-state: paused; }
+:where(html.seratus-app) .dice3d-grabbed { transform: scale(.9) !important; animation: none; }
+:where(html.seratus-app) .dice3d-shaking { animation: seratus-dice-shake .65s cubic-bezier(.36,.07,.19,.97) both; filter: drop-shadow(0 0 12px var(--gold)); }
+@keyframes seratus-dice-ready { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-4px) } }
+@keyframes seratus-dice-shake {
+  0% { transform: translate(0,0) rotate(0) scale(1) }
+  15% { transform: translate(-5px,-3px) rotate(-14deg) scale(1.05) }
+  30% { transform: translate(6px,2px) rotate(12deg) scale(1.08) }
+  45% { transform: translate(-6px,3px) rotate(-16deg) scale(1.1) }
+  60% { transform: translate(5px,-4px) rotate(14deg) scale(1.1) }
+  75% { transform: translate(-3px,2px) rotate(-8deg) scale(1.12) }
+  100% { transform: translate(0,-10px) rotate(0) scale(1.15) }
+}
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .dice3d-ready, :where(html.seratus-app) .dice3d-shaking { animation: none; } }
+
+/* Meja fisik, kartu karton, dan sorotan tujuan */
+html.seratus-app {
+  --table-wood: oklch(0.38 0.07 55);
+  --table-wood-dark: oklch(0.25 0.05 45);
+  --table-shadow: oklch(0.12 0.03 255 / 32%);
+  --board-edge: oklch(0.18 0.04 255 / 55%);
+  --destination: oklch(0.82 0.16 85);
+  --piece-highlight: oklch(1 0 0 / 38%);
+  --cardboard: oklch(0.86 0.045 72);
+  --cardboard-fiber: oklch(0.55 0.05 60 / 12%);
+  --tray-felt: oklch(0.38 0.065 162);
+  --tray-felt-light: oklch(0.46 0.065 162);
+  --tray-edge: oklch(0.27 0.035 60);
+  --tray-stitch: oklch(0.77 0.065 80 / 65%);
+  --tray-shadow: 0 7px 0 var(--tray-edge), 0 12px 16px -5px var(--table-shadow);
+  --tray-inset: inset 0 7px 12px var(--table-shadow), inset 0 0 0 2px var(--piece-highlight);
+}
+html.seratus-app.dark, html.seratus-app .dark { --table-wood: oklch(0.3 0.05 50); --table-wood-dark: oklch(0.18 0.03 45); --cardboard: oklch(0.42 0.04 65); }
+:where(html.seratus-app) .tabletop-board {
+  isolation: isolate; overflow: hidden;
+  background: repeating-linear-gradient(8deg, var(--table-wood) 0 18px, var(--table-wood-dark) 19px 23px, var(--table-wood) 24px 44px) !important;
+  box-shadow: inset 0 0 0 7px var(--table-wood-dark), inset 0 0 45px var(--table-shadow), 0 20px 45px -20px var(--table-shadow) !important;
+}
+:where(html.seratus-app) .table-felt { position: absolute; inset: 9px; z-index: -1; width: calc(100% - 18px); height: calc(100% - 18px); object-fit: cover; border-radius: 18px; opacity: .78; }
+:where(html.seratus-app) .tabletop-board .game-board-viewport { perspective: 1200px; }
+:where(html.seratus-app) .tabletop-board .game-board-viewport > svg {
+  transform: rotateX(7deg); transform-origin: 50% 80%;
+  filter: drop-shadow(0 18px 18px var(--table-shadow));
+}
+:where(html.seratus-app) .board-space { cursor: help; outline: none; transition: transform .18s ease, filter .18s ease; transform-box: fill-box; transform-origin: center; }
+:where(html.seratus-app) .board-space:hover, :where(html.seratus-app) .board-space:focus-visible { filter: drop-shadow(0 0 8px var(--destination)) brightness(1.15); }
+:where(html.seratus-app) .destination-halo, :where(html.seratus-app) .pawn-active-ring { animation: seratus-destination-pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; stroke-width: 5px; filter: drop-shadow(0 0 9px var(--destination)); }
+:where(html.seratus-app) .pawn-active-ring { animation-name: seratus-pawn-ring-breathe; stroke-width: 3px; }
+:where(html.seratus-app) .pawn-idle { animation: seratus-pawn-idle-breathe 2.6s ease-in-out infinite; }
+@keyframes seratus-pawn-ring-breathe { 0%,100% { opacity: .55; transform: scale(.95); } 50% { opacity: .95; transform: scale(1.12); } }
+@keyframes seratus-pawn-idle-breathe { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .pawn-idle { animation: none; } }
+:where(html.seratus-app) .pawn-body-active { transform: scale(1.3); }
+:where(html.seratus-app) .active-route { animation: seratus-route-glow 1.8s ease-in-out infinite; filter: drop-shadow(0 0 10px var(--destination)); }
+:where(html.seratus-app) .board-inspection { position: absolute; left: 50%; bottom: 14px; z-index: 5; transform: translateX(-50%); border-radius: 999px; background: var(--card); color: var(--card-foreground); padding: 6px 12px; font-size: 12px; font-weight: 800; box-shadow: var(--shadow-card); pointer-events: none; }
+@keyframes seratus-destination-pulse { 0%,100% { opacity: .6; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.5); } }
+@keyframes seratus-route-glow { 0%,100% { opacity: .35; } 50% { opacity: .85; } }
+
+:where(html.seratus-app) .physical-card { position: relative; perspective: 1000px; border-radius: 14px; }
+:where(html.seratus-app) .card-front, :where(html.seratus-app) .card-reverse { backface-visibility: hidden; }
+:where(html.seratus-app) .card-front { animation: seratus-card-flip 1.6s cubic-bezier(.3,.65,.25,1) both; }
+:where(html.seratus-app) .card-reverse { animation: seratus-card-back-flip 1.6s cubic-bezier(.3,.65,.25,1) both; }
+:where(html.seratus-app) .card-front {
+  position: relative;
+  background-image: radial-gradient(circle at 20% 15%, var(--paper), transparent 45%), repeating-linear-gradient(17deg, transparent 0 3px, var(--cardboard-fiber) 4px, transparent 5px 9px), linear-gradient(var(--paper), var(--cardboard));
+  box-shadow: 0 1px 0 var(--paper) inset, 0 4px 0 var(--cardboard), 0 14px 28px -12px var(--table-shadow);
+}
+:where(html.seratus-app) .card-reverse { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; border: 5px solid var(--paper); border-radius: 12px; color: var(--on-deck); transform: rotateY(180deg); text-align: center; }
+:where(html.seratus-app) .card-reverse strong { color: var(--gold); font: 900 3rem/1 var(--font-display); }
+:where(html.seratus-app) .card-reverse span { font-size: 11px; font-weight: 900; letter-spacing: .35em; }
+:where(html.seratus-app) .card-facedown, :where(html.seratus-app) .card-deck-top { box-shadow: 0 2px 0 var(--paper) inset, 0 7px 0 var(--table-wood-dark), 0 16px 24px -12px var(--table-shadow) !important; }
+:where(html.seratus-app) .card-facedown { animation: seratus-facedown-float 2.6s ease-in-out infinite; }
+@keyframes seratus-card-flip { 0%,20% { opacity: 1; transform: translateY(12px) rotateY(-180deg) rotateX(8deg) scale(.92); } 55% { transform: translateY(0) rotateY(-90deg) rotateX(4deg) scale(.96); } 82% { transform: translateY(-4px) rotateY(10deg) rotateX(0deg); } 100% { transform: none; } }
+@keyframes seratus-card-back-flip { 0%,20% { transform: translateY(12px) rotateY(0deg) rotateX(8deg) scale(.92); } 55% { transform: rotateY(90deg) rotateX(4deg) scale(.96); } 82% { transform: translateY(-4px) rotateY(190deg); } 100% { transform: rotateY(180deg); } }
+@keyframes seratus-facedown-float { 0%,100% { transform: rotate(-4deg) translateY(0); } 50% { transform: rotate(-2deg) translateY(-6px); } }
+@media (max-width: 767px) {
+  :where(html.seratus-app) .game-screen { padding-inline: 8px; }
+  :where(html.seratus-app) .game-workspace { gap: 10px; }
+  :where(html.seratus-app) .game-hud { gap: 6px; }
+  :where(html.seratus-app) .game-hud > div { padding: 7px; border-radius: 8px; border-top-width: 2px; }
+  :where(html.seratus-app) .game-hud .size-11 { width: 24px; height: 24px; }
+  :where(html.seratus-app) .game-hud .gap-3 { gap: 6px; }
+  :where(html.seratus-app) .game-hud .mb-2 { margin-bottom: 4px; }
+  :where(html.seratus-app) .game-hud .text-2xl { font-size: 18px; }
+  :where(html.seratus-app) .game-hud .text-base { font-size: 13px; }
+  :where(html.seratus-app) .game-hud .text-xs { font-size: 10px; line-height: 14px; }
+  :where(html.seratus-app) .game-board-region { scroll-margin-top: 8px; }
+  :where(html.seratus-app) .tabletop-board { padding: 6px; border-radius: 12px; }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { width: 100%; aspect-ratio: 1; border-radius: 8px; }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport > svg { transform: none; filter: none; }
+  :where(html.seratus-app) .tabletop-board .game-board-legend { display: none; }
+  :where(html.seratus-app) .pawn-body-active { transform: scale(1.55); }
+  :where(html.seratus-app) .destination-halo, :where(html.seratus-app) .pawn-active-ring { stroke-width: 3px; vector-effect: non-scaling-stroke; filter: none; }
+  :where(html.seratus-app) .active-route { filter: none; }
+  :where(html.seratus-app) .board-inspection { max-width: calc(100% - 24px); text-align: center; }
+}
+@media (max-width: 767px) and (orientation: landscape) {
+  :where(html.seratus-app) .tabletop-board { width: min(100%, calc(100dvh - 96px)); margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .physical-card, :where(html.seratus-app) .card-front, :where(html.seratus-app) .card-reverse, :where(html.seratus-app) .card-facedown, :where(html.seratus-app) .destination-halo, :where(html.seratus-app) .pawn-active-ring, :where(html.seratus-app) .active-route { animation: none !important; } :where(html.seratus-app) .board-space { transition: none; } }
+
+/* Separate landing dock: never covers a playable space or a pawn. */
+:where(html.seratus-app) .dice-tray-dock { width: 100%; height: 112px; flex-shrink: 0; display: flex; justify-content: flex-end; align-items: center; padding: 4px 16px 12px; }
+:where(html.seratus-app) .dice-tray { position: relative; width: 158px; height: 92px; flex-shrink: 0; border: 9px solid var(--table-wood); border-radius: 20px; background: var(--tray-felt); box-shadow: var(--tray-shadow); }
+:where(html.seratus-app) .dice-tray-floor { position: absolute; inset: 0; border-radius: 11px; background: radial-gradient(ellipse at 50% 70%, var(--tray-felt-light), var(--tray-felt)); box-shadow: var(--tray-inset); }
+:where(html.seratus-app) .dice-tray-floor::before { content: ""; position: absolute; inset: 6px; border: 1px dashed var(--tray-stitch); border-radius: 7px; pointer-events: none; }
+:where(html.seratus-app) .dice-tray-mark { position: absolute; top: 10px; left: 0; right: 0; text-align: center; color: var(--tray-stitch); font: 800 9px/1 var(--font-display); }
+:where(html.seratus-app) .dice-tray-resting { position: absolute; width: 44px; height: 44px; left: calc(50% - 22px); top: calc(50% - 22px); }
+:where(html.seratus-app) .dice-tray-rim { position: absolute; bottom: -9px; left: -5px; right: -5px; height: 10px; border-radius: 0 0 12px 12px; background: var(--table-wood); box-shadow: inset 0 2px 0 var(--piece-highlight); pointer-events: none; }
+:where(html.seratus-app) .game-screen[data-dice-phase="flying"] .dice-tray-resting,
+:where(html.seratus-app) .game-screen[data-dice-phase="flying"] .dice3d-home .dice3d-scene { visibility: hidden; }
+:where(html.seratus-app) .game-screen[data-dice-phase="shaking"] .dice-tray-resting { animation: seratus-dice-shake .65s both; }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .game-screen[data-dice-phase="shaking"] .dice-tray-resting { animation: none; } }
+@media (min-width: 768px) {
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { width: min(100%, calc(100cqh - 118px)); }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .dice-tray-dock { height: 104px; padding-inline: 8px; }
+  :where(html.seratus-app) .dice-tray { width: 142px; height: 86px; border-width: 8px; }
+}
+@media (max-width: 767px) and (orientation: landscape) {
+  :where(html.seratus-app) .tabletop-board { width: min(100%, calc(100dvh - 96px)); }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { width: min(100%, calc(100dvh - 206px)); }
+}
+
+/* Reference tabletop: a single white workspace with a framed printed board. */
+:where(html.seratus-app) .site-header { position: relative; z-index: 10; }
+:where(html.seratus-app) .site-brand > span:first-child { background: var(--primary); border-radius: 50%; }
+:where(html.seratus-app) .site-brand .tracking-\[0\.18em\] { letter-spacing: 0; }
+:where(html.seratus-app) .tabletop-pawn { width: 38px; height: 48px; flex-shrink: 0; }
+:where(html.seratus-app) .tabletop-board { background: var(--card) !important; box-shadow: none !important; border: 0; padding: 0; }
+:where(html.seratus-app) .tabletop-board .game-board-viewport { border: 3px solid var(--primary); box-shadow: inset 0 0 0 2px var(--gold), var(--shadow-card); border-radius: 5px; }
+:where(html.seratus-app) .tabletop-board .game-board-viewport > svg { transform: none; filter: none; }
+:where(html.seratus-app) .game-board-legend { display: none; }
+:where(html.seratus-app) .card-deck-top { border: 2px solid var(--gold); outline: 2px solid var(--primary); outline-offset: 2px; }
+:where(html.seratus-app) .card-deck-top::after { content: ''; position: absolute; inset: 5px; border: 1px solid var(--gold); border-radius: 4px; pointer-events: none; }
+:where(html.seratus-app) .deck-face-name { text-align: center; font-size: 10px; line-height: 1.3; }
+:where(html.seratus-app) .active-card-preview { height: 100%; background: var(--card); min-height: 0; }
+:where(html.seratus-app) .active-card-preview h2 { display: inline-flex; gap: 5px; align-items: center; background: var(--primary); color: var(--primary-foreground); padding: 4px 9px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 7px; }
+:where(html.seratus-app) .active-card-content { display: flex; align-items: center; gap: 12px; }
+:where(html.seratus-app) .preview-card-back { display: flex; width: 78px; min-height: 102px; flex-shrink: 0; align-items: center; justify-content: center; flex-direction: column; gap: 6px; border: 2px solid var(--gold); border-radius: 5px; color: var(--on-deck); box-shadow: var(--shadow-card); text-align: center; font-size: 9px; font-weight: 800; }
+:where(html.seratus-app) .preview-card-back small { background: var(--gold); color: var(--gold-foreground); width: 100%; margin-top: auto; font-size: 8px; padding: 3px; }
+:where(html.seratus-app) .preview-card-back svg { margin-top: 10px; }
+:where(html.seratus-app) .preview-card-prompt { font-size: 12px; line-height: 1.5; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+:where(html.seratus-app) .preview-options { margin-top: 5px; font-size: 10px; display: grid; gap: 3px; }
+:where(html.seratus-app) .preview-options li { display: flex; align-items: start; gap: 5px; }
+:where(html.seratus-app) .preview-options b { background: var(--primary); color: var(--primary-foreground); padding: 0 3px; border-radius: 2px; }
+:where(html.seratus-app) .board-card-spot { cursor: pointer; outline: none; }
+:where(html.seratus-app) .board-card-spot-ring { animation: seratus-card-spot-pulse 1.6s ease-in-out infinite; }
+:where(html.seratus-app) .board-card-spot:focus-visible .board-card-spot-ring { stroke-width: 5; }
+@keyframes seratus-card-spot-pulse { 0%, 100% { stroke-opacity: 1; fill-opacity: .18; } 50% { stroke-opacity: .45; fill-opacity: .05; } }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .board-card-spot-ring { animation: none; } }
+@media (min-width: 768px) {
+  :where(html.seratus-app) .desktop-game-page { background: var(--background); }
+  :where(html.seratus-app) .desktop-game-page > header { flex-shrink: 0; }
+  :where(html.seratus-app) .desktop-game-page:has(.game-screen) > .max-w-3xl { display: none; }
+  :where(html.seratus-app) .desktop-game-page > div:has(> .game-screen) { overflow: hidden; }
+  :where(html.seratus-app) .game-screen { padding: 7px 14px; gap: 6px; max-width: 1700px; }
+  :where(html.seratus-app) .game-session-bar { min-height: 28px; }
+  :where(html.seratus-app) .game-session-bar button { height: 25px; font-size: 10px; padding-inline: 7px; }
+  :where(html.seratus-app) .game-session-bar > span { font-size: 10px; }
+  :where(html.seratus-app) .game-workspace { position: relative; overflow: hidden; grid-template-columns: minmax(218px, .85fr) minmax(0, 1.65fr) minmax(218px, .95fr); grid-template-rows: 76px minmax(0, 1fr) auto; gap: 9px 12px; }
+  :where(html.seratus-app) .game-workspace .game-hud { display: contents; }
+  :where(html.seratus-app) .game-hud > div { min-width: 0; padding: 7px; border: 0; box-shadow: none; border-radius: 5px; background: var(--card); height: 76px; overflow: hidden; }
+  :where(html.seratus-app) .game-hud > div:nth-child(1) { grid-area: 1 / 1; width: 48%; }
+  :where(html.seratus-app) .game-hud > div:nth-child(2) { grid-area: 1 / 1; width: 50%; justify-self: end; }
+  :where(html.seratus-app) .game-hud > div:nth-child(3) { grid-area: 1 / 3; width: 51%; }
+  :where(html.seratus-app) .game-hud > div:nth-child(4) { grid-area: 1 / 3; width: 47%; justify-self: end; }
+  :where(html.seratus-app) .game-hud .size-11 { width: 24px; height: 24px; }
+  :where(html.seratus-app) .game-hud .size-5 { width: 16px; height: 16px; }
+  :where(html.seratus-app) .game-hud .text-2xl { font-size: 20px; }
+  :where(html.seratus-app) .game-hud .text-base { font-size: 11px; }
+  :where(html.seratus-app) .game-hud .text-xs { font-size: 8px; line-height: 12px; }
+  :where(html.seratus-app) .game-hud .text-\[10px\] { font-size: 8px; }
+  :where(html.seratus-app) .game-hud .gap-3 { gap: 5px; }
+  :where(html.seratus-app) .game-hud .mb-2 { margin-bottom: 5px; }
+  :where(html.seratus-app) .game-hud .mt-2 { display: none; }
+  :where(html.seratus-app) .game-hud .tabletop-pawn { width: 27px; height: 36px; }
+  :where(html.seratus-app) .game-actions { grid-area: 2 / 1 / 3 / 2; overflow-y: auto; min-height: 0; padding: 0; background: var(--card); border-radius: 8px; }
+  :where(html.seratus-app) .game-actions > section, :where(html.seratus-app) .game-actions > div > section { background: transparent; box-shadow: none; border: 0; padding: 8px 10px; }
+  :where(html.seratus-app) .game-actions.space-y-4 > :not(:last-child) { margin-block-end: 0; }
+  :where(html.seratus-app) .game-actions > section > .mt-3 > div:last-child > .text-xs { display: none; }
+  :where(html.seratus-app) .game-actions > section h2 { display: none; }
+  :where(html.seratus-app) .game-actions > section > .mt-3 { margin-top: 0; }
+  :where(html.seratus-app) .game-actions .size-20 { width: 50px; height: 50px; }
+  :where(html.seratus-app) .game-actions .text-3xl { font-size: 22px; }
+  :where(html.seratus-app) .game-actions .text-xs { font-size: 9px; }
+  :where(html.seratus-app) .game-actions .mt-4 { margin-top: 9px; }
+  :where(html.seratus-app) .game-actions button { font-size: 10px; height: 32px; padding-inline: 7px; gap: 5px; }
+  :where(html.seratus-app) .game-actions .dice-roll-button { height: 38px; font-size: 13px; background: linear-gradient(var(--deck-a), var(--primary)); box-shadow: var(--shadow-card); }
+  :where(html.seratus-app) .game-actions > div { margin-top: 0; }
+  :where(html.seratus-app) .game-actions > div > section { border-top: 1px solid var(--border); }
+  :where(html.seratus-app) .game-board-region { grid-area: 1 / 2 / 4 / 3; container-type: size; min-height: 0; display: flex; align-items: flex-start; justify-content: center; }
+  :where(html.seratus-app) .game-board { width: 100%; height: 100%; display: flex; align-items: center; justify-content: flex-start; flex-direction: column; }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { width: min(100%, 100cqh); flex-shrink: 0; aspect-ratio: 1; }
+  :where(html.seratus-app) .game-players { grid-area: 2 / 3; padding: 0; min-height: 0; height: 100%; overflow-y: auto; background: var(--card); border-radius: 8px; }
+  :where(html.seratus-app) .game-players section { padding: 9px; }
+  :where(html.seratus-app) .game-players article { border-radius: 6px; padding: 4px 6px; box-shadow: none; position: relative; }
+  :where(html.seratus-app) .game-players article .size-6 { width: 17px; height: 17px; }
+  :where(html.seratus-app) .game-players article .tabletop-pawn { width: 27px; height: 31px; }
+  :where(html.seratus-app) .game-players .space-y-2\.5 { display: flex; flex-direction: column; gap: 4px; }
+  :where(html.seratus-app) .game-players .space-y-2\.5 > * { margin: 0; }
+  :where(html.seratus-app) .game-players .text-xl { font-size: 16px; }
+  :where(html.seratus-app) .game-players .font-semibold { font-size: 11px; }
+  :where(html.seratus-app) .game-players .size-6 { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--on-deck); }
+  :where(html.seratus-app) .game-players .mt-2\.5 { margin-top: 5px; }
+  :where(html.seratus-app) .game-players .mt-2 { margin-top: 4px; font-size: 9px; }
+  :where(html.seratus-app) .game-players article > div:first-child > .text-right > .text-\[10px\] { display: none; }
+  :where(html.seratus-app) .game-players .text-\[10px\] { font-size: 8px; }
+  :where(html.seratus-app) .game-card-region { grid-area: 3 / 2; background: var(--card); padding: 8px; border-radius: 8px; overflow-y: auto; }
+  :where(html.seratus-app) .game-log-region { grid-area: 3 / 3; min-height: 0; }
+  :where(html.seratus-app) .game-log-region section { padding: 8px; border-radius: 8px; border: 0; box-shadow: none; }
+  :where(html.seratus-app) .game-log-region h2 { font-size: 9px; margin-bottom: 3px; }
+  :where(html.seratus-app) .game-log-region ol { font-size: 9px; overflow-y: auto; }
+  :where(html.seratus-app) .game-log-region li { padding-block: 3px; gap: 4px; }
+  :where(html.seratus-app) .game-log-region time { width: 31px; font-size: 8px; }
+  :where(html.seratus-app) .game-log-region button { margin-top: 3px; height: 22px; font-size: 9px; }
+  :where(html.seratus-app) .game-log-region button.log-toggle { margin-top: 0; height: 20px; width: 20px; }
+  :where(html.seratus-app) .game-log-region .log-collapsed > :not(h2) { display: none; }
+  :where(html.seratus-app) .game-log-region .log-collapsed h2 { margin-bottom: 0; }
+  :where(html.seratus-app) .dice-tray-dock { height: 78px; padding: 3px 12px 12px; justify-content: center; }
+  :where(html.seratus-app) .dice-tray { width: 140px; height: 65px; border-width: 7px; }
+  :where(html.seratus-app) .preview-card-prompt { font-size: 10px; -webkit-line-clamp: 2; }
+  :where(html.seratus-app) .preview-options { font-size: 9px; }
+  :where(html.seratus-app) .active-card-content { gap: 8px; align-items: flex-start; }
+  :where(html.seratus-app) .active-card-content > button { font-size: 9px; padding-inline: 6px; height: 28px; }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .game-players .size-6 { display: flex; align-items: center; justify-content: center; color: var(--on-deck); }
+  :where(html.seratus-app) .active-card-preview { padding: 12px; }
+  :where(html.seratus-app) .active-card-content { flex-wrap: wrap; }
+  :where(html.seratus-app) .dice-tray-dock { justify-content: center; }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { width: 100%; }
+}
+
+/* Homepage: game title screen. Every rule and token is scoped to .home-page. */
+:where(html.seratus-app) .home-page, :where(html.seratus-app) .info-screen, :where(html.seratus-app) .game-night {
+  --font-game: "Lilita One", var(--font-display);
+  --menu-night: oklch(0.17 0.05 262);
+  --menu-night-2: oklch(0.12 0.04 262);
+  --menu-ink: oklch(0.98 0.01 85);
+  --menu-ink-soft: oklch(0.86 0.03 255);
+  --menu-gold-hi: oklch(0.93 0.11 92);
+  --menu-gold: oklch(0.82 0.15 80);
+  --menu-gold-deep: oklch(0.64 0.14 62);
+  --menu-gold-shadow: oklch(0.45 0.11 55);
+  --menu-blue-hi: oklch(0.55 0.15 255);
+  --menu-blue: oklch(0.42 0.14 260);
+  --menu-blue-shadow: oklch(0.27 0.1 262);
+  --menu-glass: oklch(0.18 0.05 262 / 62%);
+  --menu-glass-hover: oklch(0.26 0.07 262 / 75%);
+  --menu-line: oklch(1 0 0 / 14%);
+  --menu-drop: oklch(0 0 0 / 45%);
+  --menu-gloss: oklch(1 0 0 / 55%);
+  --menu-panel-hi: oklch(0.24 0.06 262 / 90%);
+  --menu-panel-lo: oklch(0.16 0.05 262 / 94%);
+}
+:where(html.seratus-app) .home-page, :where(html.seratus-app) .info-screen {
+  position: relative; isolation: isolate; height: 100dvh; overflow: hidden;
+  display: flex; flex-direction: column; color: var(--menu-ink); background: var(--menu-night); letter-spacing: 0;
+}
+:where(html.seratus-app) .home-art { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 72% 50%; transform-origin: 72% 50%; animation: seratus-home-drift 26s ease-in-out infinite alternate; }
+:where(html.seratus-app) .home-shade { position: absolute; inset: 0; z-index: -2; pointer-events: none; background:
+  linear-gradient(90deg, var(--menu-night) 0%, color-mix(in oklab, var(--menu-night) 82%, transparent) 24%, transparent 52%),
+  linear-gradient(0deg, color-mix(in oklab, var(--menu-night-2) 88%, transparent) 0%, transparent 28%),
+  linear-gradient(180deg, color-mix(in oklab, var(--menu-night-2) 70%, transparent) 0%, transparent 16%); }
+:where(html.seratus-app) .home-sparks { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+:where(html.seratus-app) .home-sparks span { position: absolute; bottom: -12px; width: 4px; height: 4px; border-radius: 50%; background: var(--menu-gold-hi); box-shadow: 0 0 10px 2px var(--menu-gold); opacity: 0; animation: seratus-home-spark 7s linear infinite; }
+
+:where(html.seratus-app) .home-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px clamp(20px, 4vw, 64px) 10px; }
+:where(html.seratus-app) .home-brand { display: flex; align-items: center; gap: 10px; font: 400 22px/1 var(--font-game); letter-spacing: .06em; color: var(--menu-ink); }
+:where(html.seratus-app) .home-brand-badge { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; font-size: 17px; letter-spacing: 0; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold-deep)); box-shadow: 0 3px 0 var(--menu-gold-shadow), 0 0 18px color-mix(in oklab, var(--menu-gold) 45%, transparent); }
+:where(html.seratus-app) .home-stats { display: flex; gap: 8px; }
+:where(html.seratus-app) .home-stat { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px 0 5px; border-radius: 999px; border: 1px solid var(--menu-line); background: var(--menu-glass); backdrop-filter: blur(8px); font-size: 12px; font-weight: 700; color: var(--menu-ink-soft); }
+:where(html.seratus-app) .home-stat-icon { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold-deep)); }
+:where(html.seratus-app) .home-stat-icon svg { width: 15px; height: 15px; }
+:where(html.seratus-app) .home-stat b { font: 400 17px/1 var(--font-game); color: var(--menu-ink); }
+
+:where(html.seratus-app) .home-stage { flex: 1; min-height: 0; display: flex; justify-content: space-between; gap: 24px; padding: 0 clamp(20px, 4vw, 64px) 8px; }
+:where(html.seratus-app) .home-menu { width: min(430px, 42vw); display: flex; flex-direction: column; justify-content: center; gap: clamp(14px, 3vh, 28px); animation: seratus-home-enter .6s ease-out both; }
+:where(html.seratus-app) .home-logo { display: flex; flex-direction: column; align-items: flex-start; font-family: var(--font-game); font-weight: 400; line-height: .86; }
+:where(html.seratus-app) .home-logo-num { font-size: clamp(76px, 15vh, 150px); color: transparent; background: linear-gradient(180deg, var(--menu-gold-hi) 10%, var(--menu-gold) 52%, var(--menu-gold-deep) 92%); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 5px 0 var(--menu-gold-shadow)) drop-shadow(0 12px 22px var(--menu-drop)); }
+:where(html.seratus-app) .home-logo-word { margin-top: 2px; font-size: clamp(46px, 8.5vh, 84px); letter-spacing: .05em; color: var(--menu-ink); text-shadow: 0 4px 0 var(--menu-blue-shadow), 0 10px 22px var(--menu-drop); }
+:where(html.seratus-app) .home-logo-ribbon { margin-top: 14px; padding: 8px 22px; font: 800 12px/1 var(--font-sans); letter-spacing: .34em; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold)); clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%); }
+:where(html.seratus-app) .home-tag { margin-top: 14px; max-width: 360px; font-size: 14px; line-height: 1.6; color: var(--menu-ink-soft); }
+
+:where(html.seratus-app) .home-actions { display: flex; flex-direction: column; gap: 12px; }
+:where(html.seratus-app) .home-btn { position: relative; overflow: hidden; display: flex; align-items: center; gap: 14px; border-radius: 18px; transition: transform .12s ease, box-shadow .12s ease, filter .12s ease; }
+:where(html.seratus-app) .home-btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+:where(html.seratus-app) .home-btn:focus-visible { outline: 3px solid var(--menu-ink); outline-offset: 3px; }
+:where(html.seratus-app) .home-btn-label { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; text-align: left; white-space: nowrap; }
+:where(html.seratus-app) .home-btn-label small { margin-top: 4px; font-size: 12px; font-weight: 700; opacity: .78; }
+:where(html.seratus-app) .home-btn-arrow { margin-left: auto; width: 26px; height: 26px; }
+:where(html.seratus-app) .home-play { height: 78px; padding: 0 22px 0 14px; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold) 48%, var(--menu-gold-deep)); box-shadow: 0 6px 0 var(--menu-gold-shadow), 0 16px 30px -8px color-mix(in oklab, var(--menu-gold) 60%, transparent), inset 0 2px 0 var(--menu-gloss); animation: seratus-home-pulse 2.6s ease-in-out infinite; }
+:where(html.seratus-app) .home-play:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--menu-gold-shadow), inset 0 2px 0 var(--menu-gloss); }
+:where(html.seratus-app) .home-play::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(110deg, transparent 35%, var(--menu-gloss) 50%, transparent 65%); transform: translateX(-120%); animation: seratus-home-shine 3.4s ease-in-out infinite; }
+:where(html.seratus-app) .home-play .home-btn-label b { font: 400 30px/1 var(--font-game); letter-spacing: .04em; }
+:where(html.seratus-app) .home-play-icon { display: grid; place-items: center; flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; color: var(--menu-gold); background: var(--menu-night); box-shadow: inset 0 -3px 0 var(--menu-night-2); }
+:where(html.seratus-app) .home-play-icon svg { width: 24px; height: 24px; fill: currentColor; margin-left: 3px; }
+:where(html.seratus-app) .home-alt { height: 62px; padding: 0 20px 0 12px; color: var(--menu-ink); background: linear-gradient(180deg, var(--menu-blue-hi), var(--menu-blue)); box-shadow: 0 5px 0 var(--menu-blue-shadow), 0 12px 24px -10px var(--menu-drop), inset 0 2px 0 oklch(1 0 0 / 22%); }
+:where(html.seratus-app) .home-alt:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--menu-blue-shadow); }
+:where(html.seratus-app) .home-alt .home-btn-label b { font: 400 21px/1 var(--font-game); letter-spacing: .03em; }
+:where(html.seratus-app) .home-alt-icon { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; color: var(--menu-gold-hi); background: var(--menu-blue-shadow); }
+:where(html.seratus-app) .home-alt-icon svg { width: 22px; height: 22px; }
+
+:where(html.seratus-app) .home-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 4px; }
+:where(html.seratus-app) .home-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; height: 72px; border-radius: 14px; border: 1px solid var(--menu-line); background: var(--menu-glass); backdrop-filter: blur(8px); font-size: 12px; font-weight: 800; color: var(--menu-ink); transition: transform .15s ease, border-color .15s ease, background .15s ease; }
+:where(html.seratus-app) .home-tile svg { width: 22px; height: 22px; color: var(--menu-gold); }
+:where(html.seratus-app) .home-tile:hover { transform: translateY(-2px); border-color: var(--menu-gold); background: var(--menu-glass-hover); }
+:where(html.seratus-app) .home-tile:focus-visible { outline: 3px solid var(--menu-gold); outline-offset: 2px; }
+
+:where(html.seratus-app) .home-roster { align-self: flex-end; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; animation: seratus-home-enter .8s .15s ease-out both; }
+:where(html.seratus-app) .home-roster-label { font: 800 11px/1 var(--font-sans); letter-spacing: .26em; color: var(--menu-gold); text-shadow: 0 2px 6px var(--menu-drop); }
+:where(html.seratus-app) .home-roster-list { display: flex; gap: 10px; }
+:where(html.seratus-app) .home-hero { --accent-line: var(--gold); display: flex; flex-direction: column; align-items: center; gap: 7px; width: 88px; padding: 10px 6px 9px; border-radius: 16px; border: 1px solid var(--menu-line); border-bottom: 3px solid var(--accent-line); background: var(--menu-glass); backdrop-filter: blur(8px); font-size: 10.5px; font-weight: 800; line-height: 1.2; text-align: center; color: var(--menu-ink); animation: seratus-home-bob 3.2s ease-in-out infinite; }
+:where(html.seratus-app) .home-hero:nth-child(1) { --accent-line: var(--area-0); }
+:where(html.seratus-app) .home-hero:nth-child(2) { --accent-line: var(--area-1); animation-delay: .3s; }
+:where(html.seratus-app) .home-hero:nth-child(3) { --accent-line: var(--area-2); animation-delay: .6s; }
+:where(html.seratus-app) .home-hero:nth-child(4) { --accent-line: var(--area-3); animation-delay: .9s; }
+:where(html.seratus-app) .home-hero:nth-child(5) { --accent-line: var(--area-4); animation-delay: 1.2s; }
+:where(html.seratus-app) .home-hero > span { display: flex; align-items: center; gap: 4px; }
+:where(html.seratus-app) .home-hero > span svg { width: 12px; height: 12px; color: var(--accent-line); flex-shrink: 0; }
+
+:where(html.seratus-app) .home-credit { padding: 6px clamp(20px, 4vw, 64px) 12px; font-size: 11px; color: var(--menu-ink-soft); opacity: .7; }
+
+@keyframes seratus-home-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes seratus-home-drift { from { transform: scale(1.02); } to { transform: scale(1.08) translate(-1%, -1%); } }
+@keyframes seratus-home-spark { 0% { opacity: 0; transform: translateY(0); } 12% { opacity: .9; } 80% { opacity: .5; } 100% { opacity: 0; transform: translateY(-75vh); } }
+@keyframes seratus-home-pulse { 0%, 100% { box-shadow: 0 6px 0 var(--menu-gold-shadow), 0 16px 30px -8px color-mix(in oklab, var(--menu-gold) 55%, transparent), inset 0 2px 0 var(--menu-gloss); } 50% { box-shadow: 0 6px 0 var(--menu-gold-shadow), 0 16px 42px -2px color-mix(in oklab, var(--menu-gold) 80%, transparent), inset 0 2px 0 var(--menu-gloss); } }
+@keyframes seratus-home-shine { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+@keyframes seratus-home-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* Short desktop windows: tighten the menu so nothing scrolls. */
+@media (max-height: 720px) {
+  :where(html.seratus-app) .home-top { padding-top: 12px; }
+  :where(html.seratus-app) .home-menu { gap: 12px; }
+  :where(html.seratus-app) .home-logo-ribbon { margin-top: 10px; padding-block: 6px; }
+  :where(html.seratus-app) .home-tag { margin-top: 10px; font-size: 13px; line-height: 1.5; }
+  :where(html.seratus-app) .home-play { height: 64px; }
+  :where(html.seratus-app) .home-play-icon { width: 44px; height: 44px; }
+  :where(html.seratus-app) .home-play .home-btn-label b { font-size: 26px; }
+  :where(html.seratus-app) .home-alt { height: 52px; }
+  :where(html.seratus-app) .home-alt-icon { width: 34px; height: 34px; }
+  :where(html.seratus-app) .home-tiles { margin-top: 0; }
+  :where(html.seratus-app) .home-tile { height: 58px; gap: 4px; }
+  :where(html.seratus-app) .home-hero { width: 80px; padding-block: 8px 7px; }
+}
+
+/* Portrait tablets and phones: logo on top, artwork in the middle, menu at the bottom like a mobile game. */
+@media (max-width: 767px) {
+  :where(html.seratus-app) .home-art { object-position: 66% 45%; transform-origin: 66% 45%; }
+  :where(html.seratus-app) .home-shade { background:
+    linear-gradient(180deg, var(--menu-night) 0%, color-mix(in oklab, var(--menu-night) 70%, transparent) 26%, transparent 42%, transparent 50%, color-mix(in oklab, var(--menu-night-2) 85%, transparent) 64%, var(--menu-night-2) 100%); }
+  :where(html.seratus-app) .home-roster { display: none; }
+  :where(html.seratus-app) .home-stage { padding-bottom: 6px; }
+  :where(html.seratus-app) .home-menu { width: 100%; max-width: 520px; margin-inline: auto; justify-content: space-between; padding-bottom: 6px; }
+  :where(html.seratus-app) .home-logo { align-items: center; text-align: center; }
+  :where(html.seratus-app) .home-logo-num { font-size: clamp(64px, 11vh, 108px); }
+  :where(html.seratus-app) .home-logo-word { font-size: clamp(40px, 6.5vh, 64px); }
+  :where(html.seratus-app) .home-intro { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 4px; }
+  :where(html.seratus-app) .home-tag { display: none; }
+  :where(html.seratus-app) .home-credit { text-align: center; padding-top: 2px; font-size: 10px; }
+}
+@media (max-width: 640px) {
+  :where(html.seratus-app) .home-top { padding-inline: 16px; }
+  :where(html.seratus-app) .home-brand-text { display: none; }
+  :where(html.seratus-app) .home-stat { padding-right: 10px; gap: 6px; height: 34px; }
+  :where(html.seratus-app) .home-stat span:last-child { display: none; }
+  :where(html.seratus-app) .home-stat-icon { width: 24px; height: 24px; }
+  :where(html.seratus-app) .home-stage { padding-inline: 16px; }
+  :where(html.seratus-app) .home-play .home-btn-label b { font-size: 25px; }
+  :where(html.seratus-app) .home-alt .home-btn-label b { font-size: 19px; }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  :where(html.seratus-app) .home-play { height: 60px; }
+  :where(html.seratus-app) .home-alt { height: 50px; }
+  :where(html.seratus-app) .home-tile { height: 52px; font-size: 11px; }
+  :where(html.seratus-app) .home-tile svg { width: 18px; height: 18px; }
+  :where(html.seratus-app) .home-credit { display: none; }
+}
+
+/* Phones held sideways: menu left, artwork right, no scrolling. */
+@media (max-height: 520px) and (orientation: landscape) {
+  :where(html.seratus-app) .home-art { object-position: 70% 50%; }
+  :where(html.seratus-app) .home-shade { background: linear-gradient(90deg, var(--menu-night) 0%, color-mix(in oklab, var(--menu-night) 80%, transparent) 34%, transparent 62%); }
+  :where(html.seratus-app) .home-top { padding-block: 8px 4px; }
+  :where(html.seratus-app) .home-brand-badge { width: 34px; height: 34px; font-size: 14px; }
+  :where(html.seratus-app) .home-stat { height: 30px; }
+  :where(html.seratus-app) .home-menu { width: min(380px, 52vw); margin-inline: 0; justify-content: center; gap: 8px; padding-bottom: 0; }
+  :where(html.seratus-app) .home-intro, :where(html.seratus-app) .home-logo { align-items: flex-start; text-align: left; }
+  :where(html.seratus-app) .home-logo { flex-direction: row; align-items: flex-end; gap: 10px; }
+  :where(html.seratus-app) .home-logo-num { font-size: 52px; }
+  :where(html.seratus-app) .home-logo-word { font-size: 34px; margin: 0; }
+  :where(html.seratus-app) .home-logo-ribbon { display: none; }
+  :where(html.seratus-app) .home-play { height: 52px; border-radius: 14px; }
+  :where(html.seratus-app) .home-play-icon { width: 36px; height: 36px; }
+  :where(html.seratus-app) .home-play-icon svg { width: 18px; height: 18px; }
+  :where(html.seratus-app) .home-play .home-btn-label b { font-size: 22px; }
+  :where(html.seratus-app) .home-btn-label small { display: none; }
+  :where(html.seratus-app) .home-alt { height: 42px; border-radius: 14px; }
+  :where(html.seratus-app) .home-alt-icon { width: 30px; height: 30px; }
+  :where(html.seratus-app) .home-alt .home-btn-label b { font-size: 17px; }
+  :where(html.seratus-app) .home-actions { gap: 8px; }
+  :where(html.seratus-app) .home-tiles { gap: 8px; }
+  :where(html.seratus-app) .home-tile { height: 40px; flex-direction: row; font-size: 11px; }
+  :where(html.seratus-app) .home-tile svg { width: 16px; height: 16px; }
+  :where(html.seratus-app) .home-credit { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .home-art, :where(html.seratus-app) .home-sparks span, :where(html.seratus-app) .home-play, :where(html.seratus-app) .home-play::after, :where(html.seratus-app) .home-hero, :where(html.seratus-app) .home-menu, :where(html.seratus-app) .home-roster { animation: none; }
+}
+
+/* Livelier title screen: cursor parallax, breathing logo glow, interactive area cards. */
+:where(html.seratus-app) .home-page { --px: 0; --py: 0; }
+:where(html.seratus-app) .home-art { translate: calc(var(--px) * -26px) calc(var(--py) * -18px); transition: translate .6s cubic-bezier(.2,.7,.3,1); }
+:where(html.seratus-app) .home-sparks { translate: calc(var(--px) * 34px) calc(var(--py) * 24px); transition: translate .8s cubic-bezier(.2,.7,.3,1); }
+:where(html.seratus-app) .home-roster { translate: calc(var(--px) * 10px) calc(var(--py) * 6px); transition: translate .7s cubic-bezier(.2,.7,.3,1); }
+:where(html.seratus-app) .home-logo { position: relative; isolation: isolate; }
+:where(html.seratus-app) .home-logo::before { content: ""; position: absolute; z-index: -1; left: -14%; top: -12%; width: 92%; height: 70%; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, color-mix(in oklab, var(--menu-gold) 46%, transparent), transparent); filter: blur(6px); animation: seratus-home-breathe 3.8s ease-in-out infinite; }
+:where(html.seratus-app) .home-play::after { background: linear-gradient(110deg, transparent 30%, var(--menu-gloss) 46%, oklch(1 0 0 / 70%) 50%, var(--menu-gloss) 54%, transparent 70%); }
+:where(html.seratus-app) .home-sound { width: 38px; height: 38px; border-radius: 999px; }
+:where(html.seratus-app) .home-hero { cursor: default; transition: translate .25s cubic-bezier(.3,1.6,.5,1), box-shadow .25s ease, border-color .25s ease, background .25s ease; }
+:where(html.seratus-app) .home-hero:hover { translate: 0 -10px; animation-play-state: paused; border-color: var(--accent-line); background: var(--menu-glass-hover); box-shadow: 0 18px 30px -12px var(--menu-drop), 0 0 22px -6px var(--accent-line); }
+:where(html.seratus-app) .home-hero:hover > :first-child { animation: seratus-home-wiggle .7s ease-in-out; }
+:where(html.seratus-app) .home-hero-motto { display: block; max-height: 0; overflow: hidden; opacity: 0; font-size: 9.5px; font-weight: 700; font-style: italic; line-height: 1.25; color: var(--menu-gold-hi); transition: max-height .25s ease, opacity .25s ease, margin .25s ease; }
+:where(html.seratus-app) .home-hero:hover .home-hero-motto { max-height: 30px; opacity: 1; margin-top: -2px; }
+@keyframes seratus-home-breathe { 0%, 100% { opacity: .45; transform: scale(.92); } 50% { opacity: 1; transform: scale(1.08); } }
+@keyframes seratus-home-wiggle { 0%, 100% { transform: rotate(0) scale(1); } 25% { transform: rotate(-8deg) scale(1.08); } 55% { transform: rotate(6deg) scale(1.08); } 80% { transform: rotate(-2deg) scale(1.02); } }
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .home-logo::before, :where(html.seratus-app) .home-hero:hover > :first-child { animation: none; }
+  :where(html.seratus-app) .home-art, :where(html.seratus-app) .home-sparks, :where(html.seratus-app) .home-roster { translate: none; }
+}
+
+/* Sound on/off button: dark menus reuse .info-back; the light game header gets its own look. */
+:where(html.seratus-app) .sound-toggle { cursor: pointer; }
+:where(html.seratus-app) .sound-toggle svg { width: 20px; height: 20px; }
+:where(html.seratus-app) .sound-toggle-off { opacity: .7; }
+:where(html.seratus-app) .sound-toggle-light { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--primary); transition: background .15s ease; }
+:where(html.seratus-app) .sound-toggle-light:hover { background: var(--accent); }
+:where(html.seratus-app) .sound-toggle-light svg { width: 18px; height: 18px; }
+
+:where(html.seratus-app) .home-logo-img { display: block; width: clamp(240px, 34vw, 420px); max-height: 34vh; height: auto; object-fit: contain; object-position: left center; filter: drop-shadow(0 0 1px oklch(1 0 0 / 90%)) drop-shadow(0 0 14px oklch(0.95 0.06 85 / 55%)) drop-shadow(0 10px 22px var(--menu-drop)); }
+:where(html.seratus-app) .home-brand-logo { height: 44px; filter: drop-shadow(0 0 1px oklch(1 0 0 / 90%)) drop-shadow(0 0 8px oklch(0.95 0.06 85 / 50%)) !important; width: auto; filter: drop-shadow(0 3px 8px var(--menu-drop)); }
+@media (max-width: 767px) { :where(html.seratus-app) .home-logo-img { width: min(78vw, 360px); max-height: 26vh; object-position: center; } }
+@media (max-height: 520px) and (orientation: landscape) { :where(html.seratus-app) .home-logo-img { width: 210px; max-height: 30vh; } :where(html.seratus-app) .home-brand-logo { height: 30px; } }
+:where(html.seratus-app) .room-step { font: 400 15px/1 var(--font-game, var(--font-display)); color: var(--home-accent); border-bottom: 2px solid var(--gold); padding-bottom: 3px; }
+:where(html.seratus-app) .room-area { transition: border-color .2s, transform .2s; box-shadow: none; }
+:where(html.seratus-app) .room-area:hover { transform: translateY(-2px); }
+:where(html.seratus-app) .room-area-selected { border-color: var(--gold); background: color-mix(in oklab, var(--gold) 8%, var(--card)); box-shadow: inset 0 0 0 1px var(--gold); }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .room-area { transition: none; } }
+
+/* /main pre-game screens: InfoScreen look (dark tokens, framed gold panel), lobby-only classes. */
+:where(html.seratus-app) .play-screen .info-main { flex-direction: column; }
+:where(html.seratus-app) .play-screen .play-panel { max-width: 1120px; flex: 0 1 auto; margin-block: auto; }
+:where(html.seratus-app) .play-screen input.font-mono::placeholder { font-family: var(--font-sans); }
+:where(html.seratus-app) .play-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin-right: -8px; padding-right: 8px; scrollbar-width: thin; }
+:where(html.seratus-app) .play-split { display: grid; gap: 24px; align-content: start; }
+:where(html.seratus-app) .play-col { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+:where(html.seratus-app) .play-step { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; color: var(--menu-ink); }
+:where(html.seratus-app) .play-label { margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .14em; color: var(--menu-gold); }
+:where(html.seratus-app) .play-card { padding: 14px; border-radius: 16px; border: 1px solid var(--menu-line); background: var(--menu-glass); }
+:where(html.seratus-app) .play-note { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 1.5; color: var(--menu-ink-soft); }
+:where(html.seratus-app) .play-alert { flex-shrink: 0; border-radius: 12px; border: 1px solid var(--destructive); background: color-mix(in oklab, var(--destructive) 15%, transparent); padding: 10px 12px; font-size: 13px; color: var(--menu-ink); }
+:where(html.seratus-app) .play-input { background: var(--menu-night-2); border-color: var(--menu-line); }
+:where(html.seratus-app) .play-input:focus-visible { border-color: var(--menu-gold); }
+:where(html.seratus-app) .play-screen .room-area { background: var(--menu-glass); border-color: var(--menu-line); }
+:where(html.seratus-app) .play-screen .room-area:hover { border-color: color-mix(in oklab, var(--menu-gold) 60%, transparent); background: var(--menu-glass-hover); }
+:where(html.seratus-app) .play-screen .room-area-selected, :where(html.seratus-app) .play-screen .room-area-selected:hover { border-color: var(--menu-gold); background: color-mix(in oklab, var(--menu-gold) 14%, var(--menu-night)); box-shadow: inset 0 0 0 1px var(--menu-gold), 0 0 18px -6px var(--menu-gold); }
+:where(html.seratus-app) .play-cta { border-radius: 14px; font: 400 20px/1 var(--font-game); letter-spacing: .04em; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold) 50%, var(--menu-gold-deep)); box-shadow: 0 5px 0 var(--menu-gold-shadow), 0 14px 26px -10px color-mix(in oklab, var(--menu-gold) 60%, transparent), inset 0 2px 0 var(--menu-gloss); transition: transform .12s ease, filter .12s ease; }
+:where(html.seratus-app) .play-cta:hover { transform: translateY(-2px); filter: brightness(1.06); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold) 50%, var(--menu-gold-deep)); }
+:where(html.seratus-app) .play-cta:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--menu-gold-shadow), inset 0 2px 0 var(--menu-gloss); }
+:where(html.seratus-app) .play-cta svg { width: 18px; height: 18px; }
+:where(html.seratus-app) .play-cta:disabled { opacity: 1; color: var(--menu-ink-soft); background: var(--menu-glass); box-shadow: inset 0 0 0 1px var(--menu-line); filter: none; transform: none; }
+:where(html.seratus-app) .play-screen [data-slot="button"], :where(html.seratus-app) .play-screen button.border-input { border-radius: 12px; }
+:where(html.seratus-app) .play-preset[aria-pressed="true"] { border-color: var(--menu-gold); color: var(--menu-gold-hi); background: color-mix(in oklab, var(--menu-gold) 12%, var(--menu-night)); }
+:where(html.seratus-app) .play-saved { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-color: color-mix(in oklab, var(--menu-gold) 60%, transparent); background: color-mix(in oklab, var(--menu-gold) 10%, var(--menu-night)); }
+:where(html.seratus-app) .play-actions { display: flex; flex-direction: column; gap: 12px; }
+:where(html.seratus-app) .play-code { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+:where(html.seratus-app) .play-code .play-label { margin-bottom: 6px; }
+:where(html.seratus-app) .play-code-value { font: 700 34px/1 var(--font-mono, ui-monospace, monospace); letter-spacing: .12em; color: var(--menu-ink); }
+:where(html.seratus-app) .play-progress { display: flex; gap: 10px; }
+:where(html.seratus-app) .play-progress span { flex: 1; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--menu-line); background: var(--menu-glass); font-size: 12px; font-weight: 700; color: var(--menu-ink-soft); }
+:where(html.seratus-app) .play-progress b { font: 400 22px/1 var(--font-game); color: var(--menu-gold); margin-right: 2px; }
+:where(html.seratus-app) .play-seats { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+:where(html.seratus-app) .play-seat { display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 12px; border-radius: 14px; border: 1px solid var(--menu-line); background: var(--menu-glass); }
+:where(html.seratus-app) .play-seat-you { border-color: color-mix(in oklab, var(--menu-gold) 60%, transparent); }
+:where(html.seratus-app) .play-ready { flex-shrink: 0; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; color: var(--menu-ink-soft); background: var(--menu-glass-hover); }
+:where(html.seratus-app) .play-ready-on { color: var(--menu-night); background: var(--menu-gold); }
+:where(html.seratus-app) .play-slot-area { width: 108px; flex-shrink: 0; }
+:where(html.seratus-app) .play-slot-name { flex: 1; min-width: 0; }
+:where(html.seratus-app) .play-toggle { display: flex; flex-shrink: 0; overflow: hidden; border-radius: 10px; border: 1px solid var(--menu-line); }
+:where(html.seratus-app) .play-toggle button { display: grid; place-items: center; width: 38px; height: 34px; color: var(--menu-ink-soft); }
+:where(html.seratus-app) .play-toggle button:hover { background: var(--menu-glass-hover); }
+:where(html.seratus-app) .play-toggle button.play-toggle-on { color: var(--menu-night); background: var(--menu-gold); }
+@media (min-width: 1024px), (min-width: 700px) and (orientation: landscape) {
+  :where(html.seratus-app) .play-split-form { grid-template-columns: minmax(0, 1.35fr) minmax(0, .85fr); gap: 28px; }
+  :where(html.seratus-app) .play-split-seats { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 28px; }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .play-guide { margin-left: auto; }
+  :where(html.seratus-app) .play-split { gap: 18px; }
+  :where(html.seratus-app) .play-col { gap: 16px; }
+  :where(html.seratus-app) .play-areas { gap: 6px; }
+  :where(html.seratus-app) .play-screen .room-area { height: 70px; gap: 6px; padding: 4px 2px; font-size: 9px; line-height: 1.15; }
+  :where(html.seratus-app) .play-screen .room-area-icon { width: 28px; height: 28px; }
+  :where(html.seratus-app) .play-screen .room-area > svg.absolute { right: 4px; top: 4px; }
+  :where(html.seratus-app) .play-slot { flex-wrap: wrap; }
+  :where(html.seratus-app) .play-slot-area { flex: 1; width: auto; }
+  :where(html.seratus-app) .play-slot-name { order: 3; flex-basis: 100%; }
+  :where(html.seratus-app) .play-code-value { font-size: 28px; }
+}
+@media (max-height: 640px) {
+  :where(html.seratus-app) .play-col { gap: 14px; }
+  :where(html.seratus-app) .play-seat { min-height: 52px; padding-block: 6px; }
+  :where(html.seratus-app) .play-screen .room-area { height: 80px; }
+}
+
+@media (max-width: 1100px) {
+  :where(html.seratus-app) .site-header > div { gap: 8px 12px; }
+  :where(html.seratus-app) .site-header nav a { padding-inline: 8px; font-size: 12px; }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .site-header > div { display: grid; grid-template-columns: minmax(0,1fr) auto; padding: 10px 16px; }
+  :where(html.seratus-app) .site-header .site-brand { min-width: 0; }
+  :where(html.seratus-app) .site-header .site-brand > span:first-child { flex-shrink: 0; width: 36px; height: 36px; }
+  :where(html.seratus-app) .site-header .site-brand > span:last-child { min-width: 0; }
+  :where(html.seratus-app) .site-header .site-brand .text-xl { font-size: 17px; }
+  :where(html.seratus-app) .site-header > div > div:last-child { grid-area: 1 / 2; }
+  :where(html.seratus-app) .site-header nav { grid-column: 1 / -1; width: 100%; margin: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px; overflow: visible; }
+  :where(html.seratus-app) .site-header nav a { min-width: 0; flex-direction: column; justify-content: center; gap: 4px; padding: 6px 2px; white-space: normal; text-align: center; font-size: 9px; line-height: 12px; }
+  :where(html.seratus-app) .site-header nav a svg { flex-shrink: 0; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  :where(html.seratus-app) .site-header > div { display: grid; grid-template-columns: minmax(0,1fr) auto; }
+  :where(html.seratus-app) .site-header .site-brand { min-width: 0; }
+  :where(html.seratus-app) .site-header > div > div:last-child { grid-area: 1 / 2; }
+  :where(html.seratus-app) .site-header nav { grid-column: 1 / -1; width: 100%; margin: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); }
+  :where(html.seratus-app) .site-header nav a { justify-content: center; }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .desktop-game-page input { min-width: 0; }
+}
+
+/* One shared page gutter: the header lines up edge-to-edge on wide screens. */
+@media (min-width: 768px) {
+  :where(html.seratus-app) .site-header > div { max-width: none; padding-inline: clamp(32px, 4vw, 80px); }
+}
+
+/* Active game mode bar shares the header's gutter on desktop. */
+@media (min-width: 768px) {
+}
+
+/* Hover magnifier over the board (mouse only, presentation-only). */
+:where(html.seratus-app) .board-loupe {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 5px solid var(--gold);
+  box-shadow: 0 0 0 2px var(--primary), 0 12px 28px color-mix(in oklab, var(--foreground), transparent 65%), inset 0 0 18px color-mix(in oklab, var(--foreground), transparent 70%);
+  background: var(--board);
+}
+:where(html.seratus-app) .board-loupe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 25%, color-mix(in oklab, var(--paper), transparent 55%), transparent 45%);
+}
+
+/* Turn indicator: whose turn it is and what they are doing (reading, voting). */
+:where(html.seratus-app) .turn-banner { animation: seratus-turn-in .45s ease-out; }
+:where(html.seratus-app) .turn-banner-avatar { display: inline-flex; box-shadow: 0 0 0 0 var(--gold); animation: seratus-turn-ring 1.6s ease-out infinite; }
+:where(html.seratus-app) .player-card-active { animation: seratus-turn-glow 1.8s ease-in-out infinite; }
+:where(html.seratus-app) .turn-reading-icon { animation: seratus-turn-read 1.4s ease-in-out infinite; transform-origin: center; }
+:where(html.seratus-app) .turn-dots i { font-style: normal; animation: seratus-avatar-dot 1.2s infinite; }
+:where(html.seratus-app) .turn-dots i:nth-child(2) { animation-delay: .2s; }
+:where(html.seratus-app) .turn-dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes seratus-turn-in { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes seratus-turn-ring { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 70%, transparent); } 100% { box-shadow: 0 0 0 9px transparent; } }
+@keyframes seratus-turn-glow { 0%,100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 45%, transparent); } 50% { box-shadow: 0 0 18px 2px color-mix(in oklab, var(--gold) 45%, transparent); } }
+@keyframes seratus-turn-read { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(8deg) translateY(-1px); } }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .turn-banner, :where(html.seratus-app) .turn-banner-avatar, :where(html.seratus-app) .player-card-active, :where(html.seratus-app) .turn-reading-icon, :where(html.seratus-app) .turn-dots i { animation: none !important; } }
+
+/* Question popup fits the screen without scrolling: wider card, two-column answers, compact spacing. */
+@media (min-width: 640px) {
+  :where(html.seratus-app) .card-dialog { max-width: min(960px, 94vw); gap: 8px; padding: 12px 16px; }
+  :where(html.seratus-app) .card-dialog > div:first-of-type img, :where(html.seratus-app) .card-dialog [data-avatar] { max-height: 40px; }
+  :where(html.seratus-app) .card-dialog .card-front > div:nth-child(2) { padding: 10px 14px; gap: 8px; }
+  :where(html.seratus-app) .card-dialog .card-front > div:nth-child(2) > * + * { margin-top: 8px; }
+  :where(html.seratus-app) .card-dialog .card-front > div:first-child { padding-block: 6px; }
+  :where(html.seratus-app) .card-dialog [role="radiogroup"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  :where(html.seratus-app) .card-dialog [role="radiogroup"] > button { min-height: 0; padding: 6px 10px; font-size: 13px; line-height: 1.35; }
+  :where(html.seratus-app) .card-dialog [role="radiogroup"] > button:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  :where(html.seratus-app) .card-dialog .card-front p.text-base { font-size: 15px; line-height: 1.45; }
+  :where(html.seratus-app) .card-dialog .card-front button[data-size="lg"], :where(html.seratus-app) .card-dialog .card-front .h-10 { height: 38px; }
+}
+@media (min-width: 640px) and (max-height: 720px) {
+  :where(html.seratus-app) .card-dialog [role="radiogroup"] > button { font-size: 12px; padding: 5px 8px; }
+  :where(html.seratus-app) .card-dialog .card-front p.text-base { font-size: 14px; }
+  :where(html.seratus-app) .card-dialog .card-front > div:last-child.border-t { display: none; }
+}
+
+/* Transisi halus antar halaman */
+@keyframes seratus-page-fade-slide {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+:where(html.seratus-app) .page-transition {
+  /* backwards, not both: a kept transform would trap fixed bars (mobile game tabs) inside the page. */
+  animation: seratus-page-fade-slide 260ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .page-transition { animation: none; }
+}
+
+/* Information pages: same game look as the title screen, dark tokens, one framed panel with explicit paging. */
+:where(html.seratus-app) .info-art { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; filter: blur(4px) saturate(1.1); opacity: .6; transform: scale(1.05); }
+:where(html.seratus-app) .info-shade { position: absolute; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(ellipse 80% 70% at 50% 45%, color-mix(in oklab, var(--menu-night) 55%, transparent), var(--menu-night-2) 92%); }
+:where(html.seratus-app) .info-top { flex-shrink: 0; display: flex; align-items: center; gap: 12px; padding: 14px clamp(16px, 4vw, 64px) 12px; }
+:where(html.seratus-app) .info-back { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 14px; border: 1px solid var(--menu-line); background: var(--menu-glass); backdrop-filter: blur(8px); color: var(--menu-gold); transition: transform .15s ease, border-color .15s ease; }
+:where(html.seratus-app) .info-back:hover { transform: translateY(-2px); border-color: var(--menu-gold); }
+:where(html.seratus-app) .info-back svg { width: 20px; height: 20px; }
+:where(html.seratus-app) .info-tabs { display: flex; gap: 4px; margin-inline: auto; padding: 5px; border-radius: 999px; border: 1px solid var(--menu-line); background: var(--menu-glass); backdrop-filter: blur(8px); }
+:where(html.seratus-app) .info-tab { display: flex; align-items: center; justify-content: center; gap: 7px; height: 38px; padding: 0 18px; border-radius: 999px; font-size: 13px; font-weight: 800; color: var(--menu-ink-soft); transition: color .15s ease, background .15s ease; }
+:where(html.seratus-app) .info-tab svg { width: 16px; height: 16px; }
+:where(html.seratus-app) .info-tab:hover { color: var(--menu-ink); background: var(--menu-glass-hover); }
+:where(html.seratus-app) .info-tab.info-tab-active { color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold-deep)); box-shadow: 0 3px 0 var(--menu-gold-shadow); }
+:where(html.seratus-app) .info-play { display: flex; align-items: center; gap: 8px; flex-shrink: 0; height: 44px; padding: 0 18px 0 14px; border-radius: 14px; font: 400 19px/1 var(--font-game); letter-spacing: .05em; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold) 50%, var(--menu-gold-deep)); box-shadow: 0 4px 0 var(--menu-gold-shadow), inset 0 2px 0 var(--menu-gloss); transition: transform .12s ease; }
+:where(html.seratus-app) .info-play:hover { transform: translateY(-2px); }
+:where(html.seratus-app) .info-play:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--menu-gold-shadow); }
+:where(html.seratus-app) .info-play svg { width: 16px; height: 16px; fill: currentColor; }
+:where(html.seratus-app) .info-main { flex: 1; min-height: 0; display: flex; padding: 4px clamp(16px, 4vw, 64px) 18px; }
+:where(html.seratus-app) .info-panel { width: 100%; max-width: 1000px; margin-inline: auto; flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 18px; padding: 22px 28px 18px; border-radius: 24px; border: 2px solid color-mix(in oklab, var(--menu-gold) 55%, transparent); background: linear-gradient(180deg, var(--menu-panel-hi), var(--menu-panel-lo)); box-shadow: 0 0 0 6px var(--menu-glass), 0 26px 60px -20px var(--menu-drop), inset 0 1px 0 oklch(1 0 0 / 10%); backdrop-filter: blur(10px); color: var(--foreground); animation: seratus-home-enter .5s ease-out both; }
+:where(html.seratus-app) .info-heading { flex-shrink: 0; display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--menu-line); }
+:where(html.seratus-app) .info-heading-icon { display: grid; place-items: center; flex-shrink: 0; width: 52px; height: 52px; border-radius: 15px; color: var(--menu-night); background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold-deep)); box-shadow: 0 4px 0 var(--menu-gold-shadow); }
+:where(html.seratus-app) .info-heading-icon svg { width: 26px; height: 26px; }
+:where(html.seratus-app) .info-heading h1 { font: 400 32px/1.05 var(--font-game); letter-spacing: .03em; color: var(--menu-ink); text-shadow: 0 3px 0 var(--menu-blue-shadow); }
+:where(html.seratus-app) .info-heading p { margin-top: 6px; font-size: 13px; color: var(--menu-ink-soft); }
+:where(html.seratus-app) .info-content { flex: 1; min-height: 0; }
+:where(html.seratus-app) .info-controls { flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 12px; padding-top: 12px; border-top: 1px solid var(--menu-line); }
+:where(html.seratus-app) .info-page-btn { width: 42px; height: 42px; border-radius: 12px; }
+:where(html.seratus-app) .info-page-count { min-width: 56px; text-align: center; font: 400 17px/1 var(--font-game); color: var(--menu-gold); }
+:where(html.seratus-app) .guide-sections { display: flex; flex-wrap: wrap; gap: 6px; }
+:where(html.seratus-app) .guide-sections button { white-space: normal; height: auto; min-height: 32px; border-radius: 999px; text-align: left; font-weight: 700; }
+:where(html.seratus-app) .about-overview { position: relative; padding-right: 40%; }
+:where(html.seratus-app) .about-art { position: absolute; right: 0; top: 0; width: 36%; aspect-ratio: 1; object-fit: cover; object-position: right; border-radius: 16px; border: 2px solid color-mix(in oklab, var(--menu-gold) 45%, transparent); }
+:where(html.seratus-app) .leaderboard-podium > div { min-width: 0; padding: 10px; }
+:where(html.seratus-app) .leaderboard-podium > div > div:first-of-type { overflow-wrap: anywhere; font-size: 14px; }
+@media (max-width: 767px) {
+  :where(html.seratus-app) .info-top { flex-wrap: wrap; padding: 10px 16px 8px; gap: 8px; }
+  :where(html.seratus-app) .info-tabs { order: 3; width: 100%; margin: 0; }
+  :where(html.seratus-app) .info-tab { flex: 1; padding: 0 8px; font-size: 12px; height: 34px; }
+  :where(html.seratus-app) .info-play { margin-left: auto; height: 40px; }
+  :where(html.seratus-app) .info-back { width: 40px; height: 40px; }
+  :where(html.seratus-app) .info-main { padding: 2px 12px 12px; }
+  :where(html.seratus-app) .info-panel { gap: 14px; padding: 16px 16px 12px; border-radius: 18px; box-shadow: 0 0 0 4px var(--menu-glass), 0 20px 40px -20px var(--menu-drop); }
+  :where(html.seratus-app) .info-heading { gap: 10px; padding-bottom: 10px; }
+  :where(html.seratus-app) .info-heading-icon { width: 40px; height: 40px; border-radius: 12px; }
+  :where(html.seratus-app) .info-heading-icon svg { width: 20px; height: 20px; }
+  :where(html.seratus-app) .info-heading h1 { font-size: 24px; }
+  :where(html.seratus-app) .info-heading p { margin-top: 3px; font-size: 12px; line-height: 16px; }
+  :where(html.seratus-app) .info-controls { padding-top: 10px; }
+  :where(html.seratus-app) .guide-sections { gap: 5px; }
+  :where(html.seratus-app) .guide-sections button { font-size: 10px; padding: 5px 9px; min-height: 28px; }
+  :where(html.seratus-app) .guide-current { margin-top: 14px; padding-top: 14px; }
+  :where(html.seratus-app) .guide-current h2 { font-size: 18px; }
+  :where(html.seratus-app) .guide-current > p:last-child { font-size: 14px; line-height: 24px; margin-top: 12px; }
+  :where(html.seratus-app) .about-overview { padding-right: 0; }
+  :where(html.seratus-app) .about-art { position: static; float: right; width: 32%; margin: 0 0 8px 12px; }
+  :where(html.seratus-app) .about-overview p { font-size: 13px; line-height: 22px; }
+  :where(html.seratus-app) .leaderboard-podium svg { width: 18px; height: 18px; }
+  :where(html.seratus-app) .leaderboard-podium > div > div:last-child { font-size: 10px; }
+  :where(html.seratus-app) .info-content article { padding: 12px; }
+  :where(html.seratus-app) .info-content article .text-lg { font-size: 15px; overflow-wrap: anywhere; }
+}
+@media (max-height: 640px) {
+  :where(html.seratus-app) .info-top { padding-block: 8px 6px; }
+  :where(html.seratus-app) .info-panel { gap: 12px; padding-block: 14px 12px; }
+  :where(html.seratus-app) .info-heading { padding-bottom: 10px; }
+  :where(html.seratus-app) .info-heading-icon { width: 42px; height: 42px; }
+  :where(html.seratus-app) .info-heading h1 { font-size: 26px; }
+}
+@media (max-height: 500px) {
+  :where(html.seratus-app) .info-main { padding-bottom: 8px; }
+  :where(html.seratus-app) .info-panel { gap: 8px; padding: 10px 16px 8px; }
+  :where(html.seratus-app) .info-heading { padding-bottom: 6px; }
+  :where(html.seratus-app) .info-heading-icon { display: none; }
+  :where(html.seratus-app) .info-heading h1 { font-size: 20px; }
+  :where(html.seratus-app) .info-heading p { display: none; }
+  :where(html.seratus-app) .info-page-btn { width: 34px; height: 34px; }
+  :where(html.seratus-app) .guide-current { margin-top: 8px; padding-top: 8px; }
+  :where(html.seratus-app) .guide-current h2 { margin-top: 4px; font-size: 16px; }
+  :where(html.seratus-app) .guide-current > p:last-child { margin-top: 6px; font-size: 12px; line-height: 18px; }
+  :where(html.seratus-app) .guide-current > p:first-child { display: none; }
+  :where(html.seratus-app) .info-controls { padding-top: 6px; }
+  :where(html.seratus-app) .about-overview p { font-size: 12px; line-height: 18px; margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .info-panel { animation: none; } }
+
+/* Kunci Jawaban */
+:where(html.seratus-app) .key-search{display:flex;align-items:center;gap:.5rem;border:2px solid var(--gold,#e8b931);border-radius:.75rem;padding:.4rem .75rem;background:rgb(0 0 0/.25)}
+:where(html.seratus-app) .key-search svg{width:1.1rem;height:1.1rem;opacity:.8}
+:where(html.seratus-app) .key-search input{flex:1;background:transparent;border:0;outline:0;color:inherit;font-size:.95rem}
+:where(html.seratus-app) .key-grid{max-height:calc(100dvh - 23.5rem);min-height:8rem;overflow-y:auto;padding-right:.25rem;align-items:start;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.75rem;margin-top:.75rem}
+:where(html.seratus-app) .key-card{border:2px solid rgb(232 185 49/.55);border-radius:1rem;padding:.75rem;background:rgb(255 255 255/.06);box-shadow:0 6px 0 rgb(0 0 0/.25)}
+:where(html.seratus-app) .key-card header{display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin-bottom:.4rem}
+:where(html.seratus-app) .key-code{font-family:"Lilita One",system-ui;letter-spacing:.04em;background:#e8b931;color:#1a2140;border-radius:.4rem;padding:.1rem .45rem;font-size:.85rem}
+:where(html.seratus-app) .key-deck{font-size:.7rem;font-weight:700;opacity:.8;text-transform:uppercase}
+:where(html.seratus-app) .key-q{font-size:.85rem;line-height:1.35;font-weight:600}
+:where(html.seratus-app) .key-opts{margin-top:.45rem;display:grid;gap:.25rem;font-size:.75rem;line-height:1.3}
+:where(html.seratus-app) .key-opts li{display:flex;gap:.4rem;align-items:flex-start;padding:.25rem .4rem;border-radius:.4rem;opacity:.75}
+:where(html.seratus-app) .key-opts li.is-key{opacity:1;background:rgb(34 197 94/.22);outline:1px solid rgb(34 197 94/.8)}
+:where(html.seratus-app) .key-opts li svg{width:1rem;height:1rem;flex:none;color:#4ade80}
+:where(html.seratus-app) .key-opts li span{flex:1}
+:where(html.seratus-app) .key-notes{margin-top:.45rem;font-size:.75rem;opacity:.85;display:grid;gap:.2rem}
+
+/* Active game: night table. Same layout as the light table, recoloured through tokens.
+   GameLayout puts .dark.game-night on <html> too, so dialogs and popovers share these tokens. */
+:where(html.seratus-app) .game-night {
+  --background: oklch(0.16 0.05 262);
+  --foreground: oklch(0.97 0.01 85);
+  --card: oklch(0.21 0.055 262);
+  --card-foreground: oklch(0.97 0.01 85);
+  --popover: oklch(0.21 0.055 262);
+  --popover-foreground: oklch(0.97 0.01 85);
+  --primary: oklch(0.82 0.15 80);
+  --primary-foreground: oklch(0.17 0.05 262);
+  --secondary: oklch(0.27 0.06 262);
+  --secondary-foreground: oklch(0.97 0.01 85);
+  --muted: oklch(0.27 0.06 262);
+  --muted-foreground: oklch(0.8 0.03 255);
+  --accent: oklch(0.3 0.07 262);
+  --accent-foreground: oklch(0.97 0.01 85);
+  --border: oklch(0.82 0.15 80 / 22%);
+  --input: oklch(0.82 0.15 80 / 30%);
+  --ring: oklch(0.82 0.15 80);
+  --gold: oklch(0.82 0.15 80);
+  --gold-foreground: oklch(0.17 0.05 262);
+  --paper: oklch(0.25 0.06 262);
+  --cardboard: oklch(0.19 0.05 262);
+  --cardboard-fiber: oklch(1 0 0 / 4%);
+  --board: oklch(0.21 0.055 262);
+  --board-line: oklch(1 0 0 / 20%);
+  --table-wood: oklch(0.3 0.05 50);
+  --table-wood-dark: oklch(0.18 0.03 45);
+  --table-shadow: oklch(0 0 0 / 45%);
+  --shadow-card: 0 1px 0 oklch(1 0 0 / 6%) inset, 0 12px 28px -14px oklch(0 0 0 / 70%);
+  --night-panel: linear-gradient(180deg, var(--menu-panel-hi), var(--menu-panel-lo));
+  --night-edge: color-mix(in oklab, var(--menu-gold) 32%, transparent);
+  color-scheme: dark;
+}
+html.seratus-app.game-night body { background: var(--menu-night-2); }
+:where(html.seratus-app) .desktop-game-page.game-night { position: relative; isolation: isolate; color: var(--foreground); background: transparent; }
+:where(html.seratus-app) .game-night-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+:where(html.seratus-app) .game-night-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; filter: blur(6px) saturate(1.1); opacity: .42; transform: scale(1.06); pointer-events: none; }
+:where(html.seratus-app) .game-night-shade { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 85% 75% at 50% 45%, color-mix(in oklab, var(--menu-night) 60%, transparent), var(--menu-night-2) 95%); }
+
+/* Game bar */
+:where(html.seratus-app) .game-top { padding: 8px clamp(12px, 2vw, 28px) 6px; }
+:where(html.seratus-app) .game-top .info-back { width: 38px; height: 38px; border-radius: 12px; }
+:where(html.seratus-app) .game-top .info-back svg { width: 18px; height: 18px; }
+:where(html.seratus-app) .game-top .info-tab { height: 32px; padding: 0 16px; font-size: 12px; }
+:where(html.seratus-app) .game-top-brand { flex-shrink: 0; display: flex; align-items: center; transition: transform .15s ease; }
+:where(html.seratus-app) .game-top-brand:hover { transform: translateY(-1px) scale(1.03); }
+:where(html.seratus-app) .game-top-brand img { height: 40px; width: auto; filter: drop-shadow(0 0 1px oklch(1 0 0 / 90%)) drop-shadow(0 0 8px oklch(0.95 0.06 85 / 45%)); }
+:where(html.seratus-app) .game-top-home { display: none; }
+/* Minimized top bar (Layar Penuh): desktop table only; mobile keeps its normal header. */
+:where(html.seratus-app) .game-session-sound { display: none; }
+@media (min-width: 768px) {
+  :where(html.seratus-app) .game-compact .game-top, :where(html.seratus-app) .game-compact .game-session-note, :where(html.seratus-app) .game-compact .game-speed-label { display: none; }
+  :where(html.seratus-app) .game-compact .game-session-sound { display: grid; place-items: center; width: 28px; height: 25px; border-radius: 6px; border: 1px solid var(--menu-line); background: var(--menu-glass); color: var(--menu-gold); }
+  :where(html.seratus-app) .game-compact .game-session-sound svg { width: 15px; height: 15px; }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .game-top-brand { display: none; }
+  :where(html.seratus-app) .game-top-home { display: grid; margin-right: auto; }
+  :where(html.seratus-app) .game-top .info-tab { height: 32px; }
+}
+
+/* Panels: glassy navy with a thin gold edge */
+:where(html.seratus-app) .game-night .game-hud > div,
+:where(html.seratus-app) .game-night .game-actions,
+:where(html.seratus-app) .game-night .game-players,
+:where(html.seratus-app) .game-night .game-card-region,
+:where(html.seratus-app) .game-night .game-log-region section,
+:where(html.seratus-app) .game-night .tabletop-board { background: var(--night-panel) !important; border: 1px solid var(--night-edge); box-shadow: 0 0 0 3px oklch(0.18 0.05 262 / 45%), 0 18px 36px -20px var(--menu-drop) !important; backdrop-filter: blur(8px); }
+:where(html.seratus-app) .game-night .game-hud > div { border-top: 2px solid color-mix(in oklab, var(--menu-gold) 60%, transparent); }
+:where(html.seratus-app) .game-night .game-hud .text-2xl, :where(html.seratus-app) .game-night .game-players .text-xl { font-family: var(--font-game); font-weight: 400; letter-spacing: .02em; color: var(--menu-gold-hi); }
+:where(html.seratus-app) .game-night .game-hud .uppercase, :where(html.seratus-app) .game-night .game-players h2, :where(html.seratus-app) .game-night .game-log-region h2, :where(html.seratus-app) .game-night .game-actions h3 { color: var(--menu-gold); letter-spacing: .08em; }
+:where(html.seratus-app) .game-night .active-card-preview { background: transparent; }
+:where(html.seratus-app) .game-night .active-card-preview h2 { background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold-deep)); color: var(--menu-night); }
+:where(html.seratus-app) .game-night .preview-options b { background: var(--menu-gold); color: var(--menu-night); }
+:where(html.seratus-app) .game-night .tabletop-board .game-board-viewport { border-color: var(--menu-gold); box-shadow: 0 0 0 2px var(--menu-night), 0 0 28px -6px color-mix(in oklab, var(--menu-gold) 55%, transparent); }
+:where(html.seratus-app) .game-night .board-inspection { border: 1px solid var(--night-edge); }
+
+/* Gold pressable roll button, like the menu CTA */
+:where(html.seratus-app) .game-night .dice-roll-button { color: var(--menu-night) !important; background: linear-gradient(180deg, var(--menu-gold-hi), var(--menu-gold) 50%, var(--menu-gold-deep)) !important; box-shadow: 0 4px 0 var(--menu-gold-shadow), inset 0 2px 0 var(--menu-gloss) !important; font-family: var(--font-game); font-weight: 400; letter-spacing: .04em; }
+:where(html.seratus-app) .game-night .dice-roll-button:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 var(--menu-gold-shadow) !important; }
+:where(html.seratus-app) .game-night .dice-roll-button:disabled { filter: saturate(.35) brightness(.7); opacity: .8; }
+
+/* Dice faces stay ivory so pips read at a glance */
+:where(html.seratus-app) .game-night .dice3d-face { background: radial-gradient(circle at 30% 25%, oklch(0.99 0.01 85), oklch(0.9 0.03 85)); border-color: oklch(0.8 0.05 80); }
+:where(html.seratus-app) .game-night .dice3d-pip { background: radial-gradient(circle at 40% 35%, oklch(0.42 0.1 260), oklch(0.2 0.06 262)); }
+
+/* Card dialog: navy card with gold rim */
+:where(html.seratus-app) .game-night .card-front { box-shadow: 0 0 0 1px var(--night-edge), 0 4px 0 var(--cardboard), 0 18px 30px -12px var(--table-shadow); }
+html.seratus-app.game-night [role="dialog"] { border-color: var(--night-edge); }
+
+/* Flat top-down board (original artwork view), sized to fill the available board area. */
+:where(html.seratus-app) .game-night .tabletop-board, :where(html.seratus-app) .tabletop-board { background: transparent !important; border: 0 !important; box-shadow: none !important; backdrop-filter: none; padding: 0 !important; }
+:where(html.seratus-app) .tabletop-board .game-board-viewport > svg { transform: none !important; filter: none !important; animation: none !important; outline: 0; margin: 0; }
+:where(html.seratus-app) .tabletop-board .game-board-viewport { overflow: hidden; padding: 0; filter: none; border: 3px solid var(--gold); box-shadow: 0 14px 30px -12px rgb(0 0 0 / .55); border-radius: 10px; }
+@media (min-width: 768px) {
+  :where(html.seratus-app) .tabletop-board { height: 100%; display: flex; align-items: center; justify-content: center; container-type: size; }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { width: min(100cqw, 100cqh) !important; height: auto; aspect-ratio: 1; }
+  :where(html.seratus-app) .tabletop-board .game-board-legend { display: none; }
+}
+
+@media (min-width: 768px) {
+  /* Players: equal cards that share the column height, no overlapping badges. */
+  :where(html.seratus-app) .game-players > section { display: flex; flex-direction: column; gap: 6px; min-height: 100%; }
+  :where(html.seratus-app) .game-players article { flex: 1 1 auto; max-height: 104px; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 6px 9px; }
+  :where(html.seratus-app) .game-players article > * { margin: 0 !important; }
+  :where(html.seratus-app) .game-players article > div:first-child { gap: 8px; }
+  :where(html.seratus-app) .game-players article > div:first-child .mt-0\.5 { margin-top: 2px; padding: 1px 7px; font-size: 8.5px; }
+  :where(html.seratus-app) .game-players article > div:first-child > .text-right > .text-\[10px\] { display: block; font-size: 8px; }
+  :where(html.seratus-app) .game-players article > .mt-2\.5 { padding-left: 35px; gap: 4px; }
+  :where(html.seratus-app) .game-players article > .mt-2 { display: none; }
+  :where(html.seratus-app) .game-players article > .mt-1\.5 { height: 4px; margin-left: 35px !important; }
+
+  /* Zoom buttons sit beside the board frame instead of covering its corner. */
+  :where(html.seratus-app) .game-board > .absolute { flex-direction: column; top: 50%; transform: translateY(-50%); right: max(2px, calc((100cqw - min(100cqw, 100cqh)) / 2 - 40px)); }
+  :where(html.seratus-app) .game-board > .absolute button { height: 28px; width: 28px; opacity: .8; border-radius: 8px; }
+  :where(html.seratus-app) .game-board > .absolute button:hover { opacity: 1; }
+}
+
+/* ---------- Board decks: counts on the four card pictures; the waiting deck glows ---------- */
+:where(html.seratus-app) .board-deck-count, :where(html.seratus-app) .board-deck-tag { pointer-events: none; }
+:where(html.seratus-app) .board-deck-count circle, :where(html.seratus-app) .board-deck-tag rect { filter: drop-shadow(0 2px 2px rgb(0 0 0 / .3)); }
+:where(html.seratus-app) .board-deck-count circle { fill: var(--card); stroke: var(--on-deck); }
+:where(html.seratus-app) .board-deck-count text { fill: var(--card-foreground); }
+:where(html.seratus-app) .board-deck-count-active circle { fill: var(--gold); }
+:where(html.seratus-app) .board-deck-count-active text { fill: var(--gold-foreground); }
+:where(html.seratus-app) .board-deck-dim { fill: var(--background); fill-opacity: .4; pointer-events: none; }
+:where(html.seratus-app) .board-deck-lift { pointer-events: none; transform-box: fill-box; transform-origin: 50% 100%; animation: seratus-board-deck-lift .45s cubic-bezier(.3,.7,.3,1.3) both; }
+:where(html.seratus-app) .board-deck-lift > rect:first-child { filter: drop-shadow(0 8px 6px rgb(0 0 0 / .35)); }
+:where(html.seratus-app) .board-deck-ready .board-deck-lift { animation: seratus-board-deck-lift .45s cubic-bezier(.3,.7,.3,1.3) both, seratus-board-deck-wiggle 1.6s ease-in-out .45s infinite; }
+:where(html.seratus-app) .board-card-spot:hover .board-deck-lift { translate: 0 -6px; }
+@keyframes seratus-board-deck-lift { from { opacity: 0; transform: translateY(6px) scale(.92); } to { opacity: 1; transform: translateY(-10px) rotate(-4deg); } }
+@keyframes seratus-board-deck-wiggle { 0%, 100% { transform: translateY(-10px) rotate(-4deg); } 50% { transform: translateY(-16px) rotate(3deg); } }
+:where(html.seratus-app) .board-deck-ready .board-deck-tag { animation: seratus-board-deck-bob 1.2s ease-in-out infinite; transform-box: fill-box; }
+@keyframes seratus-board-deck-bob { 50% { translate: 0 -4px; } }
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .board-deck-ready .board-deck-tag, :where(html.seratus-app) .board-deck-lift, :where(html.seratus-app) .board-deck-ready .board-deck-lift { animation: none; transform: translateY(-10px) rotate(-4deg); } }
+@media (max-width: 767px) { :where(html.seratus-app) .board-deck-lift > rect:first-child, :where(html.seratus-app) .board-deck-count circle, :where(html.seratus-app) .board-deck-tag rect { filter: none; } }
+
+/* ---------- Card draw: the top card lifts off its board deck and flies to the centre ---------- */
+:where(html.seratus-app) .card-draw-fx { position: fixed; inset: 0; z-index: 60; pointer-events: none; perspective: 1200px; }
+:where(html.seratus-app) .card-draw-fx-dim { position: absolute; inset: 0; background: rgb(0 0 0 / .8); animation: seratus-card-draw-dim .9s ease-out both; }
+:where(html.seratus-app) .card-draw-fx-card { position: absolute; transform-style: preserve-3d; animation: seratus-card-draw-fly .9s cubic-bezier(.3,.7,.25,1) both; }
+:where(html.seratus-app) .card-draw-fx-back { position: absolute; inset: 0; display: grid; place-content: center; gap: 4px; border: 5px solid var(--on-deck); border-radius: 12px; color: var(--on-deck); text-align: center; box-shadow: 0 0 0 3px var(--gold), 0 24px 40px -12px rgb(0 0 0 / .6), 0 0 40px -6px var(--gold); }
+:where(html.seratus-app) .card-draw-fx-back strong { color: var(--gold); font: 900 3rem/1 var(--font-display); }
+:where(html.seratus-app) .card-draw-fx-back span { font-size: 11px; font-weight: 900; letter-spacing: .35em; }
+:where(html.seratus-app) .card-draw-fx-back small { margin-top: 8px; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+:where(html.seratus-app) .card-draw-fx-back::after { content: ""; position: absolute; inset: 0; border-radius: 8px; background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / .45) 50%, transparent 70%) no-repeat; background-size: 250% 100%; animation: seratus-card-draw-shine .9s ease-out both; }
+@keyframes seratus-card-draw-fly {
+  0% { transform: translate(var(--dx), var(--dy)) scale(var(--s)); }
+  22% { transform: translate(var(--dx), calc(var(--dy) - 28px)) scale(calc(var(--s) * 1.25)) rotateZ(-8deg) rotateX(18deg); }
+  78% { transform: translate(0, -8px) scale(1.06) rotateZ(3deg) rotateY(-12deg); }
+  100% { transform: translate(0, 0) scale(1) rotateZ(0) rotateY(0); }
+}
+@keyframes seratus-card-draw-dim { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes seratus-card-draw-shine { 0%, 55% { background-position: 120% 0; } 100% { background-position: -60% 0; } }
+
+/* ---------- Players on the board: compact chips toward each area's arm (desktop) ---------- */
+:where(html.seratus-app) .board-players { display: none; }
+@media (min-width: 768px) {
+  :where(html.seratus-app) .tabletop-board .game-board-viewport { position: relative; container-type: inline-size; }
+  :where(html.seratus-app) .board-players { display: block; position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+  :where(html.seratus-app) .board-player {
+    position: absolute; display: flex; align-items: center; gap: 1.2cqw;
+    width: 27cqw; height: 6.6cqw; padding: 0 1.4cqw 0 .7cqw;
+    border-radius: 999px; pointer-events: auto;
+    background: color-mix(in oklab, var(--card) 92%, transparent);
+    color: var(--card-foreground);
+    border: max(2px, .45cqw) solid var(--area, var(--gold));
+    box-shadow: 0 .8cqw 1.6cqw -.6cqw rgb(0 0 0 / .55);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  /* Each chip is centred on its own arm's axis, just outside the arm's end in the board art (symmetric pentagon). */
+  :where(html.seratus-app) .board-player-top { left: 36.5cqw; top: 1.6cqw; }
+  :where(html.seratus-app) .board-player-tl { left: 5.5cqw; top: 21.5cqw; }
+  :where(html.seratus-app) .board-player-tr { right: 5.5cqw; top: 21.5cqw; flex-direction: row-reverse; padding: 0 .7cqw 0 1.4cqw; text-align: right; }
+  :where(html.seratus-app) .board-player-bl { left: 15.5cqw; top: 90.6cqw; }
+  :where(html.seratus-app) .board-player-br { right: 15.5cqw; top: 90.6cqw; flex-direction: row-reverse; padding: 0 .7cqw 0 1.4cqw; text-align: right; }
+  :where(html.seratus-app) .board-player .board-player-avatar { width: 5.4cqw !important; height: 5.4cqw !important; }
+  :where(html.seratus-app) .board-player .avatar-bubble { transform: scale(.7); transform-origin: bottom left; }
+  :where(html.seratus-app) .board-player-body { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: .3cqw; }
+  :where(html.seratus-app) .board-player-name { display: flex; align-items: center; gap: .6cqw; min-width: 0; font-size: clamp(9px, 1.85cqw, 15px); font-weight: 800; line-height: 1.1; }
+  :where(html.seratus-app) .board-player-tr .board-player-name, :where(html.seratus-app) .board-player-br .board-player-name { flex-direction: row-reverse; }
+  :where(html.seratus-app) .board-player-name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  :where(html.seratus-app) .board-player-name svg { width: 1.7cqw; height: 1.7cqw; min-width: 9px; min-height: 9px; flex-shrink: 0; color: var(--muted-foreground); }
+  :where(html.seratus-app) .board-player-meta { display: flex; align-items: center; gap: .8cqw; font-size: clamp(8px, 1.5cqw, 12px); line-height: 1; }
+  :where(html.seratus-app) .board-player-tr .board-player-meta, :where(html.seratus-app) .board-player-br .board-player-meta { flex-direction: row-reverse; }
+  :where(html.seratus-app) .board-player-votes { display: inline-flex; align-items: center; gap: .4cqw; font-weight: 900; color: var(--gold); }
+  :where(html.seratus-app) .board-player-votes svg { width: 1.6cqw; height: 1.6cqw; min-width: 9px; min-height: 9px; }
+  :where(html.seratus-app) .board-player-status { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: .2cqw .9cqw; border-radius: 999px; background: var(--muted); color: var(--muted-foreground); font-weight: 700; }
+  :where(html.seratus-app) .board-player-active { outline: max(2px, .4cqw) solid var(--gold); outline-offset: max(1px, .2cqw); box-shadow: 0 0 0 .4cqw color-mix(in oklab, var(--gold) 35%, transparent), 0 .8cqw 2cqw -.6cqw var(--gold); }
+  :where(html.seratus-app) .board-player-active .board-player-status { background: var(--gold); color: var(--gold-foreground); }
+  :where(html.seratus-app) .board-player-active { transform: scale(1.06); }
+  :where(html.seratus-app) .board-player-idle { opacity: .6; }
+  :where(html.seratus-app) .board-player:hover { opacity: .25; }
+}
+/* ---------- Desktop: turn, status, history and dice controls tucked into the board corners ---------- */
+@media (min-width: 768px) {
+  :where(html.seratus-app) .game-workspace.game-workspace-board { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+  :where(html.seratus-app) .game-workspace-board .game-board-region { grid-area: 1 / 1; }
+  :where(html.seratus-app) .board-hud { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+  :where(html.seratus-app) .bhud, :where(html.seratus-app) .board-dock {
+    position: absolute; pointer-events: auto; color: var(--card-foreground);
+    background: color-mix(in oklab, var(--card) 86%, transparent);
+    border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+    border-radius: 1.6cqw; box-shadow: 0 .8cqw 2cqw -1cqw rgb(0 0 0 / .55);
+    backdrop-filter: blur(6px);
+  }
+  /* Top-left: whose turn + phase */
+  :where(html.seratus-app) .bhud-tl { left: 2.2cqw; top: 2.2cqw; width: 31cqw; padding: 1cqw 1.3cqw; display: flex; flex-direction: column; gap: .8cqw; }
+  :where(html.seratus-app) .bhud-turn { display: flex; align-items: center; gap: 1cqw; min-width: 0; }
+  :where(html.seratus-app) .bhud-turn .tabletop-pawn { width: 4.4cqw; height: 5.6cqw; min-width: 20px; min-height: 26px; }
+  :where(html.seratus-app) .bhud-name { font-family: var(--font-game, var(--font-display)); font-size: clamp(11px, 2.3cqw, 18px); line-height: 1.1; color: var(--gold); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  :where(html.seratus-app) .bhud-hint { font-size: clamp(8px, 1.55cqw, 12px); line-height: 1.25; color: var(--muted-foreground); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  :where(html.seratus-app) .bhud-phase { display: flex; align-items: center; gap: .6cqw; min-width: 0; font-size: clamp(8px, 1.45cqw, 11px); line-height: 1; padding-top: .7cqw; border-top: 1px solid var(--border); }
+  :where(html.seratus-app) .bhud-phase svg { width: 1.7cqw; height: 1.7cqw; min-width: 9px; min-height: 9px; color: var(--gold); flex-shrink: 0; }
+  :where(html.seratus-app) .bhud-phase span { font-weight: 800; white-space: nowrap; }
+  :where(html.seratus-app) .bhud-phase em { font-style: normal; color: var(--muted-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* Top-right: total votes, round, latest activity */
+  :where(html.seratus-app) .bhud-tr { right: 2.2cqw; top: 2.2cqw; width: 31cqw; padding: 1cqw 1.3cqw; display: flex; flex-direction: column; gap: .6cqw; }
+  :where(html.seratus-app) .bhud-stats { display: flex; gap: .8cqw; }
+  :where(html.seratus-app) .bhud-stat { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: .5cqw; padding: .5cqw .8cqw; border-radius: 999px; background: color-mix(in oklab, var(--gold) 14%, transparent); font-size: clamp(9px, 1.7cqw, 13px); white-space: nowrap; }
+  :where(html.seratus-app) .bhud-stat b { font-family: var(--font-game, var(--font-display)); font-weight: 400; color: var(--gold); }
+  :where(html.seratus-app) .bhud-stat svg { width: 1.8cqw; height: 1.8cqw; min-width: 10px; min-height: 10px; color: var(--gold); }
+  :where(html.seratus-app) .bhud-stat svg.text-success { color: var(--success); }
+  :where(html.seratus-app) .bhud-round { font-size: clamp(8px, 1.35cqw, 10px); color: var(--muted-foreground); text-align: center; line-height: 1; }
+  :where(html.seratus-app) .bhud-log { display: flex; flex-direction: column; gap: .35cqw; font-size: clamp(8px, 1.4cqw, 11px); line-height: 1.2; }
+  :where(html.seratus-app) .bhud-log li { display: flex; align-items: center; gap: .5cqw; min-width: 0; }
+  :where(html.seratus-app) .bhud-log li:nth-child(2) { opacity: .8; }
+  :where(html.seratus-app) .bhud-log li:nth-child(3) { opacity: .6; }
+  :where(html.seratus-app) .bhud-log li i { width: .9cqw; height: .9cqw; min-width: 5px; min-height: 5px; border-radius: 50%; flex-shrink: 0; }
+  :where(html.seratus-app) .bhud-log-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  :where(html.seratus-app) .bhud-history { align-self: flex-end; display: inline-flex; align-items: center; gap: .4cqw; font-size: clamp(8px, 1.35cqw, 10px); font-weight: 800; color: var(--gold); background: transparent; border: 0; padding: 0; cursor: pointer; }
+  :where(html.seratus-app) .bhud-history:hover { text-decoration: underline; }
+  :where(html.seratus-app) .bhud-history svg { width: 1.5cqw; height: 1.5cqw; min-width: 9px; min-height: 9px; }
+  /* Bottom-left: dice tray + roll / draw / end buttons */
+  :where(html.seratus-app) .board-dock { left: 1.6cqw; bottom: 1.6cqw; width: 13.2cqw; padding: .9cqw; display: flex; flex-direction: column; gap: .8cqw; }
+  :where(html.seratus-app) .board-dock .dice-tray-dock { height: auto; padding: 0; justify-content: center; }
+  :where(html.seratus-app) .board-dock .dice-tray { width: 100%; height: 11cqw; min-height: 60px; border-width: max(3px, .6cqw); border-radius: 1.4cqw; }
+  :where(html.seratus-app) .board-dock .dice-tray-floor { border-radius: .8cqw; }
+  :where(html.seratus-app) .board-dock .dice-tray-mark { display: none; }
+  :where(html.seratus-app) .board-dock .dice-tray-rim { display: none; }
+  :where(html.seratus-app) .board-dock-row { display: flex; gap: .7cqw; }
+  :where(html.seratus-app) .board-dock-row > * { flex: 1; min-width: 0; }
+  :where(html.seratus-app) .board-dock .dice3d-home { width: auto !important; height: 5.4cqw !important; min-height: 28px; border-radius: 1cqw; border: 1px solid var(--border); }
+  :where(html.seratus-app) .board-dock .dice3d-home svg { width: 2.6cqw; height: 2.6cqw; min-width: 14px; min-height: 14px; }
+  :where(html.seratus-app) .board-dock .dice3d-home .dice3d-scene { transform: scale(.55); }
+  :where(html.seratus-app) .board-dock-roll, :where(html.seratus-app) .board-dock-btn { height: 5.4cqw !important; min-height: 28px; padding: 0 !important; border-radius: 1cqw; }
+  :where(html.seratus-app) .board-dock-btn { height: 4.6cqw !important; min-height: 26px; background: transparent; }
+  :where(html.seratus-app) .board-dock-roll svg, :where(html.seratus-app) .board-dock-btn svg { width: 2.6cqw !important; height: 2.6cqw !important; min-width: 14px; min-height: 14px; }
+  :where(html.seratus-app) .board-dock-test { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4cqw; }
+  :where(html.seratus-app) .board-dock-test button { height: 3cqw; min-height: 18px; font-size: clamp(8px, 1.4cqw, 11px); border-radius: .6cqw; border: 1px solid var(--border); background: transparent; color: inherit; }
+  :where(html.seratus-app) .board-dock-wait { display: flex; align-items: center; justify-content: center; gap: .4cqw; font-size: clamp(8px, 1.3cqw, 10px); color: var(--muted-foreground); min-width: 0; }
+  :where(html.seratus-app) .board-dock-wait svg { width: 1.5cqw; height: 1.5cqw; min-width: 9px; min-height: 9px; flex-shrink: 0; }
+  :where(html.seratus-app) .board-dock-wait span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
+/* ---------- Arcade tabletop: tilted 3D board, standing pawns, chunky glossy HUD (desktop) ---------- */
+:where(html.seratus-app) .game-night {
+  --slab-edge: oklch(0.62 0.13 70);
+  --slab-edge-deep: oklch(0.38 0.09 55);
+  --slab-rim-light: oklch(0.91 0.09 85);
+  --slab-core: oklch(0.24 0.025 170);
+  --slab-shadow: oklch(0.08 0.01 170 / 75%);
+  --table-light: oklch(0.75 0.06 165 / 12%);
+  --table-shade: oklch(0.1 0.025 165 / 80%);
+  --slab-glow: oklch(0.67 0.075 165 / 18%);
+  --arcade-gloss: oklch(1 0 0 / 38%);
+  --rank-gold: oklch(0.84 0.15 85);
+  --rank-silver: oklch(0.86 0.02 250);
+  --rank-bronze: oklch(0.66 0.11 55);
+  --rank-ink: oklch(0.2 0.05 262);
+}
+:where(html.seratus-app) .board-stage, :where(html.seratus-app) .board-slab { position: relative; }
+/* Small illuminated flecks float above the artwork, below player/control overlays. */
+:where(html.seratus-app) .table-light-particles { position: absolute; inset: 0; overflow: hidden; z-index: 2; pointer-events: none; }
+:where(html.seratus-app) .table-light-particles span {
+  position: absolute; left: var(--dust-x); top: var(--dust-y); width: 2px; height: 3px;
+  background: var(--menu-gold-hi, var(--destination)); opacity: .2;
+  animation: seratus-table-light-drift var(--dust-duration) ease-in-out var(--dust-delay) infinite;
+}
+:where(html.seratus-app) .table-light-particles span:nth-child(3n) { background: var(--on-deck); width: 1px; height: 2px; }
+@keyframes seratus-table-light-drift {
+  0%, 100% { opacity: 0; transform: translate(0, 14px); }
+  25% { opacity: .35; }
+  65% { opacity: .18; }
+  90% { opacity: 0; transform: translate(var(--dust-drift), -22px); }
+}
+:where(html.seratus-app) .board-space:hover, :where(html.seratus-app) .board-space:focus-visible { filter: none; }
+:where(html.seratus-app) .board-space-highlight {
+  fill: var(--destination); fill-opacity: 0; stroke: var(--destination); stroke-opacity: 0;
+  stroke-width: 2px; vector-effect: non-scaling-stroke; pointer-events: none;
+  transition: fill-opacity .15s ease, stroke-opacity .15s ease;
+}
+:where(html.seratus-app) .board-space-inspected .board-space-highlight { fill-opacity: .24; stroke-opacity: 1; }
+:where(html.seratus-app) .board-space-tooltip {
+  position: fixed; z-index: 55; pointer-events: none; width: min(264px, calc(100vw - 16px));
+  border: 1px solid var(--gold); border-radius: 8px; padding: 10px 12px;
+  background: var(--popover); color: var(--popover-foreground); box-shadow: var(--shadow-card);
+  font-size: 12px; line-height: 1.5; overflow-wrap: anywhere;
+}
+:where(html.seratus-app) .board-space-tooltip strong { display: block; color: var(--gold); font-size: 12px; line-height: 1.4; }
+:where(html.seratus-app) .board-space-tooltip p { margin-top: 5px; }
+@media (max-width: 767px) { :where(html.seratus-app) .table-light-particles span:nth-child(n+9) { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .table-light-particles { display: none; }
+  :where(html.seratus-app) .board-space-highlight { transition: none; }
+}
+@media (min-width: 768px) {
+  :where(html.seratus-app) .game-night-bg {
+    background: url("./seratus/assets/table-felt.jpg") center / 768px;
+  }
+  :where(html.seratus-app) .game-night-art { opacity: .08; }
+  :where(html.seratus-app) .game-night-shade {
+    background: radial-gradient(ellipse at 50% 45%, var(--table-light), var(--table-shade) 90%);
+  }
+  :where(html.seratus-app) .tabletop-board .game-board-viewport.board-3d {
+    border-color: transparent; box-shadow: none; overflow: visible;
+    background: radial-gradient(60% 45% at 50% 58%, var(--slab-glow), transparent 75%);
+  }
+  :where(html.seratus-app) .board-3d .board-stage { perspective: 1500px; perspective-origin: 50% 20%; }
+  :where(html.seratus-app) .board-3d .board-slab {
+    transform-style: preserve-3d; transform-origin: 50% 55%;
+    transform: translateY(-3cqw) rotateX(28deg) scale(1);
+    border-radius: 1.4cqw; outline: max(2px, .45cqw) solid var(--menu-gold, var(--gold));
+    box-shadow: 0 0 0 max(3px, .8cqw) var(--slab-edge-deep),
+      0 4cqw 0 .8cqw var(--slab-core),
+      0 6.5cqw 0 .8cqw var(--slab-edge-deep),
+      0 9cqw 4cqw .7cqw var(--slab-shadow);
+  }
+  :where(html.seratus-app) .board-3d .board-slab > svg { border-radius: 1.2cqw; }
+  /* Front edge of the slab and its shadow on the table */
+  :where(html.seratus-app) .board-3d .board-slab::after {
+    content: ""; position: absolute; left: -.8cqw; right: -.8cqw; top: calc(100% + .8cqw); height: 13cqw;
+    pointer-events: none;
+    transform-origin: top; transform: rotateX(-90deg);
+    background: linear-gradient(180deg, var(--slab-rim-light) 0 8%, var(--slab-edge) 9% 24%,
+      var(--slab-core) 25% 76%, var(--slab-edge-deep) 77% 90%, var(--slab-edge) 91%);
+    border-radius: 0 0 1cqw 1cqw;
+  }
+  :where(html.seratus-app) .board-3d .board-slab::before {
+    content: ""; position: absolute; inset: 8% -3% -10% -3%; z-index: -1; border-radius: 4cqw;
+    pointer-events: none;
+    background: var(--slab-shadow); filter: blur(2.4cqw); transform: translateZ(-13cqw);
+  }
+  /* Counter the tilt so pawns stand upright like miniatures */
+  :where(html.seratus-app) .board-3d .pawn-stand { transform: scale(1.15, 1.3); }
+  :where(html.seratus-app) .board-3d .board-loupe { display: none; }
+
+  /* Player cards: chunky arcade plates with a rank badge */
+  :where(html.seratus-app) .board-player {
+    background: linear-gradient(180deg, color-mix(in oklab, var(--area) 28%, var(--card)), var(--card) 62%) !important;
+    border-width: max(2px, .5cqw) !important;
+    box-shadow: 0 .6cqw 0 color-mix(in oklab, var(--area) 55%, black), 0 1.4cqw 2cqw -.8cqw rgb(0 0 0 / .6), inset 0 .3cqw 0 var(--arcade-gloss) !important;
+  }
+  :where(html.seratus-app) .board-player-name { font-family: var(--font-game, var(--font-display)); font-weight: 400 !important; letter-spacing: .02em; }
+  :where(html.seratus-app) .board-player-rank {
+    position: absolute; top: -1.6cqw; right: 2.2cqw; display: grid; place-items: center;
+    min-width: 3.6cqw; height: 2.6cqw; padding: 0 .6cqw; border-radius: 999px;
+    font: 400 clamp(8px, 1.5cqw, 12px)/1 var(--font-game, var(--font-display));
+    color: var(--card-foreground); background: var(--muted); border: max(1px, .25cqw) solid var(--card);
+    box-shadow: 0 .3cqw 0 rgb(0 0 0 / .35);
+  }
+  :where(html.seratus-app) .board-player-tr .board-player-rank, :where(html.seratus-app) .board-player-br .board-player-rank { right: auto; left: 2.2cqw; }
+  :where(html.seratus-app) .board-player-rank-1 { background: var(--rank-gold); color: var(--rank-ink); }
+  :where(html.seratus-app) .board-player-rank-2 { background: var(--rank-silver); color: var(--rank-ink); }
+  :where(html.seratus-app) .board-player-rank-3 { background: var(--rank-bronze); color: var(--rank-ink); }
+  :where(html.seratus-app) .board-player-active { animation: arcade-bob 1.6s ease-in-out infinite; }
+  :where(html.seratus-app) .board-player-happy .board-player-avatar { animation: arcade-cheer .7s cubic-bezier(.3,1.6,.5,1) 3; }
+  @keyframes seratus-arcade-bob { 50% { translate: 0 -.5cqw; } }
+  @keyframes seratus-arcade-cheer { 40% { transform: translateY(-1.6cqw) scale(1.12) rotate(-6deg); } }
+
+  /* Corner boxes: glossy navy plates with a gold rim */
+  :where(html.seratus-app) .bhud, :where(html.seratus-app) .board-dock {
+    background: linear-gradient(180deg, var(--menu-panel-hi, var(--card)), var(--menu-panel-lo, var(--card))) !important;
+    border: max(2px, .35cqw) solid var(--menu-gold, var(--gold)) !important;
+    box-shadow: 0 .6cqw 0 var(--menu-gold-shadow, var(--board-edge)), 0 1.4cqw 2.4cqw -1cqw rgb(0 0 0 / .65), inset 0 .25cqw 0 var(--arcade-gloss) !important;
+  }
+  :where(html.seratus-app) .bhud-name { text-shadow: 0 .25cqw 0 var(--menu-gold-shadow, transparent); }
+  :where(html.seratus-app) .bhud-stat { background: linear-gradient(180deg, var(--menu-blue-hi, var(--muted)), var(--menu-blue, var(--muted))) !important; box-shadow: inset 0 .2cqw 0 var(--arcade-gloss), 0 .25cqw 0 var(--menu-blue-shadow, transparent); }
+  :where(html.seratus-app) .bhud-stat b, :where(html.seratus-app) .bhud-stat svg { color: var(--menu-gold-hi, var(--gold)) !important; }
+
+  /* Dock buttons press down like toy buttons */
+  :where(html.seratus-app) .board-dock-btn:not(:disabled) { color: var(--on-deck) !important; border: 0 !important; box-shadow: 0 .45cqw 0 var(--slab-edge-deep), inset 0 .25cqw 0 var(--arcade-gloss); }
+  :where(html.seratus-app) .board-dock-btn.text-success:not(:disabled) { background: linear-gradient(180deg, color-mix(in oklab, var(--success) 75%, white), var(--success)); animation: arcade-pulse 1.2s ease-in-out infinite; }
+  :where(html.seratus-app) .board-dock-btn.text-destructive:not(:disabled) { background: linear-gradient(180deg, color-mix(in oklab, var(--destructive) 75%, white), var(--destructive)); }
+  :where(html.seratus-app) .board-dock-btn:not(:disabled):active, :where(html.seratus-app) .board-dock-roll:not(:disabled):active { translate: 0 .4cqw; box-shadow: 0 .05cqw 0 var(--slab-edge-deep); }
+  :where(html.seratus-app) .board-dock-roll:not(:disabled) { animation: arcade-pulse 1.2s ease-in-out infinite; }
+  @keyframes seratus-arcade-pulse { 50% { filter: brightness(1.18); scale: 1.04; } }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .board-player-active, :where(html.seratus-app) .board-player-happy .board-player-avatar, :where(html.seratus-app) .board-dock-btn, :where(html.seratus-app) .board-dock-roll { animation: none !important; }
+}
+
+/* Short local star accents; tokens follow the same game palette in portals. */
+html.seratus-app {
+  --sparkle-primary: var(--gold);
+  --sparkle-highlight: var(--paper);
+  --sparkle-accent: var(--success);
+  --celebration-gain: oklch(0.88 0.18 145);
+  --celebration-loss: oklch(0.78 0.16 25);
+  --celebration-outline: var(--gold-foreground);
+  --celebration-shadow: 0 3px 0 var(--celebration-outline), 0 5px 10px var(--table-shadow);
+}
+:where(html.seratus-app) .arcade-star-burst { width: 0; height: 0; pointer-events: none; z-index: 60; }
+:where(html.seratus-app) .vote-fx-layer { position: fixed; inset: 0; z-index: 80; pointer-events: none; }
+:where(html.seratus-app) .bot-reaction-layer { position: fixed; inset: 0; z-index: 81; pointer-events: none; }
+:where(html.seratus-app) .bot-reaction {
+  position: absolute; display: flex; align-items: center; gap: 8px; width: 184px; min-height: 62px;
+  padding: 8px 10px; border: 1px solid var(--gold); border-radius: 8px;
+  background: var(--popover); color: var(--popover-foreground); box-shadow: var(--shadow-card);
+  animation: seratus-bot-comment-pop 2600ms ease both; font-size: 11px; line-height: 1.35;
+}
+:where(html.seratus-app) .bot-reaction > div { min-width: 0; }
+:where(html.seratus-app) .bot-reaction strong { display: block; color: var(--gold); font-size: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+:where(html.seratus-app) .bot-reaction p { margin-top: 3px; overflow-wrap: anywhere; }
+:where(html.seratus-app) .bot-reaction-emoji { flex-shrink: 0; font-size: 24px; line-height: 1; }
+:where(html.seratus-app) .bot-reaction-loss, :where(html.seratus-app) .bot-reaction-retry { border-color: var(--muted-foreground); }
+@keyframes seratus-bot-comment-pop {
+  0% { opacity: 0; transform: translateY(6px) scale(.95); }
+  12%, 85% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) { :where(html.seratus-app) .bot-reaction { animation: none; } }
+:where(html.seratus-app) .vote-float { position: absolute; width: 140px; height: 40px; margin-left: -70px; margin-top: -20px; animation: seratus-vote-float-travel 1400ms ease-in-out both; }
+:where(html.seratus-app) .vote-float-label { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; height: 100%; font-family: var(--font-display); font-size: 19px; font-weight: 900; letter-spacing: 0; white-space: nowrap; text-shadow: var(--celebration-shadow); -webkit-text-stroke: .5px var(--celebration-outline); animation: seratus-vote-label-bounce 550ms ease-out both; }
+:where(html.seratus-app) .vote-float svg { width: 17px; height: 17px; flex-shrink: 0; }
+:where(html.seratus-app) .vote-float-gain { color: var(--celebration-gain); }
+:where(html.seratus-app) .vote-float-loss { color: var(--celebration-loss); }
+@keyframes seratus-vote-label-bounce {
+  0% { transform: scale(.45) rotate(-6deg); }
+  38% { transform: scale(1.2) rotate(3deg); }
+  64% { transform: scale(.93) rotate(-2deg); }
+  82% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+:where(html.seratus-app) .vote-gain-stars { position: absolute; inset: 0; }
+:where(html.seratus-app) .vote-gain-stars i { position: absolute; left: 50%; top: 50%; font-style: normal; color: var(--sparkle-primary); font-size: 18px; animation: seratus-arcade-star-pop 850ms ease-out both; }
+:where(html.seratus-app) .vote-gain-stars i:nth-child(1) { --star-x: -78px; --star-y: -25px; }
+:where(html.seratus-app) .vote-gain-stars i:nth-child(2) { --star-x: -45px; --star-y: -45px; color: var(--sparkle-highlight); }
+:where(html.seratus-app) .vote-gain-stars i:nth-child(3) { --star-x: 40px; --star-y: -48px; }
+:where(html.seratus-app) .vote-gain-stars i:nth-child(4) { --star-x: 74px; --star-y: -18px; color: var(--celebration-gain); }
+:where(html.seratus-app) .vote-gain-stars i:nth-child(5) { --star-x: 50px; --star-y: 32px; }
+:where(html.seratus-app) .vote-gain-stars i:nth-child(6) { --star-x: -55px; --star-y: 29px; color: var(--sparkle-highlight); }
+:where(html.seratus-app) .celebration-layer { position: fixed; inset: 0; overflow: hidden; z-index: 79; pointer-events: none; }
+:where(html.seratus-app) .celebration-burst { position: absolute; width: 0; height: 0; }
+:where(html.seratus-app) .celebration-burst i { position: absolute; display: block; font-style: normal; color: var(--sparkle-primary); animation: seratus-celebration-scatter 1750ms ease-out both; }
+:where(html.seratus-app) .celebration-confetti { width: 7px; height: 11px; border-radius: 1px; background: currentColor; }
+:where(html.seratus-app) .celebration-star { font-size: 21px; line-height: 1; }
+:where(html.seratus-app) .celebration-burst i:nth-child(5n + 1) { color: var(--area-0); }
+:where(html.seratus-app) .celebration-burst i:nth-child(5n + 2) { color: var(--celebration-gain); }
+:where(html.seratus-app) .celebration-burst i:nth-child(5n + 3) { color: var(--celebration-loss); }
+:where(html.seratus-app) .celebration-burst i:nth-child(5n + 4) { color: var(--sparkle-highlight); }
+@keyframes seratus-celebration-scatter {
+  0% { opacity: 0; transform: translate(0, 0) scale(.3) rotate(0); }
+  12% { opacity: 1; }
+  42% { opacity: 1; transform: translate(var(--confetti-x), var(--confetti-y)) scale(1) rotate(calc(var(--confetti-spin) * .45)); }
+  80% { opacity: .85; }
+  100% { opacity: 0; transform: translate(var(--confetti-x), var(--confetti-fall)) scale(.65) rotate(var(--confetti-spin)); }
+}
+@keyframes seratus-vote-float-travel {
+  0% { opacity: 0; transform: translate(0, 8px) scale(.9); }
+  15%,30% { opacity: 1; transform: translate(0, -8px) scale(1); }
+  78%,90% { opacity: 1; transform: translate(var(--vote-dx), var(--vote-dy)) scale(1); }
+  100% { opacity: 0; transform: translate(var(--vote-dx), calc(var(--vote-dy) - 8px)) scale(.95); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .vote-float, :where(html.seratus-app) .vote-float-label { animation: none; }
+  :where(html.seratus-app) .vote-gain-stars, :where(html.seratus-app) .celebration-layer { display: none; }
+}
+:where(html.seratus-app) .arcade-star-burst-dice { position: fixed; }
+:where(html.seratus-app) .arcade-star-burst-card { position: absolute; top: 42px; left: 50%; }
+:where(html.seratus-app) .arcade-star-burst span {
+  position: absolute; left: -10px; top: -10px; width: 20px; height: 20px;
+  color: var(--sparkle-primary); font-size: 22px; line-height: 20px;
+  text-shadow: 0 0 5px var(--sparkle-primary);
+  animation: seratus-arcade-star-pop 800ms cubic-bezier(.15,.7,.3,1) both;
+}
+:where(html.seratus-app) .arcade-star-burst span:nth-child(1) { --star-x: -64px; --star-y: -28px; }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(2) { --star-x: -30px; --star-y: -62px; color: var(--sparkle-highlight); }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(3) { --star-x: 28px; --star-y: -58px; }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(4) { --star-x: 65px; --star-y: -20px; color: var(--sparkle-accent); }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(5) { --star-x: 58px; --star-y: 32px; }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(6) { --star-x: 24px; --star-y: 54px; color: var(--sparkle-highlight); }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(7) { --star-x: -26px; --star-y: 56px; }
+:where(html.seratus-app) .arcade-star-burst span:nth-child(8) { --star-x: -62px; --star-y: 25px; color: var(--sparkle-accent); }
+@keyframes seratus-arcade-star-pop {
+  0% { opacity: 0; transform: translate(0,0) scale(.25) rotate(-30deg); }
+  18% { opacity: 1; }
+  65% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--star-x), var(--star-y)) scale(.65) rotate(70deg); }
+}
+@media (max-width: 767px) {
+  :where(html.seratus-app) .arcade-star-burst span { font-size: 18px; text-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .arcade-star-burst { display: none; }
+}
+
+/* Miniature ownership toys: colors inherit the board and the owner's area. */
+:where(html.seratus-app) .board-diorama { display: none; }
+html.seratus-app {
+  --landmark-shadow: color-mix(in oklab, var(--gold-foreground) 35%, transparent);
+  --relief-ink: oklch(0.22 0.035 165);
+  --relief-shadow: oklch(0.12 0.025 165 / 34%);
+  --relief-highlight: oklch(0.99 0.02 85 / 72%);
+  --relief-card-edge: oklch(0.94 0.015 85);
+  --relief-card-line: oklch(0.61 0.035 85);
+  --cash-note: oklch(0.83 0.1 158);
+  --cash-edge: oklch(0.53 0.09 158);
+  --cash-ink: oklch(0.36 0.09 158);
+  --cash-shadow: oklch(0.12 0.025 158 / 28%);
+  --cash-band: oklch(0.94 0.04 85);
+  --cash-band-edge: oklch(0.75 0.06 85);
+  --center-thread: oklch(0.3 0.04 85 / 16%);
+  --dice-ground-shadow: radial-gradient(ellipse, oklch(0.08 0.02 158 / 65%), oklch(0.08 0.02 158 / 22%) 45%, transparent 72%);
+  --landmark-outline: var(--gold-foreground);
+  --landmark-contact: color-mix(in oklab, var(--gold-foreground) 55%, transparent);
+  --landmark-base: color-mix(in oklab, var(--paper) 78%, var(--gold));
+  --landmark-base-edge: color-mix(in oklab, var(--gold) 55%, var(--gold-foreground));
+  --landmark-gold-shade: color-mix(in oklab, var(--gold) 65%, var(--gold-foreground));
+}
+:where(html.seratus-app) .board-landmark { pointer-events: none; }
+:where(html.seratus-app) .tabletop-decor { pointer-events: none; }
+:where(html.seratus-app) .tabletop-weave-thread { fill: none; stroke: var(--center-thread); stroke-width: .6; }
+:where(html.seratus-app) .cash-shadow { fill: var(--cash-shadow); }
+:where(html.seratus-app) .cash-note { fill: var(--cash-note); stroke: var(--cash-ink); stroke-width: 1; }
+:where(html.seratus-app) .cash-edge { fill: var(--cash-edge); stroke: var(--cash-ink); stroke-width: 1; stroke-linejoin: round; }
+:where(html.seratus-app) .cash-print { fill: none; stroke: var(--cash-ink); stroke-width: .8; }
+:where(html.seratus-app) .cash-medallion { fill: var(--cash-ink); opacity: .4; }
+:where(html.seratus-app) .cash-layers { fill: none; stroke: var(--cash-note); stroke-width: 1.1; }
+:where(html.seratus-app) .cash-band { fill: var(--cash-band); }
+:where(html.seratus-app) .cash-band-side { fill: var(--cash-band-edge); }
+:where(html.seratus-app) .cash-highlight { fill: none; stroke: var(--paper); stroke-opacity: .6; stroke-width: 1; }
+:where(html.seratus-app) .dice-contact-shadow { position: absolute; width: 64px; height: 24px; left: -7px; bottom: -12px; background: var(--dice-ground-shadow); pointer-events: none; }
+:where(html.seratus-app) .dice-tray-floor { background-image: repeating-linear-gradient(0deg, transparent 0 3px, var(--center-thread) 3px 4px), repeating-linear-gradient(90deg, transparent 0 3px, var(--center-thread) 3px 4px), radial-gradient(ellipse at 50% 70%, var(--tray-felt-light), var(--tray-felt)); }
+/* Use the same height-contained workspace on tablet and desktop, with no empty band above the board. */
+@media (min-width: 768px) {
+  :where(html.seratus-app) .desktop-game-page:has(.game-screen) { display: flex; height: 100dvh; min-height: 0; flex-direction: column; overflow: hidden; }
+  :where(html.seratus-app) .desktop-game-page > div:has(> .game-screen) { display: flex; flex: 1; min-height: 0; flex-direction: column; }
+  :where(html.seratus-app) .game-screen { display: flex; flex: 1; min-height: 0; flex-direction: column; padding: 0 8px 4px !important; gap: 2px !important; }
+  :where(html.seratus-app) .game-screen > :not(:last-child) { margin-block-end: 0 !important; }
+  :where(html.seratus-app) .game-workspace.game-workspace-board { flex: 1; min-height: 0; gap: 0; }
+  :where(html.seratus-app) .game-workspace-board .game-board-region { display: flex !important; }
+  :where(html.seratus-app) .tabletop-board { justify-content: flex-start; }
+  :where(html.seratus-app) .game-session-bar button[aria-label="Layar Penuh"], :where(html.seratus-app) .game-session-bar button[aria-label="Tampilkan Menu"] { display: inline-flex; }
+}
+:where(html.seratus-app) .landmark-shadow { fill: var(--landmark-shadow); }
+:where(html.seratus-app) .landmark-contact { fill: var(--landmark-contact); }
+:where(html.seratus-app) .landmark-base-top { fill: var(--landmark-base); }
+:where(html.seratus-app) .landmark-base-side { fill: var(--landmark-base-edge); }
+:where(html.seratus-app) .landmark-gold-side, :where(html.seratus-app) .landmark-roof-side { fill: var(--landmark-gold-shade); }
+:where(html.seratus-app) .landmark-highlight { fill: none; stroke: var(--paper); stroke-opacity: .6; stroke-width: 1; }
+:where(html.seratus-app) .landmark-star { fill: var(--paper); stroke: none; }
+:where(html.seratus-app) .landmark-vote-plaque rect { fill: var(--landmark-owner); stroke: var(--paper); stroke-width: 1.3; }
+:where(html.seratus-app) .landmark-build-sparks { fill: var(--gold); stroke: var(--paper); stroke-width: .5; animation: seratus-landmark-spark 850ms ease-out both; }
+@keyframes seratus-landmark-spark { 0% { opacity: 0; transform: translateY(5px); } 35% { opacity: 1; } 100% { opacity: 0; transform: translateY(-9px); } }
+:where(html.seratus-app) .landmark-toy { stroke: var(--landmark-outline); stroke-width: .7; stroke-linejoin: round; }
+:where(html.seratus-app) .landmark-front { fill: var(--landmark-owner); }
+:where(html.seratus-app) .landmark-side { fill: color-mix(in oklab, var(--landmark-owner) 65%, var(--gold-foreground)); }
+:where(html.seratus-app) .landmark-lid { fill: color-mix(in oklab, var(--landmark-owner) 55%, var(--paper)); }
+:where(html.seratus-app) .landmark-roof { fill: var(--gold); }
+:where(html.seratus-app) .landmark-window { fill: var(--paper); stroke: none; }
+:where(html.seratus-app) .landmark-door { fill: var(--gold-foreground); stroke: var(--gold); }
+:where(html.seratus-app) .landmark-trim { fill: none; stroke: var(--gold); stroke-width: 1.2; }
+:where(html.seratus-app) .landmark-edge { fill: var(--gold-foreground); }
+:where(html.seratus-app) .landmark-gold { fill: var(--gold); }
+:where(html.seratus-app) .landmark-slot { fill: var(--gold-foreground); stroke: none; }
+:where(html.seratus-app) .landmark-ballot { fill: var(--paper); }
+:where(html.seratus-app) .landmark-pole { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; }
+:where(html.seratus-app) .landmark-flag-gloss { fill: none; stroke: var(--paper); stroke-opacity: .6; }
+:where(html.seratus-app) .landmark-symbol { fill: none; stroke: var(--paper); stroke-width: 1.5; stroke-linecap: round; }
+:where(html.seratus-app) .landmark-votes { fill: var(--paper); stroke: none; font-size: 9px; font-weight: 900; }
+:where(html.seratus-app) .board-landmark-built .landmark-toy { transform-box: fill-box; transform-origin: center bottom; animation: seratus-landmark-build 850ms ease-out; }
+@keyframes seratus-landmark-build {
+  0% { transform: translateY(5px) scaleY(.15); opacity: .4; }
+  55% { transform: translateY(-2px) scaleY(1.08); opacity: 1; }
+  100% { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .board-landmark-built .landmark-toy { animation: none; }
+  :where(html.seratus-app) .landmark-build-sparks { display: none; }
+}
+
+/* Arcade dice: energy changes the presentation, never the seeded result. */
+html.seratus-app {
+  --dice-energy-low: var(--success);
+  --dice-energy-high: var(--gold);
+  --dice-energy-track: var(--muted);
+  --dice-energy-edge: var(--border);
+  --dice-trail-light: var(--gold);
+  --dice-trail-hot: var(--paper);
+  --dice-trail-glow: color-mix(in oklab, var(--gold) 65%, transparent);
+}
+:where(html.seratus-app) .dice-charge-control { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+:where(html.seratus-app) .dice-charge-button { width: 100%; min-height: 44px; touch-action: none; user-select: none; }
+:where(html.seratus-app) .dice-energy { position: relative; height: 10px; overflow: hidden; border-radius: 4px; background: var(--dice-energy-track); border: 1px solid var(--dice-energy-edge); }
+:where(html.seratus-app) .dice-energy-fill { position: absolute; inset: 0; transform-origin: left; background: linear-gradient(90deg, var(--dice-energy-low), var(--dice-energy-high)); }
+:where(html.seratus-app) .dice-energy-marker { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--dice-trail-hot); transform: translateX(-50%); opacity: 0; }
+:where(html.seratus-app) .dice-charge-active .dice-energy-marker { opacity: 1; }
+:where(html.seratus-app) .dice-charge-active .dice-charge-button { filter: brightness(1.1); }
+:where(html.seratus-app) .dice-charge-compact { gap: 5px; }
+:where(html.seratus-app) .dice-charge-compact .dice-charge-button { height: 5.4cqw; min-height: 32px; padding: 0; border-radius: 50%; }
+:where(html.seratus-app) .dice-charge-compact .dice-charge-button svg { width: 24px; height: 24px; }
+:where(html.seratus-app) .dice-charge-compact .dice-energy { height: 7px; }
+:where(html.seratus-app) .dice-flight-trail { position: absolute; inset: 0; width: 44px; height: 44px; pointer-events: none; }
+:where(html.seratus-app) .dice-flight-trail i { position: absolute; left: 4px; top: 18px; width: 7px; height: 7px; border-radius: 2px; background: var(--dice-trail-light); box-shadow: 0 0 10px var(--dice-trail-glow); animation: seratus-dice-trail-shed 480ms linear infinite; }
+:where(html.seratus-app) .dice-flight-trail i:nth-child(2) { animation-delay: -80ms; top: 8px; }
+:where(html.seratus-app) .dice-flight-trail i:nth-child(3) { animation-delay: -160ms; top: 30px; background: var(--dice-trail-hot); }
+:where(html.seratus-app) .dice-flight-trail i:nth-child(4) { animation-delay: -240ms; top: 14px; }
+:where(html.seratus-app) .dice-flight-trail i:nth-child(5) { animation-delay: -320ms; top: 26px; background: var(--dice-trail-hot); }
+:where(html.seratus-app) .dice-flight-trail i:nth-child(6) { animation-delay: -400ms; top: 22px; }
+@keyframes seratus-dice-trail-shed {
+  0% { transform: translate(0, 0) scale(1) rotate(45deg); opacity: .9; }
+  100% { transform: translate(-65px, 12px) scale(.15) rotate(135deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html.seratus-app) .dice-flight-trail { display: none; }
+}
+
+html.seratus-app { --font-sans: "Plus Jakarta Sans", system-ui, sans-serif; --font-display: "Bricolage Grotesque", system-ui, sans-serif; }
+html.seratus-app body, html.seratus-app .font-sans { font-family: var(--font-sans); }
+html.seratus-app .font-display { font-family: var(--font-display); }
+html.seratus-app .home-tiles { grid-template-columns: repeat(4,minmax(0,1fr)); }
+html.seratus-app .home-logo::before { display:none; }

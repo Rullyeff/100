@@ -5,6 +5,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./seratus.css";
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant short (@media (max-height: 500px) and (orientation: landscape));
