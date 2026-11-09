@@ -77,7 +77,7 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
         {[
           { l: tilt ? "Tampilan datar" : "Tampilan meja 3D", i: tilt ? <Square className="size-4" /> : <Box className="size-4" />, f: () => setTilt(!tilt), on: tilt },
           ...(tilt ? [] : [{ l: "Perbesar papan", i: <Plus className="size-4" />, f: () => setZoom((z) => Math.min(2.2, z + 0.3)) },
-          }, { l: "Perkecil papan", i: <Minus className="size-4" />, f: () => setZoom((z) => Math.max(1, z - 0.3)) },
+          { l: "Perkecil papan", i: <Minus className="size-4" />, f: () => setZoom((z) => Math.max(1, z - 0.3)) },
           { l: "Atur ulang zoom", i: <RotateCcw className="size-4" />, f: () => setZoom(1) }]),
         ].map((b) => (
           <Button key={b.l} size="icon" variant="outline" aria-label={b.l} title={b.l} aria-pressed={"on" in b ? b.on : undefined} className="size-9 bg-card/90" onClick={() => { dismissInspection(); setLoupe(null); b.f(); }}>
