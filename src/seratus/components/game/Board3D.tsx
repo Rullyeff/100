@@ -49,6 +49,8 @@ const fx = { shake: 0, focus: null as THREE.Vector3 | null, focusUntil: 0 };
 
 export function Board3D({ state, onOpenCard, drawReady }: { state: GameState; onOpenCard?: (() => void) | undefined; drawReady: boolean }) {
   const [ready, setReady] = useState(false);
+  // Phones get a lighter renderer: capped pixel ratio, no MSAA, no environment cube.
+  const phone = useMemo(() => typeof window !== "undefined" && window.matchMedia("(max-width: 767px), (pointer: coarse)").matches, []);
   const colors = useMemo(() => ({
     areas: AREAS.map((_, i) => cssColor(`var(--area-${i})`)),
     gold: cssColor("var(--gold)"),
@@ -57,16 +59,17 @@ export function Board3D({ state, onOpenCard, drawReady }: { state: GameState; on
   }), []);
   return (
     <div className="board-3d-canvas" data-scene-ready={ready ? "" : undefined}>
-      <Canvas dpr={[1, 1.75]} camera={{ position: OVERVIEW.pos.toArray(), fov: 40, near: 0.1, far: 80 }} gl={{ antialias: true }}>
+      <Canvas dpr={phone ? [1, 1.25] : [1, 1.75]} performance={{ min: 0.6 }} camera={{ position: OVERVIEW.pos.toArray(), fov: 40, near: 0.1, far: 80 }} gl={{ antialias: !phone, powerPreference: "high-performance" }}>
         <color attach="background" args={[colors.table]} />
         <fog attach="fog" args={[colors.table, 16, 34]} />
         <hemisphereLight args={["#fff6e0", "#3a2a18", 0.7]} />
         <directionalLight position={[5, 10, 4]} intensity={1.6} color="#fff1d6" />
-        <Environment resolution={64}>
+        {!phone && <Environment resolution={64}>
           <Lightformer intensity={2} position={[0, 6, 0]} rotation-x={Math.PI / 2} scale={[12, 12, 1]} />
           <Lightformer intensity={1} color="#ffd9a0" position={[-6, 2, -2]} rotation-y={Math.PI / 2} scale={[20, 2, 1]} />
           <Lightformer intensity={0.8} color="#a0c4ff" position={[6, 2, 2]} rotation-y={-Math.PI / 2} scale={[20, 2, 1]} />
-        </Environment>
+        </Environment>}
+        {phone && <directionalLight position={[-6, 4, -3]} intensity={0.5} color="#ffd9a0" />}
         <Table color={colors.table} />
         <Suspense fallback={null}>
           <BoardSlab onDrawn={() => setReady(true)} />
@@ -291,7 +294,11 @@ function Pawn3D({ player, color, active, rollAt }: { player: Player; color: stri
 
 function CameraRig({ state }: { state: GameState }) {
   const controls = useRef<OrbitImpl>(null);
-  const { camera } = useThree();
+  const { camera, size } = useThree();
+  // Portrait screens need a farther camera so the whole board stays in frame.
+  const fit = Math.max(1, 0.95 / (size.width / size.height));
+  const overviewPos = useMemo(() => OVERVIEW.pos.clone().multiplyScalar(fit), [fit]);
+  const followOffset = useMemo(() => FOLLOW_OFFSET.clone().multiplyScalar(Math.sqrt(fit)), [fit]);
   const look = useRef(OVERVIEW.look.clone());
   const user = useRef(0);
   const rollAt = state.log.find((e) => e.text.includes("melempar dadu"))?.at;
@@ -303,14 +310,14 @@ function CameraRig({ state }: { state: GameState }) {
     const idle = now - user.current > 4000;
     if (following && fx.focus) {
       const goalLook = fx.focus;
-      const goalPos = goalLook.clone().add(FOLLOW_OFFSET);
+      const goalPos = goalLook.clone().add(followOffset);
       const k = 1 - Math.exp(-CAMERA_EASE * dt);
       look.current.lerp(goalLook, k);
       camera.position.lerp(goalPos, k);
     } else if (idle) {
       const k = 1 - Math.exp(-CAMERA_EASE * 0.5 * dt);
       look.current.lerp(OVERVIEW.look, k);
-      camera.position.lerp(OVERVIEW.pos, k);
+      camera.position.lerp(overviewPos, k);
     }
     if (fx.shake > 0.001) {
       camera.position.x += (Math.random() - 0.5) * fx.shake * 0.08;
@@ -326,7 +333,7 @@ function CameraRig({ state }: { state: GameState }) {
       makeDefault
       enablePan={false}
       minDistance={4}
-      maxDistance={17}
+      maxDistance={17 * fit}
       minPolarAngle={0.15}
       maxPolarAngle={1.15}
       onStart={() => { user.current = performance.now(); }}
