@@ -1583,3 +1583,8 @@ html.seratus-app body, html.seratus-app .font-sans { font-family: var(--font-san
 html.seratus-app .font-display { font-family: var(--font-display); }
 html.seratus-app .home-tiles { grid-template-columns: repeat(4,minmax(0,1fr)); }
 html.seratus-app .home-logo::before { display:none; }
+
+/* WebGL tabletop (Kaya Raya style): the canvas fills the board area. */
+:where(html.seratus-app) .tabletop-board .game-board-viewport.board-webgl { overflow: hidden; padding: 0; aspect-ratio: auto; width: 100% !important; height: min(78dvh, 100cqh); min-height: 420px; }
+:where(html.seratus-app) .board-3d-canvas { position: absolute; inset: 0; touch-action: none; }
+:where(html.seratus-app) .board-webgl .board-loupe { display: none; }
