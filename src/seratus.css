@@ -1588,3 +1588,15 @@ html.seratus-app .home-logo::before { display:none; }
 :where(html.seratus-app) .tabletop-board .game-board-viewport.board-webgl { overflow: hidden; padding: 0; aspect-ratio: auto; width: 100% !important; height: min(78dvh, 100cqh); min-height: 420px; }
 :where(html.seratus-app) .board-3d-canvas { position: absolute; inset: 0; touch-action: none; }
 :where(html.seratus-app) .board-webgl .board-loupe { display: none; }
+@media (max-width: 767px) {
+  /* Phone: board fills the space between the status strip and the bottom tab bar. */
+  :where(html.seratus-app) .tabletop-board .game-board-viewport.board-webgl { height: min(calc(100vw + 40px), calc(100dvh - 210px)); min-height: 320px; }
+  :where(html.seratus-app) .tabletop-board:has(.board-webgl) { padding: 4px; }
+  :where(html.seratus-app) .tabletop-board:has(.board-webgl) > .absolute { top: 10px; right: 10px; opacity: .8; }
+  :where(html.seratus-app) .tabletop-board:has(.board-webgl) .game-board-legend { display: none; }
+}
+@media (max-width: 767px) {
+  /* Phone: status cards become one swipeable row so the board sits higher. */
+  :where(html.seratus-app) .game-hud { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 8px; scrollbar-width: none; }
+  :where(html.seratus-app) .game-hud > * { flex: 0 0 72%; scroll-snap-align: start; }
+}
