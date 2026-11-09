@@ -28,6 +28,7 @@ import { BoardPlayers } from "./BoardPlayers";
 import { InspectableSpace, SpaceTooltip, TableLightParticles, TabletopDecor, type SpaceInspection } from "./BoardAtmosphere";
 import { CenterRelief, TRACK_SIZE, WideTrackArt } from "./WideTrackArt";
 import { BoardLandmarks } from "./BoardLandmarks";
+import { Board3D } from "./Board3D";
 
 const TYPE_NAME: Record<string, string> = {
   A1: "Aspirasi Mudah",
@@ -75,16 +76,17 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
       <div className="absolute right-4 top-4 z-10 flex gap-1">
         {[
           { l: tilt ? "Tampilan datar" : "Tampilan meja 3D", i: tilt ? <Square className="size-4" /> : <Box className="size-4" />, f: () => setTilt(!tilt), on: tilt },
-          { l: "Perbesar papan", i: <Plus className="size-4" />, f: () => setZoom((z) => Math.min(2.2, z + 0.3)) },
-          { l: "Perkecil papan", i: <Minus className="size-4" />, f: () => setZoom((z) => Math.max(1, z - 0.3)) },
-          { l: "Atur ulang zoom", i: <RotateCcw className="size-4" />, f: () => setZoom(1) },
+          ...(tilt ? [] : [{ l: "Perbesar papan", i: <Plus className="size-4" />, f: () => setZoom((z) => Math.min(2.2, z + 0.3)) },
+          }, { l: "Perkecil papan", i: <Minus className="size-4" />, f: () => setZoom((z) => Math.max(1, z - 0.3)) },
+          { l: "Atur ulang zoom", i: <RotateCcw className="size-4" />, f: () => setZoom(1) }]),
         ].map((b) => (
           <Button key={b.l} size="icon" variant="outline" aria-label={b.l} title={b.l} aria-pressed={"on" in b ? b.on : undefined} className="size-9 bg-card/90" onClick={() => { dismissInspection(); setLoupe(null); b.f(); }}>
             {b.i}
           </Button>
         ))}
       </div>
-      <div className={cn("game-board-viewport overflow-auto rounded-2xl", tilt && "board-3d")}>
+      <div className={cn("game-board-viewport overflow-auto rounded-2xl", tilt && "board-webgl")}>
+        {tilt ? <Board3D state={state} onOpenCard={onOpenCard} drawReady={drawReady} /> : (
         <div className="board-stage">
         <div className="board-slab" style={{ width: `${zoom * 100}%` }}>
         <svg
@@ -277,7 +279,8 @@ export function GameBoard({ state, onOpenCard, drawReady = false, overlay }: { s
         </svg>
         </div>
         </div>
-        <TableLightParticles />
+        )}
+        {!tilt && <TableLightParticles />}
         <BoardPlayers state={state} />
         {overlay}
       </div>
