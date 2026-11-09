@@ -48,3 +48,4 @@ use the editor.
 - Keep Kaya Raya at `/` and 100 SUARA under `/seratus`; isolate 100 SUARA rules, presentation, assets, and audio under `src/seratus` to prevent game-state and module collisions.
 - Scope imported 100 SUARA CSS through `html.seratus-app`, including portal tokens, and install its audio listeners only on its routes so Kaya Raya keeps its own appearance and sound.
 - Online 100 SUARA rooms use server-validated hashed HttpOnly guest identities, server-only private tables, and revision-checked writes; direct browser table access is denied to preserve hidden votes and host permissions.
+- 100 SUARA's 3D tabletop (`src/seratus/components/game/Board3D.tsx`) only draws engine state; pawn hops reuse `pawnRoute` and camera follow/shake are per-frame impulses outside React. The flat SVG board stays as the 2D toggle and hosts the hover loupe.
