@@ -297,8 +297,8 @@ function CameraRig({ state }: { state: GameState }) {
   const { camera, size } = useThree();
   // Portrait screens need a farther camera so the whole board stays in frame.
   const fit = Math.max(1, 0.95 / (size.width / size.height));
-  const overviewPos = useMemo(() => OVERVIEW.pos.clone().multiplyScalar(fit), [fit]);
-  const followOffset = useMemo(() => FOLLOW_OFFSET.clone().multiplyScalar(Math.sqrt(fit)), [fit]);
+  const overviewPos = useMemo(() => OVERVIEW.pos.clone().multiplyScalar(fit), [fit, size.width]);
+  const followOffset = useMemo(() => FOLLOW_OFFSET.clone().multiplyScalar(size.width < 768 ? 1.7 * fit : Math.sqrt(fit)), [fit, size.width]);
   const look = useRef(OVERVIEW.look.clone());
   const user = useRef(0);
   const rollAt = state.log.find((e) => e.text.includes("melempar dadu"))?.at;
