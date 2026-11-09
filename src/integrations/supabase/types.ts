@@ -84,10 +84,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      commit_game_room: {
-        Args: { p_id: string; p_payload: Json; p_revision: number }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
