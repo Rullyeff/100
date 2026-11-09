@@ -330,7 +330,7 @@ function CameraRig({ state }: { state: GameState }) {
       minPolarAngle={0.15}
       maxPolarAngle={1.15}
       onStart={() => { user.current = performance.now(); }}
-      onChange={(e) => { if (e) user.current = Math.max(user.current, performance.now() - 3000); }}
+      onEnd={() => { user.current = performance.now(); }}
     />
   );
 }
