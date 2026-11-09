@@ -264,9 +264,13 @@ function CameraRig({ orbit }: { orbit: React.RefObject<{ yaw: number; pitch: num
       const tanH = Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * (size.width / size.height);
       wantClose = THREE.MathUtils.clamp(CLOSEUP_HALF_WIDTH / tanH, CLOSEUP_MIN_DIST, CLOSEUP_MAX_DIST) / len;
     }
-    close.current += (wantClose / (kind === "closeup" ? 1 : userZoom.current) - close.current) * k;
+    close.current += (wantClose - close.current) * k;
     desired.current.copy(orbited.current).multiplyScalar(close.current).add(aim.current);
     camera.position.lerp(desired.current, zoom.current);
+    // User zoom applies to every shot, including idle: dolly the eye toward the focus.
+    if (userZoom.current !== 1) {
+      camera.position.sub(focus.current).multiplyScalar(1 / userZoom.current).add(focus.current);
+    }
     camera.lookAt(focus.current);
     fx.shake = s * Math.exp(-SHAKE_DECAY * dt);
     if (fx.shake < 0.002) fx.shake = 0;
