@@ -10,108 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SeratusRouteImport } from './routes/seratus'
-import { Route as SeratusIndexRouteImport } from './routes/seratus.index'
-import { Route as SeratusKunciJawabanRouteImport } from './routes/seratus.kunci-jawaban'
-import { Route as SeratusMainRouteImport } from './routes/seratus.main'
-import { Route as SeratusPeringkatRouteImport } from './routes/seratus.peringkat'
-import { Route as SeratusTentangRouteImport } from './routes/seratus.tentang'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SeratusRoute = SeratusRouteImport.update({
-  id: '/seratus',
-  path: '/seratus',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SeratusIndexRoute = SeratusIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SeratusRoute,
-} as any)
-const SeratusKunciJawabanRoute = SeratusKunciJawabanRouteImport.update({
-  id: '/kunci-jawaban',
-  path: '/kunci-jawaban',
-  getParentRoute: () => SeratusRoute,
-} as any)
-const SeratusMainRoute = SeratusMainRouteImport.update({
-  id: '/main',
-  path: '/main',
-  getParentRoute: () => SeratusRoute,
-} as any)
-const SeratusPeringkatRoute = SeratusPeringkatRouteImport.update({
-  id: '/peringkat',
-  path: '/peringkat',
-  getParentRoute: () => SeratusRoute,
-} as any)
-const SeratusTentangRoute = SeratusTentangRouteImport.update({
-  id: '/tentang',
-  path: '/tentang',
-  getParentRoute: () => SeratusRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/seratus': typeof SeratusRouteWithChildren
-  '/seratus/kunci-jawaban': typeof SeratusKunciJawabanRoute
-  '/seratus/main': typeof SeratusMainRoute
-  '/seratus/peringkat': typeof SeratusPeringkatRoute
-  '/seratus/tentang': typeof SeratusTentangRoute
-  '/seratus/': typeof SeratusIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/seratus/kunci-jawaban': typeof SeratusKunciJawabanRoute
-  '/seratus/main': typeof SeratusMainRoute
-  '/seratus/peringkat': typeof SeratusPeringkatRoute
-  '/seratus/tentang': typeof SeratusTentangRoute
-  '/seratus': typeof SeratusIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/seratus': typeof SeratusRouteWithChildren
-  '/seratus/kunci-jawaban': typeof SeratusKunciJawabanRoute
-  '/seratus/main': typeof SeratusMainRoute
-  '/seratus/peringkat': typeof SeratusPeringkatRoute
-  '/seratus/tentang': typeof SeratusTentangRoute
-  '/seratus/': typeof SeratusIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/seratus'
-    | '/seratus/kunci-jawaban'
-    | '/seratus/main'
-    | '/seratus/peringkat'
-    | '/seratus/tentang'
-    | '/seratus/'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/seratus/kunci-jawaban'
-    | '/seratus/main'
-    | '/seratus/peringkat'
-    | '/seratus/tentang'
-    | '/seratus'
-  id:
-    | '__root__'
-    | '/'
-    | '/seratus'
-    | '/seratus/kunci-jawaban'
-    | '/seratus/main'
-    | '/seratus/peringkat'
-    | '/seratus/tentang'
-    | '/seratus/'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SeratusRoute: typeof SeratusRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -123,73 +48,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/seratus': {
-      id: '/seratus'
-      path: '/seratus'
-      fullPath: '/seratus'
-      preLoaderRoute: typeof SeratusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/seratus/': {
-      id: '/seratus/'
-      path: '/'
-      fullPath: '/seratus/'
-      preLoaderRoute: typeof SeratusIndexRouteImport
-      parentRoute: typeof SeratusRoute
-    }
-    '/seratus/kunci-jawaban': {
-      id: '/seratus/kunci-jawaban'
-      path: '/kunci-jawaban'
-      fullPath: '/seratus/kunci-jawaban'
-      preLoaderRoute: typeof SeratusKunciJawabanRouteImport
-      parentRoute: typeof SeratusRoute
-    }
-    '/seratus/main': {
-      id: '/seratus/main'
-      path: '/main'
-      fullPath: '/seratus/main'
-      preLoaderRoute: typeof SeratusMainRouteImport
-      parentRoute: typeof SeratusRoute
-    }
-    '/seratus/peringkat': {
-      id: '/seratus/peringkat'
-      path: '/peringkat'
-      fullPath: '/seratus/peringkat'
-      preLoaderRoute: typeof SeratusPeringkatRouteImport
-      parentRoute: typeof SeratusRoute
-    }
-    '/seratus/tentang': {
-      id: '/seratus/tentang'
-      path: '/tentang'
-      fullPath: '/seratus/tentang'
-      preLoaderRoute: typeof SeratusTentangRouteImport
-      parentRoute: typeof SeratusRoute
-    }
   }
 }
 
-interface SeratusRouteChildren {
-  SeratusKunciJawabanRoute: typeof SeratusKunciJawabanRoute
-  SeratusMainRoute: typeof SeratusMainRoute
-  SeratusPeringkatRoute: typeof SeratusPeringkatRoute
-  SeratusTentangRoute: typeof SeratusTentangRoute
-  SeratusIndexRoute: typeof SeratusIndexRoute
-}
-
-const SeratusRouteChildren: SeratusRouteChildren = {
-  SeratusKunciJawabanRoute: SeratusKunciJawabanRoute,
-  SeratusMainRoute: SeratusMainRoute,
-  SeratusPeringkatRoute: SeratusPeringkatRoute,
-  SeratusTentangRoute: SeratusTentangRoute,
-  SeratusIndexRoute: SeratusIndexRoute,
-}
-
-const SeratusRouteWithChildren =
-  SeratusRoute._addFileChildren(SeratusRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SeratusRoute: SeratusRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

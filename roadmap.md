@@ -16,9 +16,3 @@
 - [x] Zoom in/out (scroll + cubit)
 - [x] Rapikan tampilan tablet & HP
 
-## Penggabungan 100 SUARA
-- [x] Gabungkan lima halaman, aset gambar, efek suara, dan aturan 100 SUARA tanpa mengganti Kaya Raya.
-- [x] Aktifkan penyimpanan Cloud dan ruang bermain bersama dengan akses aman.
-- [x] Periksa kedua game, navigasi, tampilan HP, dan tes aturan (133 tes + tes kartu dilema).
-- [ ] Empat rekaman announcer: menunggu file MP3; aset project asal tidak dapat diakses dari project ini.
-- [ ] Data ruang lama: menunggu ekspor CSV/JSON dari project asal.

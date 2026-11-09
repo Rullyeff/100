@@ -4,7 +4,6 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -13,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { installSfx } from '@/seratus/lib/sfx';
 
 function NotFoundComponent() {
   return (
@@ -111,9 +109,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const isSeratus = useRouterState({ select: (s) => s.location.pathname.startsWith('/seratus') });
   return (
-    <html lang="id" className={isSeratus ? 'seratus-app' : undefined}>
+    <html lang="id">
       <head>
         <HeadContent />
       </head>
@@ -127,8 +124,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const isSeratus = useRouterState({ select: (s) => s.location.pathname.startsWith('/seratus') });
-  useEffect(() => { return isSeratus ? installSfx() : undefined; }, [isSeratus]);
 
   return (
     <QueryClientProvider client={queryClient}>

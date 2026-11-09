@@ -44,8 +44,3 @@ use the editor.
 - Camera shots are chosen by pure rules in `scene/director.ts` (priority + which builds earn a showcase, unit-tested); `CameraRig` only eases toward the chosen shot and never affects turn pacing. Table drag captures the pointer only after a small movement threshold, because capturing on press retargets clicks away from the canvas and breaks tile picking.
 - Player pieces reflect their own PMREM `RoomEnvironment` probe (built once per renderer in `Tokens.tsx`), because the table's sparse Lightformer environment leaves mirror metal nearly black; seat identity stays readable through player-coloured enamel bands and a gem.
 
-## Combined games
-- Keep Kaya Raya at `/` and 100 SUARA under `/seratus`; isolate 100 SUARA rules, presentation, assets, and audio under `src/seratus` to prevent game-state and module collisions.
-- Scope imported 100 SUARA CSS through `html.seratus-app`, including portal tokens, and install its audio listeners only on its routes so Kaya Raya keeps its own appearance and sound.
-- Online 100 SUARA rooms use server-validated hashed HttpOnly guest identities, server-only private tables, and revision-checked writes; direct browser table access is denied to preserve hidden votes and host permissions.
-- 100 SUARA's 3D tabletop (`src/seratus/components/game/Board3D.tsx`) only draws engine state; pawn hops reuse `pawnRoute` and camera follow/shake are per-frame impulses outside React. The flat SVG board stays as the 2D toggle and hosts the hover loupe.
