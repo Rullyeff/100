@@ -173,8 +173,8 @@ function Decks({ state, onOpenCard, drawReady, gold }: { state: GameState; onOpe
           <group key={cat} position={[c.x, BOARD_TOP, c.z]}>
             <mesh
               position-y={h / 2 + (active && drawReady ? 0.12 : 0)}
-              onClick={active ? (e) => { e.stopPropagation(); onOpenCard?.(); } : undefined}
-              onPointerOver={active ? () => { document.body.style.cursor = "pointer"; } : undefined}
+              onClick={(e) => { if (!active) return; e.stopPropagation(); onOpenCard?.(); }}
+              onPointerOver={() => { if (active) document.body.style.cursor = "pointer"; }}
               onPointerOut={() => { document.body.style.cursor = ""; }}
             >
               <boxGeometry args={[s.w / U * 0.92, h, s.h / U * 0.92]} />
